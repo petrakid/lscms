@@ -1,0 +1,146 @@
+<?php
+if(!isset($_SESSION['isLoggedIn'])) {
+     die;
+}
+?>
+
+<div class="col-4">
+<select name="m_list" id="m_list" class="mdb-select md-form" required="required">
+<option value="" disabled selected>Select a List</option>
+<?php
+$sqll = $db->query("SELECT l_id, list_name FROM $_SESSION[prefix]_mailing_lists WHERE list_status = 1 ORDER BY list_name ASC");
+while($lst = $sqll->fetch(PDO::FETCH_ASSOC)) {
+     ?>
+     <option value="<?php echo $lst['l_id'] ?>"><?php echo stripslashes($lst['list_name']) ?></option>
+     <?php
+}
+?>
+</select>
+<small class="form-text text-muted">You can create a new List under the Mailing Lists Manager.</small>
+</div>
+
+<div class="col-4">
+<div class="md-form">
+<small class="form-text mb-0">Date of Mailing</small>
+<input type="date" name="m_date" id="m_date" onblur="theDate()" value="<?php echo date('Y-m-d') ?>" onemptied="theDate()" class="form-control mt-0" required="required" />
+<small class="form-text text-muted mb-4">Past dates will be sent immediately, future dates will be scheduled and sent at midnight on the date entered.</small>
+</div>
+</div>
+
+<div class="md-form">
+<input type="text" name="m_subject" id="m_subject" class="form-control" required="required" />
+<label for="m_subject">Subject for Mailing</label>
+<small class="form-text text-muted mb-4">Required.  Will be the subject line in the Email.</small>
+</div>
+
+<b>Mailing Content</b><br />
+<textarea name="m_content" id="m_content" required="required"></textarea>
+<script>
+CKEDITOR.plugins.addExternal('balloontoolbar', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/balloontoolbar/', 'plugin.js');               
+CKEDITOR.plugins.addExternal('balloonpanel', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/balloonpanel/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplus_font_awesome', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplus_font_awesome/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplusBootstrapEditor', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapEditor/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplusBootstrapTools', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapTools/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplusBootstrapWidgets', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapWidgets/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplusInclude', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusInclude/', 'plugin.js');
+CKEDITOR.plugins.addExternal('jsplusTableTools', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusTableTools/', 'plugin.js');                                                                                          
+CKEDITOR.replace('m_content', {
+     extraPlugins: 'balloontoolbar,balloonpanel,jsplus_font_awesome,jsplusBootstrapEditor,jsplusBootstrapTools,jsplusBootstrapWidgets,jsplusInclude,jsplusTableTools',
+     height: '350px',
+     entities: false,
+     skin: 'bootstrapck, <?php echo $gbl['site_url'] ?>/js/ckeditor/skins/bootstrapck/',
+     filebrowserBrowseUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+     filebrowserUploadUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+     filebrowserImageBrowseUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=1&editor=ckeditor&fldr='                    
+});
+</script>
+<small class="form-text text-muted mb-4">You may include any HTML (rich text, images, embeds, tables, etc.) in the content.</small>
+
+<input type="button" name="publish" id="publish" value="Enter a Date" onclick="submitMailer()" disabled="disabled" class="btn btn-success" />
+<input type="button" name="saveDraft" id="saveDraft" onclick="saveDraft()" value="Save Draft" class="btn btn-warning" />
+<div id="m_result"></div>
+<script>
+$(function() {
+     var setdate = $('#m_date').val();
+     var myDate = new Date(setdate);
+     var today = new Date();
+     if(myDate == '') {
+          document.getElementById('publish').value = "Enter a Date";
+          document.getElementById('publish').disabled = true;
+          document.getElementById('publish').setAttribute('name', '');
+     }
+     if(myDate <= today) {
+          document.getElementById('publish').value = "Publish";
+          document.getElementById('publish').disabled = false;
+          document.getElementById('publish').setAttribute('name', 'publish');                   
+     }
+     if(myDate > today) {
+          document.getElementById('publish').value = "Schedule";
+          document.getElementById('publish').disabled = false;
+          document.getElementById('publish').setAttribute('name', 'schedule');                              
+     }
+})
+function theDate()
+{
+     var setdate = $('#m_date').val();
+     var myDate = new Date(setdate);
+     var today = new Date();
+     if(myDate == '') {
+          document.getElementById('publish').value = "Enter a Date";
+          document.getElementById('publish').disabled = true;
+          document.getElementById('publish').setAttribute('name', '');
+     }
+     if(myDate <= today) {
+          document.getElementById('publish').value = "Publish";
+          document.getElementById('publish').disabled = false;
+          document.getElementById('publish').setAttribute('name', 'publish');                   
+     }
+     if(myDate > today) {
+          document.getElementById('publish').value = "Schedule";
+          document.getElementById('publish').disabled = false;
+          document.getElementById('publish').setAttribute('name', 'schedule');                              
+     }    
+}
+function submitMailer()
+{
+     for(instance in CKEDITOR.instances)
+          CKEDITOR.instances[instance].updateElement();
+     $('#publish').prop('disabled', true);
+     $('#publish').val('Please wait...');
+     $('#saveDraft').hide();   
+     m_date = $('#m_date').val();
+     m_subject = $('#m_subject').val();
+     content = CKEDITOR.instances.m_content.getData();
+     m_list = $('#m_list').val();
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/mailer/ajax.php',
+          type: 'POST',
+          data: {
+               'publish': 1,
+               'm_date': m_date,
+               'm_subject': m_subject,
+               'm_content': content,
+               'm_list': m_list
+          },
+          error: function (xhr, ajaxOptions, thrownError) {
+               alert(xhr.status);
+               alert(thrownError);
+          },          
+          success: function(data) {
+               if(data == '0') {
+                    $('#m_result').html('<div class="alert alert-danger">There was an issue storing the data and the mailing was not sent.</div>');
+                    $('#publish').show();                                        
+               } else {
+                    $('#publish').hide();
+                    //alert(data);
+                    $('#m_result').html(data);
+               }
+          }
+     })
+}
+
+function saveDraft()
+{
+     alert('off for now');
+} 
+</script>

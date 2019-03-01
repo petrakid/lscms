@@ -1,0 +1,20 @@
+[17-Jul-2018 13:02:31 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/stpaulsl/public_html/plg/downloads/ajax.php:10
+Stack trace:
+#0 /home/stpaulsl/public_html/plg/downloads/ajax.php(10): PDO->query('SELECT * FROM t...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/plg/downloads/ajax.php on line 10
+[31-Jul-2018 15:24:18 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's Lutheran', '2018-07-31')' at line 1 in /home/stpaulsl/public_html/plg/downloads/ajax.php:176
+Stack trace:
+#0 /home/stpaulsl/public_html/plg/downloads/ajax.php(176): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/plg/downloads/ajax.php on line 176
+[31-Jul-2018 15:45:09 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/stpaulsl/public_html/plg/downloads/ajax.php:10
+Stack trace:
+#0 /home/stpaulsl/public_html/plg/downloads/ajax.php(10): PDO->query('SELECT * FROM t...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/plg/downloads/ajax.php on line 10
+[22-Oct-2018 11:19:53 UTC] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 's Lutheran Church', '2017-01-01')' at line 1 in /home/stpaulsl/public_html/plg/downloads/ajax.php:176
+Stack trace:
+#0 /home/stpaulsl/public_html/plg/downloads/ajax.php(176): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/plg/downloads/ajax.php on line 176
