@@ -1,0 +1,173 @@
+[01-Mar-2019 07:30:13 America/Chicago] PHP Warning:  include(plg/blog/blog.plg.php): failed to open stream: No such file or directory in /home/stpaulsl/public_html/lo/body.inc.php on line 199
+[01-Mar-2019 07:30:13 America/Chicago] PHP Warning:  include(plg/blog/blog.plg.php): failed to open stream: No such file or directory in /home/stpaulsl/public_html/lo/body.inc.php on line 199
+[01-Mar-2019 07:30:13 America/Chicago] PHP Warning:  include(): Failed opening 'plg/blog/blog.plg.php' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/stpaulsl/public_html/lo/body.inc.php on line 199
+[01-Mar-2019 07:32:07 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' , 0, 0, 1, 0, '2019-03-01 07:32:07')' at line 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:61
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(61): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 61
+[01-Mar-2019 07:34:01 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' , 0, 0, 1, 0, '2019-03-01 07:34:01')' at line 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:61
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(61): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 61
+[01-Mar-2019 07:35:04 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' , 0, 0, 1, 0, '2019-03-01 07:35:04')' at line 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:61
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(61): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 61
+[01-Mar-2019 07:36:41 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column `stpaulsl_db1`.`tbl_blocks`.`start_datetime` at row 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:61
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(61): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 61
+[01-Mar-2019 07:39:39 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Incorrect date value: '' for column `stpaulsl_db1`.`tbl_blocks`.`start_datetime` at row 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:63
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(63): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 63
+[01-Mar-2019 07:41:59 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 27
+[01-Mar-2019 07:41:59 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 32
+[01-Mar-2019 07:41:59 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 32
+[01-Mar-2019 07:41:59 America/Chicago] PHP Notice:  Undefined variable: v in /home/stpaulsl/public_html/sct/ajax/editor.php on line 67
+[01-Mar-2019 07:41:59 America/Chicago] PHP Notice:  Undefined variable: v in /home/stpaulsl/public_html/sct/ajax/editor.php on line 67
+[01-Mar-2019 07:41:59 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' , 0, 0, 1, 0, '2019-03-01 07:41:59')' at line 1 in /home/stpaulsl/public_html/sct/ajax/editor.php:71
+Stack trace:
+#0 /home/stpaulsl/public_html/sct/ajax/editor.php(71): PDO->exec('INSERT INTO tbl...')
+#1 {main}
+  thrown in /home/stpaulsl/public_html/sct/ajax/editor.php on line 71
+[01-Mar-2019 07:43:26 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 27
+[01-Mar-2019 07:43:26 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 32
+[01-Mar-2019 07:43:26 America/Chicago] PHP Notice:  Undefined variable: f in /home/stpaulsl/public_html/sct/ajax/editor.php on line 32
+[01-Mar-2019 07:43:26 America/Chicago] PHP Notice:  Undefined variable: v in /home/stpaulsl/public_html/sct/ajax/editor.php on line 67
+[01-Mar-2019 07:43:26 America/Chicago] PHP Notice:  Undefined variable: v in /home/stpaulsl/public_html/sct/ajax/editor.php on line 67
+[01-Mar-2019 07:44:40 America/Chicago] PHP Warning:  Use of undefined constant contiune - assumed 'contiune' (this will throw an Error in a future version of PHP) in /home/stpaulsl/public_html/sct/ajax/editor.php on line 53
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:33 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:34 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:47:35 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/top_menu.inc.php on line 4
+[01-Mar-2019 11:47:35 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:47:35 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:23 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:23 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:24 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:25 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/lo/foot.inc.php on line 113
+[01-Mar-2019 11:48:25 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:58 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:58 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:59 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:59 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:59 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:48:59 America/Chicago] PHP Notice:  Undefined index: search_bar in /home/stpaulsl/public_html/lo/end.inc.php on line 32
+[01-Mar-2019 11:51:29 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/plg/sermonmanager/sermonmanager.plg.php on line 562
+[01-Mar-2019 11:57:31 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:57:31 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:57:32 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:57:32 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:57:32 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:57:33 America/Chicago] PHP Notice:  Undefined index: forwarder in /home/stpaulsl/public_html/lo/body.inc.php on line 5
+[01-Mar-2019 11:59:11 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:11 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:16 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:16 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:29 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:30 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:31 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:48 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:50 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 11:59:50 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 12:00:03 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 12:00:16 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 12:00:34 America/Chicago] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'stpaulsl_db1.tbl_parallax_settings' doesn't exist in /home/stpaulsl/public_html/ld/loader.php:64
+Stack trace:
+#0 /home/stpaulsl/public_html/ld/loader.php(64): PDO->query('SELECT px_id FR...')
+#1 /home/stpaulsl/public_html/index.php(2): include('/home/stpaulsl/...')
+#2 {main}
+  thrown in /home/stpaulsl/public_html/ld/loader.php on line 64
+[01-Mar-2019 12:09:52 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/plg/sermonmanager/sermonmanager.plg.php on line 562
+[01-Mar-2019 12:10:03 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/plg/sermonmanager/sermonmanager.plg.php on line 562
+[01-Mar-2019 12:11:38 America/Chicago] PHP Notice:  Undefined index: rememberme in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 12:23:41 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/plg/sermonmanager/sermonmanager.plg.php on line 562
+[01-Mar-2019 12:30:22 America/Chicago] PHP Notice:  Undefined index: social_sites in /home/stpaulsl/public_html/plg/sermonmanager/sermonmanager.plg.php on line 562
+[01-Mar-2019 12:54:47 America/Chicago] PHP Notice:  Undefined index: block_link in /home/stpaulsl/public_html/lo/body.inc.php on line 177
+[01-Mar-2019 13:06:30 America/Chicago] PHP Notice:  Undefined index: block_link in /home/stpaulsl/public_html/lo/body.inc.php on line 177
+[01-Mar-2019 13:12:11 America/Chicago] PHP Notice:  Undefined index: block_link in /home/stpaulsl/public_html/lo/body.inc.php on line 177

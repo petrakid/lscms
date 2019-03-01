@@ -1,0 +1,114 @@
+.top_header {
+     margin-bottom: 5px;
+}
+
+.logo-custom img {
+     border-radius: 6px;
+     width: 100%;
+}
+.nav {
+     
+}
+.navbar-custom a {
+     color: #fff;
+}
+
+ul.nav a:hover { color: #00BFFF !important; }
+
+.list-group {
+     background-color: transparent;
+     text-align: left;
+}
+
+.list-group-item {
+     background-color: transparent;
+     color: white;
+     border: 0;
+}
+.social-custom {
+     float: right;
+     padding: 0;
+     margin: 0;
+}
+
+.ajax-file-upload-statusbar {
+     border: 1px solid #0ba1b5;
+     margin-top: 10px;
+     width: 95%;
+     margin-right: 5px;
+     margin: 5px;
+     border-radius: 4px;
+     padding: 5px 5px 5px 15px
+}
+
+.ajax-file-upload-filename {
+     width: 75%;
+     height: auto;
+     margin: 0 5px 5px 0px;
+}
+
+.ajax-file-upload-progress {
+     margin: 5px 10px 5px 0px;
+     position: relative;
+     width: 50%;
+     border: 1px solid #ddd;
+     padding: 1px;
+     border-radius: 3px;
+     display: inline-block;
+     color:#FFFFFF;
+}
+
+.ajax-file-upload-bar {
+     background-color: #0ba1b5;
+     width: 0;
+     height: 20px;
+     border-radius: 3px;
+     color:#FFFFFF;
+}
+
+.ajax-upload-dragdrop {
+     border:2px dotted #A5A5C7;
+     width:95%;
+     color: #DADCE3;
+     text-align:left;
+     vertical-align:middle;
+     padding:10px 10px 0px 10px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.ckfix {
+     display: block !important;
+}
+
+.ck.ck-button {
+    -webkit-appearance: none;
+}
+
+select.cke_dialog_ui_input_select {
+     display: block !important;
+}
+
+.form-select {
+     display: block !important;
+}
+
+.tox-selectfield select {
+     display: inline !important;
+}

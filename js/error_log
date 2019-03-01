@@ -1,0 +1,8 @@
+[01-Mar-2019 18:07:59 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:08:05 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:08:12 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:08:19 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:08:22 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:08:53 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:09:28 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
+[01-Mar-2019 18:09:33 UTC] PHP Fatal error:  Cannot use isset() on the result of an expression (you can use "null !== expression" instead) in /home/stpaulsl/public_html/js/ajax_login.php on line 36
