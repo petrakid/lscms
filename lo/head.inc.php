@@ -186,3 +186,7 @@ include 'sct/analytics.inc.php';
 
 </head>
 
+<body id="pageBack" class="primary <?php echo $l['layout_skin'] ?> body-main <?php if($l['background_fixed'] == 1) { echo 'background-fixed'; } ?> body-custom">
+
+<input type="hidden" id="pageid" value="" />
+<header>

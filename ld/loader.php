@@ -61,6 +61,9 @@ $pg = $sql->fetch(PDO::FETCH_ASSOC);
 $_SESSION['page'] = $pg;
 
 include 'lo/head.inc.php';
+if(isset($_SESSION['isLoggedIn'])) {
+     include 'lo/side_admin.inc.php';
+}
 include 'lo/top_menu.inc.php';
 include 'lo/carousel.inc.php';
 include 'lo/body.inc.php';
