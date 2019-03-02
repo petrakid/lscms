@@ -12,3 +12,10 @@ Luthersites CMS hopes to resolve this issue by offering a well-maintained and ea
  -- Lots of features beneficial for churches
  -- Hosted on a great server in the USA
  -- LOW cost!
+ 
+ Version 2.5.5:
+ -- includes the latest Bootstrap
+ -- includes the latest Material Design for Bootstrap
+ -- includes the latest CKEditor and ResponsiveFileManager
+ -- Further cleaning up of old code, files, and folders
+ -- Moved the administrative menu to its own php file and its own table in the DB
