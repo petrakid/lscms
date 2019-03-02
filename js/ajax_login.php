@@ -33,7 +33,7 @@ if(isset($_POST['login_user'])) {
      if($row['security'] <= 1) {
           $row['security'] == 0;
      }
-     if($_POST['rememberme'] > '') {
+     if(isset($_POST['rememberme']) && $_POST['rememberme'] > '') {
           $length = time() + (86400 * 30); // 30 days, can become a DB option
           $cookiehash = md5(sha1($row['username'] . $row['salt']));
           $db->exec("UPDATE tbl_users SET cookie_hash = '$cookiehash' WHERE username = '$row[username]'");
