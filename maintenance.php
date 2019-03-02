@@ -1,7 +1,7 @@
 <?php
 session_start();
 if(isset($_SESSION['isLoggedIn'])) {
-     header("location:index.php");
+     header("location:home");
      die;
 }
 
@@ -16,7 +16,7 @@ if(isset($_POST['logmein'])) {
      $password = $_POST['password'];
      $user = $_POST['user_id'];
     
-     $sql = $db->prepare("SELECT password, salt FROM $_SESSION[prefix]_users WHERE username = ? AND account_status = ?");
+     $sql = $db->prepare("SELECT password, salt FROM tbl_users WHERE username = ? AND account_status = ?");
      $sql->execute(array($user, 1));
      $usr = $sql->fetch(PDO::FETCH_ASSOC);
      $cnt = $sql->rowCount();
@@ -32,30 +32,55 @@ if(isset($_POST['logmein'])) {
      // Making it this far means that the user information is correct; we can log the user in
      unset($usr['salt']);
      unset($usr['password']);
-     $sql = $db->query("SELECT * FROM $_SESSION[prefix]_users WHERE username = '$user'");
+     $sql = $db->query("SELECT * FROM tbl_users WHERE username = '$user'");
      $row = $sql->fetch(PDO::FETCH_ASSOC);
      $_SESSION['user'] = $row;   
      $_SESSION['isLoggedIn'] = 1;
-     $_SESSION['upload_year'] = date("Y");
-     echo 'You are logged in!<br />';
-     echo '<button type="button" class="btn btn-large btn-success btn-block" onclick="window.location.href = \''. $_SESSION['sitevars']['site_url'] .'/Home\'">Continue...</button>';          
+     $_SESSION['upload_year'] = date("Y");         
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Maintenance :-(</title>
+<style>
+body {
+     background: url('ast/site/maintenanceback.jpg');
+     background-size: cover;
+}
+.adminloginbutton {
+     position: absolute;
+     top: 65%;
+     left: 62%;
+}
+.adminloginform {
+     position: absolute;
+     top: 65%;
+     left: 62%;
+}
+input[type=submit], input[type=button] {
+     width: 200px;
+     height: 45px;
+     font-size: 18px;
+}
+input[type=text], input[type=email], input[type=password] {
+     width: 200px;
+     height: 30px;
+     font-size: 16px;
+}
+.loginresult {
+     position: absolute;
+     top: 65%;
+     left: 62%;
+}
+</style>
 </head>
 <body>
-<h2 style="text-align: center;">We are down for maintenance, but we'll be back up soon.</h2>
-<h4 style="text-align: center;">Check back in a couple of hours.  Thank you.</h4>
-<p style="text-align: center;">(Admins, you know what to do to log in!!)</p>
-</body>
-</html>
 <?php
 if(isset($_GET['lg']) && $_GET['lg'] == 9) {
      ?>
-     <form method="POST" action="">
+     <div class="adminloginform">
+     <form method="POST" action="" class="adminloginformform">
      <b>Your Username/Email Address</b><br />
      <input type="email" name="user_id" id="user_id" required="required" /><br /><br />
      
@@ -64,5 +89,26 @@ if(isset($_GET['lg']) && $_GET['lg'] == 9) {
      
      <input type="submit" name="logmein" value="Login" />
      </form>
+     </div>
      <?php
 }
+else if(isset($_SESSION['user'])) {
+     ?>
+     <div class="loginresult">
+     You are logged in!<br />
+     <button type="button" class="btn btn-large btn-success btn-block" onclick="window.location.href = '<?php echo $gbl['site_url'] ?>/Home')">Continue...</button>
+     </div>
+     <?php
+} else {
+     ?>
+     <div class="adminloginbutton">
+     <form method="GET" action="" class="adminloginbuttonform">
+     <input type="hidden" name="lg" value="9" />
+     <input type="submit" name="login" value="Admin Login" />
+     </form>
+     </div>
+     <?php     
+}
+?>
+</body>
+</html>
