@@ -43,7 +43,7 @@ body {
           if($c['background_image_repeat'] == 'no-repeat') {
                ?>
                background-size: 100% !important;
-               width: 100% !important;
+               width: 100%; !important;
                <?php
           }
      }

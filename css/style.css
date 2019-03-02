@@ -112,3 +112,7 @@ select.cke_dialog_ui_input_select {
 .tox-selectfield select {
      display: inline !important;
 }
+
+.card-deck-custom {
+     margin-bottom:15px !important;
+}

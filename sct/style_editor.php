@@ -21,7 +21,7 @@ $t = $thm->fetch(PDO::FETCH_ASSOC);
 </li>
 </ul>
 
-<div class="tab-content card pt-5" id="styleDivs">
+<div class="tab-content card pt-5 card-transparent" id="styleDivs">
 <div class="tab-pane fade show active" id="colors" role="tabpanel" aria-labelledby="colors-tab">
 <p>The site's color scheme is based on a pre-defined "skin" or colorset. You can change the site's skin here.  If you are unhappy with specific skin colors, you can also change individual colors for the skin.  This change does NOT override the skin default colors and you can also go back to defaults.</p>
 <div class="row">

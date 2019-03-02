@@ -174,12 +174,7 @@ if($pg['menu_url'] > '') {
                ?>
                <div class="card-body">
                <?php
-               if($row['block_link'] > 0) {
-                    $sqll = $db->query("SELECT block_content FROM tbl_blocks WHERE b_id = $row[block_link]");
-                    $lnk = $sqll->fetch(PDO::FETCH_ASSOC);
-                    echo stripslashes($lnk['block_content']);
-               }
-               elseif(strpos($row['block_content'], '[addin-')) {
+               if(strpos($row['block_content'], '[addin-')) {
                     $addin = getAddin($row['block_content']);
                     $q = explode(",", $addin);
                     include 'plg/'. $q[0] .'/'. $q[0] .'.plg.php';

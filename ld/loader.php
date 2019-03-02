@@ -54,8 +54,11 @@ if(strpos($_GET['page'], "/") !== false) {
 
 $sql = $db->query("SELECT * FROM tbl_pages WHERE menu_link = '$_GET[page]'");
 if($sql->rowCount() == 0) {
-     header("location:". $gbl['site_url'] .'/'. $gbl['homepage']);
-     die;
+     $sql = $db->query("SELECT * FROM tbl_admin_pages WHERE menu_link = '$_GET[page]'");
+     if($sql->rowCount() == 0) {
+          header("location:". $gbl['site_url'] .'/'. $gbl['homepage']);
+          die;
+     }     
 }
 $pg = $sql->fetch(PDO::FETCH_ASSOC);
 $_SESSION['page'] = $pg;

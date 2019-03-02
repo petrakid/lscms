@@ -16,31 +16,31 @@ if(!isset($_SESSION['isLoggedIn'])) {
 <li>
 <ul class="collapsible collapsible-accordion">
 <?php
-$asql = $db->query("SELECT a_id, a_menu_name, a_menu_link, a_menu_url, a_menu_target, a_icon, a_security_role FROM tbl_admin_pages WHERE a_parent_id = 0 AND a_menu_type = 2 AND a_menu_status = 3 ORDER BY a_menu_order");
-while($am1 = $asql->fetch(PDO::FETCH_ASSOC)) {
-     if($_SESSION['user']['security'] >= $am1['a_security_role']) {
+$bsql = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_target, glyphicon, security_role FROM tbl_admin_pages WHERE parent_id = 0 AND menu_type = 2 AND menu_status = 3 ORDER BY menu_order");
+while($bm1 = $bsql->fetch(PDO::FETCH_ASSOC)) {
+     if($_SESSION['user']['security'] >= $bm1['security_role']) {
           ?>
-          <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-chevron-right"></i> <?php echo $am1['a_menu_name'] ?><i class="fas fa-angle-down rotate-icon"></i></a>
+          <li><a class="collapsible-header waves-effect arrow-r"><i class="fas fa-chevron-right"></i> <?php echo $bm1['menu_name'] ?><i class="fas fa-angle-down rotate-icon"></i></a>
           <div class="collapsible-body">
           <ul class="list-unstyled">                    
           <?php
-          $asql2 = $db->query("SELECT a_id, a_menu_name, a_menu_link, a_menu_url, a_menu_target, a_icon, a_security_role FROM tbl_admin_pages WHERE a_parent_id = $am1[p_id] AND a_menu_type = 2 AND a_menu_status = 3 ORDER BY a_menu_order");
-          while($am2 = $asql2->fetch(PDO::FETCH_ASSOC)) {
-               if($_SESSION['user']['security'] >= $am2['a_security_role']) {
-                    $amenuname = $am2['a_menu_name'];
-                    if($am2['a_menu_url'] == 'aaa') {
-                         $url = $am2['a_menu_url'];
+          $bsql2 = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_target, glyphicon, security_role FROM tbl_admin_pages WHERE parent_id = $bm1[p_id] AND menu_type = 2 AND menu_status = 3 ORDER BY menu_order");
+          while($bm2 = $bsql2->fetch(PDO::FETCH_ASSOC)) {
+               if($_SESSION['user']['security'] >= $bm2['security_role']) {
+                    $aamenuname = $bm2['menu_name'];
+                    if($bm2['menu_url'] == 'aaa') {
+                         $url = $bm2['menu_url'];
                     } else {
-                         if($am2['a_menu_link'] == 'edit-page') {
-                              $url = "Admin/". $am2['a_menu_link'] ."/&p_id=$pg[p_id]";
+                         if($bm2['menu_link'] == 'edit-page') {
+                              $url = "Admin/". $bm2['menu_link'] ."/&p_id=$pg[p_id]";
                          } else {
-                              $url = "Admin/". $am2['a_menu_link'];
+                              $url = "Admin/". $bm2['menu_link'];
                          }
                     }
-                    $target = $am2['a_menu_target'];
+                    $atarget = $bm2['menu_target'];
                     ?>
                     <li>
-                    <a class="waves-effect" href="<?php echo $url ?>" target="<?php echo $target ?>"><span class="fas fa-<?php echo $am2['a_icon'] ?>"></span> <?php echo $amenuname ?></a>
+                    <a class="waves-effect" href="<?php echo $url ?>" target="<?php echo $atarget ?>"><span class="fas fa-<?php echo $bm2['glyphicon'] ?>"></span> <?php echo $aamenuname ?></a>
                     </li>
                     <?php
                }

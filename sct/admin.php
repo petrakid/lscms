@@ -1,67 +1,9 @@
 <?php
-session_start();
 if(!isset($_SESSION['isLoggedIn'])) {
      die;
 }
-include '../ld/db.inc.php';
-include '../ld/globals.inc.php';
-?>
-<!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
-<head>
-
-<base href="<?php echo $gbl['site_url'] ?>/" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<meta name="description" content="<?php echo $gbl['sitedesc'] ?>" />
-<meta name="generator" content="Rev. Daniel Carlson" />
-<meta name="author" content="Rev. Daniel Carlson" />
-<title>Editor:<?php echo $gbl['sitename'] ?></title>
-<link href="<?php echo $gbl['site_url'] ?>/" rel="canonical" />
-<link href="/ast/site/favicon.ico" rel="favicon" type="image/vnd.microsoft.icon" />
-
-<?php
-$css = $db->query("SELECT * FROM tbl_cdns WHERE cdn_location <= 4 ORDER BY cdn_location, cdn_order");
-while($cs = $css->fetch(PDO::FETCH_ASSOC)) {
-     echo $cs['cdn_script'] ."\r\n";
-}
 ?>
 
-<!-- Custom Stylesheet -->
-<link rel="stylesheet" href="../css/themes/<?php echo $gbl['theme'] ?>/themestyle.css" />
-<link rel="stylesheet" href="../css/themes/style.php" />
-
-<!-- ajaxForms -->
-<script src="../js/jquery.form.js"></script>
-
-<script>
-function closeWindow()
-{
-     //window.opener.location.reload();
-     window.close();
-}
-</script>
-<script>
-function updateGlobals()
-{
-     var form = $('#varform');
-     var data = $(form).serialize();     
-     $.ajax({
-          url: '/js/ajax_queries.php',
-          type: 'POST',
-          async: true,
-          cache: false,
-          data: data,
-          success: function(data) {
-               document.getElementById('result').innerHTML = data;
-          }
-     });      
-}
-</script>
-</head>
-
-<body>
-<div class="container">
 <div class="row">
 <div class="col-lg-12">
 <div class="panel-body">
@@ -148,6 +90,4 @@ while($js = $jss->fetch(PDO::FETCH_ASSOC)) {
      echo $js['cdn_script'] ."\r\n";
 }
 ?>
-</body>
-</html>
 

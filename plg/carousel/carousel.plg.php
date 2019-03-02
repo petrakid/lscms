@@ -612,7 +612,7 @@ function changeSlide(field,slide)
 }
 function addSlide()
 {
-     $('#addButton').html('Please wait...<i class="fa fa-spinner"></i>');
+     $('#addButton').html('Please wait...<i class="fa fa-spinner fa-pulse"></i>');
      $('#addButton').prop("disabled",true);
      $('#refreshButton').hide();
      $('#addResult').hide();     

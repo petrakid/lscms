@@ -18,7 +18,7 @@ while($m2 = $meta2->fetch(PDO::FETCH_ASSOC)) {
 }
 echo "\r\n";
 
-if($pg['plugin'] == 'Sermon Manager') {
+if(isset($pg['plugin']) && $pg['plugin'] == 'Sermon Manager') {
      if(isset($_GET['selected_id'])) {
           $s = $db->query("SELECT * FROM tbl_sermons WHERE s_id = $_GET[selected_id]");
           $m = $s->fetch(PDO::FETCH_ASSOC);
@@ -45,7 +45,7 @@ if($pg['plugin'] == 'Sermon Manager') {
           <?php
      }
 }
-else if($pg['plugin'] == 'calendars') {
+else if(isset($pg['plugin']) && $pg['plugin'] == 'calendars') {
      if(isset($_GET['eventid'])) {
           $s = $db->query("SELECT * FROM tbl_calendars_events WHERE e_id = $_GET[eventid]");
           $m = $s->fetch(PDO::FETCH_ASSOC);
@@ -131,7 +131,6 @@ if(isset($_SESSION['isLoggedIn'])) {
      }
 }
 echo "\r\n";
-
 $tsm = $db->query("SELECT * FROM tbl_toast_messages WHERE m_status = 1 AND m_pageid = $pg[p_id]");
 if($tsm->rowCount() > 0) {
      $tm = $tsm->fetch(PDO::FETCH_ASSOC);

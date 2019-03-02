@@ -204,7 +204,7 @@ if(isset($_GET['selected_id'])) {
      }
      ?>
      <div class="row">
-     <div class="card-deck">
+     <div class="card-deck mb-4">
      
      <?php
      $r = 1;
@@ -241,7 +241,7 @@ if(isset($_GET['selected_id'])) {
                <?php
                $r++;
                if($r >= 5) {
-                    echo '</div><div class="card-deck">';
+                    echo '</div><div class="card-deck mb-4">';
                     $r = 1;
                }
           }
@@ -558,14 +558,9 @@ function findUrl(text)
 } 
 </script>
 
-<?php
-if($gbl['social_sites'] == 1) {
-     ?>
-     <script type="text/javascript">
-     window.addEventListener("hashchange", function () {
-          addthis.layers.refresh();
-     });
-     </script>
-     <?php
-}
-?>
+
+<script type="text/javascript">
+window.addEventListener("hashchange", function () {
+     addthis.layers.refresh();
+});
+</script>
