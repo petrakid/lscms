@@ -4,90 +4,36 @@ if(!isset($_SESSION['isLoggedIn'])) {
 }
 ?>
 
-<div class="row">
-<div class="col-lg-12">
-<div class="panel-body">
-<button type="button" onclick="closeWindow()" class="btn btn-warning btn-block"><i class="glyphicon glyphicon-check"></i> Finish</button>
-</div>
-</div>
-</div>
-<div class="row">
-<div class="col-xs-12">
-<div class="panel">
-<div class="panel-heading panel-heading-custom"><h3>Site Variables</h3></div>
-<div class="panel-body">
-<form name="varform" id="varform">
-<table id="variables_table" class="table responsive table-bordered table-striped">
-<thead>
-<th>Setting</th>
-<th>Value</th>
-</thead>
-<tbody>
+<ul class="nav nav-tabs nav-justified md-tabs indigo" id="adminTabs" role="tablist">
+<li class="nav-item">
+<a class="nav-link active" id="main-1" data-toggle="tab" href="#main-1" role="tab" aria-controls="main-1" aria-selected="true">Main Settings</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="org-2" data-toggle="tab" href="#org-2" role="tab" aria-controls="org-2" aria-selected="false">Organization</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="features-3" data-toggle="tab" href="#features-3" role="tab" aria-controls="features-3" aria-selected="false">Features</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" id="misc-4" data-toggle="tab" href="#misc-4" role="tab" aria-controls="misc-4" aria-selected="false">Misc</a>
+</li>
+</ul>
 
-<?php
-$var = $db->query("SELECT * FROM tbl_globals WHERE id = 1");
-while($va = $var->fetchAll(PDO::FETCH_ASSOC)) {
-     $fld = current($va);
-     foreach($fld AS $key => $val) {
-          ?>
-          <tr>
-          <td>
-          <?php echo $key ?>
-          </td>
-          <td>
-          <?php
-          if($key == 'id') {
-               ?>
-               <input class="form-control" type="text" disabled="disabled" name="<?php echo $key ?>" value="<?php echo htmlspecialchars($val) ?>" />
-               <?php               
-          }
-          else if($key == 'popup_warning' || $key == 'site_slogan') {
-               ?>
-               <textarea name="popup_warning" id="popup_warning" class="form-control"><?php echo $val ?></textarea>
-               <script>
-               CKEDITOR.replace('popup_warning');
-               </script>
-               <?php
-          } else {
-               ?>
-               <input class="form-control" type="text" name="<?php echo $key ?>" value="<?php echo htmlspecialchars($val) ?>" />
-               <?php
-          }
-          ?>
-          </td>
-          </tr>
-          <?php
-     }
-}
-?>
-<tr>
-<td colspan="3">
-<button type="button" class="btn btn-block btn-success" onclick="updateGlobals()">Update</button><br />
-<div id="result"></div>
-</td>
-</tr>
-</tbody>
-</table>
-<input type="hidden" name="updateglobals" value="1" />
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
-<script>
-$(document).ready(function() {
-     $('#variables_table').DataTable({
-          order: [0,'asc'],
-          paging: false
-     });
-});
-</script>
+<div class="tab-content card pt-5" id="adminTabs">
+  <div class="tab-pane fade show active" id="main-1" role="tabpanel" aria-labelledby="main-1-tab">
 
-<?php
-$jss = $db->query("SELECT * FROM tbl_cdns WHERE cdn_location = 5 ORDER BY cdn_order");
-while($js = $jss->fetch(PDO::FETCH_ASSOC)) {
-     echo $js['cdn_script'] ."\r\n";
-}
-?>
 
+  </div>
+  <div class="tab-pane fade" id="org-2" role="tabpanel" aria-labelledby="org-2-tab">
+
+
+  </div>
+  <div class="tab-pane fade" id="features-3" role="tabpanel" aria-labelledby="features-3-tab">
+
+
+  </div>
+  <div class="tab-pane fade" id="misc-4" role="tabpanel" aria-labelledby="misc-4-tab">
+
+
+  </div>  
+</div>
