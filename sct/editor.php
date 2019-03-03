@@ -24,8 +24,7 @@ while($cs = $css->fetch(PDO::FETCH_ASSOC)) {
 ?>
 
 <!-- Custom Stylesheet -->
-<link rel="stylesheet" href="../css/themes/<?php echo $gbl['theme'] ?>/themestyle.css" />
-<link rel="stylesheet" href="../css/themes/style.php" />
+<link rel="stylesheet" href="../css/style.php" />
 
 <script>
 function closeWindow(page)
@@ -99,7 +98,8 @@ function updateBlock(blockid)
                     'start_datetime': $("#startdate" + blockid).val(),
                     'end_datetime': $("#enddate" + blockid).val(),
                     'show_header': $('input[name="show_header' + blockid + '"]:checked').val(),
-                    'transparent': $('input[name="transparent' + blockid + '"]:checked').val(),
+                    'transparent': $('#transparent' + blockid).val() / 100,
+                    'block_color': $('#block_color' + blockid).val(),
                     'edge_padding': $('input[name="edge_padding' + blockid + '"]:checked').val(),
                     'grid_offset': $("#grid_offset" + blockid).val()
                },
@@ -372,12 +372,12 @@ if(isset($_GET['p_id'])) {
      if($sql2->rowCount() > 0) {
           ?>
           <div class="col-8">          
-          <div class="accordion dragarea" id="accordionEx" role="tablist" aria-multiselectable="false">          
+          <div class="accordion " id="accordionEx" role="tablist" aria-multiselectable="false">          
           <?php
           while($blk = $sql2->fetch(PDO::FETCH_ASSOC)) {
                ?>
                <input type="hidden" name="page_id" id="page_id<?php echo $blk['b_id'] ?>" value="<?php echo $pg['p_id'] ?>" />
-               <div class="card" draggable="true" id="item-<?php echo $blk['b_id'] ?>">
+               <div class="card" id="item-<?php echo $blk['b_id'] ?>">
                <div class="card-header" role="tab" id="block<?php echo $blk['b_id'] ?>">
                <a class="collapsed" data-toggle="collapse" href="#collapseblock<?php echo $blk['b_id'] ?>" aria-expanded="false" aria-controls="collapse<?php echo $blk['b_id'] ?>">
                <h5 class="mb-0">Block <?php echo $blk['grid_order'] ?> <i class="fa fa-angle-down rotate-icon text-blue"></i></h5>
@@ -391,14 +391,27 @@ if(isset($_GET['p_id'])) {
                <table class="table table-bordered table-striped" style="width: 95%;">
                
                <tr>
-               <td style="width: 40%">
+               <td colspan="2">
                <div class="md-form">
                <label for="block_header">Block Title</label>
                <input type="text" name="block_header|<?php echo $blk['b_id'] ?>" id="block_header<?php echo $blk['b_id'] ?>" value="<?php echo $blk['block_header'] ?>" required="required" class="form-control" />
                </div>
                </td>
+               </tr>
                
+               <tr>
                <td>
+               <b>Display Header/Title?</b>
+               <small class="form-text text-muted mb-2">If you'd like to hide the header/title of this block, you can do so here.</small>
+               <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="show_header<?php echo $blk['b_id'] ?>" id="show_header1<?php echo $blk['b_id'] ?>" value="1" <?php if($blk['show_header'] == 1) { echo 'checked="checked"';} ?> />
+               <label class="form-check-label" for="show_header1<?php echo $blk['b_id'] ?>">Yes</label>
+               </div>
+               <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="show_header<?php echo $blk['b_id'] ?>" id="show_header0<?php echo $blk['b_id'] ?>" value="0" <?php if($blk['show_header'] == 0) { echo 'checked="checked"';} ?> />
+               <label class="form-check-label" for="show_header0<?php echo $blk['b_id'] ?>">No</label>
+               </div>
+               <hr />               
                <b>Block Status</b>
                <small class="form-text text-muted mb-2">Show, hide, or remove this block.</small>
                <div class="form-check form-check-inline">
@@ -413,11 +426,8 @@ if(isset($_GET['p_id'])) {
                <input class="form-check-input" type="radio" name="block_status<?php echo $blk['b_id'] ?>" id="block_status9<?php echo $blk['b_id'] ?>" value="9" />
                <label class="form-check-label" for="block_status9<?php echo $blk['b_id'] ?>">Delete Block</label>
                </div>
-               </td>
-               </tr>
+               <hr />
                
-               <tr>
-               <td>
                <small class="form-text text-muted mb-2">You can select if this block is scheduled to be active and to deactivate at on certain dates/times.</small>
                <div class="form-check">
                <input class="form-check-input" type="checkbox" name="scheduled<?php echo $blk['b_id'] ?>" id="scheduled<?php echo $blk['b_id'] ?>" value="1" <?php if($blk['scheduled'] == 1) { echo 'checked="checked"';} ?> />
@@ -436,28 +446,18 @@ if(isset($_GET['p_id'])) {
                </td>
                
                <td>
-               <b>Header</b>
-               <small class="form-text text-muted mb-2">If you'd like to hide the header of this block, you can do so here.</small>
-               <div class="form-check form-check-inline">
-               <input class="form-check-input" type="radio" name="show_header<?php echo $blk['b_id'] ?>" id="show_header1<?php echo $blk['b_id'] ?>" value="1" <?php if($blk['show_header'] == 1) { echo 'checked="checked"';} ?> />
-               <label class="form-check-label" for="show_header1<?php echo $blk['b_id'] ?>">Yes</label>
+               <b>Panel Background Color</b>
+               <small class="form-text text-muted">The default color is white.  You can select a different color here</small>
+               <div class="md-form">
+               <input class="color-picker" type="color" name="block_color<?php echo $blk['b_id'] ?>" id="block_color<?php echo $blk['b_id'] ?>" value="<?php echo $blk['block_color'] ?>" />
+               </div>               
+               <b>Panel Transparency (Opacity)</b>
+               <small class="form-text text-muted mb-2">You can adjust this block's background transparency to further customize its style.</small>
+               <div class="md-form range-field">
+               <input type="range" min="0" max="100" id="transparent<?php echo $blk['b_id'] ?>" value="<?php echo $blk['transparent'] * 100 ?>" onchange="updateTest(<?php echo $blk['b_id'] ?>)" />
+               <small class="form-text text-muted">Drag to the right to reduce transparancy.</small>
                </div>
-               <div class="form-check form-check-inline">
-               <input class="form-check-input" type="radio" name="show_header<?php echo $blk['b_id'] ?>" id="show_header0<?php echo $blk['b_id'] ?>" value="0" <?php if($blk['show_header'] == 0) { echo 'checked="checked"';} ?> />
-               <label class="form-check-label" for="show_header0<?php echo $blk['b_id'] ?>">No</label>
-               </div>
-               <hr />
-               
-               <b>Transparent Panel</b>
-               <small class="form-text text-muted mb-2">You can make this block's background transparent to further customize its style.</small>
-               <div class="form-check form-check-inline">
-               <input class="form-check-input" type="radio" name="transparent<?php echo $blk['b_id'] ?>" id="transparent1<?php echo $blk['b_id'] ?>" value="1" <?php if($blk['transparent'] == 1) { echo 'checked="checked"';} ?> />
-               <label class="form-check-label" for="transparent1<?php echo $blk['b_id'] ?>">Yes</label>
-               </div>
-               <div class="form-check form-check-inline">
-               <input class="form-check-input" type="radio" name="transparent<?php echo $blk['b_id'] ?>" id="transparent0<?php echo $blk['b_id'] ?>" value="0" <?php if($blk['transparent'] == 0) { echo 'checked="checked"';} ?> />
-               <label class="form-check-label" for="transparent0<?php echo $blk['b_id'] ?>">No</label>
-               </div>
+               <img class="img-fluid" src="<?php echo $gbl['site_url'] ?>/ast/site/test_image.jpg" style="opacity: <?php echo $blk['transparent'] ?>;" width="150" id="testimage<?php echo $blk['b_id'] ?>" />
                <hr />
 
                <b>Edge Padding?</b>
@@ -538,6 +538,7 @@ if(isset($_GET['p_id'])) {
                CKEDITOR.replace('block_content<?php echo $blk['b_id'] ?>', {
                     extraPlugins: 'balloontoolbar,balloonpanel,jsplus_font_awesome,jsplusBootstrapEditor,jsplusBootstrapTools,jsplusBootstrapWidgets,jsplusInclude,jsplusTableTools',
                     skin: 'bootstrapck, <?php echo $gbl['site_url'] ?>/js/ckeditor/skins/bootstrapck/',
+                    contentsCss: 'body{background-color: <?php echo $blk['block_color'] ?>; opacity: <?php echo $blk['transparent'] ?>;}',
                     height: '350px',
                     filebrowserBrowseUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
                     filebrowserUploadUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
@@ -635,6 +636,12 @@ while($js = $jss->fetch(PDO::FETCH_ASSOC)) {
 $(function() {
      $('.mdb-select').materialSelect();
 });
+function updateTest(bid)
+{
+     trans = $('#transparent' + bid).val();
+     opc = trans / 100;
+     $('#testimage'+ bid).css('opacity', opc);
+}
 $("#page_link").on("change", function() {
      $('#copied_url').val($(this).val());
      $('#copied_url').focus().select();
@@ -656,7 +663,7 @@ $(function() {
                });
           }
      });
-     $(".dragarea").disableSelection();
+     //$(".dragarea").disableSelection();
 });
 </script>
 </body>

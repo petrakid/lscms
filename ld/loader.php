@@ -3,11 +3,13 @@
 session_start();
 
 // setup DB connection
-include 'ld/db.inc.php';
-
-if(isset($_SESSION['isLoggedIn'])) {
-     // do global things if the person is logged in
+if(is_file('inst/install.php')) {
+     include 'inst/install.php';
+     die;
+} else {
+     include 'ld/db.inc.php';
 }
+
 elseif(!empty($_COOKIE['remlog'])) {
      $usr = $db->query("SELECT * FROM tbl_users WHERE cookie_hash = '$_COOKIE[remlog]' AND account_status = 1");
      if($usr->rowCount() < 1) {

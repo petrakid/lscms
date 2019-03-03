@@ -5,12 +5,11 @@ if($pg['menu_status'] == 3 && !isset($_SESSION['isLoggedIn'])) {
 $sqlr = $db->query("SELECT * FROM tbl_blocks WHERE page_id = '$pg[p_id]' AND block_status = 1 ORDER BY grid_order ASC");
 ?>
 <main>
-<div class="container-fluid fill">
 <?php
 if($pg['jumbotron_image'] > '' || $pg['jumbotron_url'] > '') {
      ?>
-     <div class="jumbotron p-0" id="landingimg">
-     <div class="view overlay rounded-top">
+     <div class="jumbotron p-0 m-0" id="landingimg">
+     <div class="view overlay">
      <img src="<?php if($pg['jumbotron_url'] > '') { echo $pg['jumbotron_url']; } else { echo $gbl['site_url'] ?>/ast/landings/<?php echo $pg['jumbotron_image']; } ?>" class="img-fluid" alt="" width="100%" />
      <a href="javascript:void(0)">
      <div class="mask rgba-white-slight"></div>
@@ -20,6 +19,10 @@ if($pg['jumbotron_image'] > '' || $pg['jumbotron_url'] > '') {
      
      <?php
 }
+?>
+<div class="container-fluid fill">
+
+<?php
 if($pg['menu_url'] > '') {
      if($pg['menu_target'] == '_top' || $pg['menu_target'] == '_blank') {
           ?>
@@ -162,17 +165,19 @@ if($pg['menu_url'] > '') {
                     echo '</div></section><section class="mt-2 wow fadeIn"><div class="row">'."\n";
                     $totalblock = 0;
                }
+               $rgb = hex2rgb($row['block_color']);
+               $rgb = implode(",", $rgb);
                ?>
                <div class="col-md-<?php echo $row['grid_width'] ?> col-md-offset-<?php echo $row['grid_offset'] ?> <?php if($row['edge_padding'] == 0) { echo 'no-padding'; } ?>">
-               <div class="card <?php if($row['transparent'] == 1) { echo 'card-transparent'; } ?>">
+               <div class="card" style="background-color: rgba(<?php echo $rgb ?>,<?php echo $row['transparent'] ?>);">
                <?php
                if($row['show_header'] == 1) {
                     ?>
-                    <div class="card-header card-header-custom"><?php echo $row['block_header'] ?></div>
+                    <div class="card-header card-header-custom" style="opacity: 1.0;"><?php echo $row['block_header'] ?></div>
                     <?php
                }
                ?>
-               <div class="card-body">
+               <div class="card-body <?php if($row['edge_padding'] == 0) { echo 'no-padding'; } ?>" style="opacity: 1.0 !important;">
                <?php
                if(strpos($row['block_content'], '[addin-')) {
                     $addin = getAddin($row['block_content']);
@@ -180,10 +185,10 @@ if($pg['menu_url'] > '') {
                     include 'plg/'. $q[0] .'/'. $q[0] .'.plg.php';
                } else {
                     ?>
-                    <div data-editable data-name="block_<?php echo $row['b_id'] ?>">
+                    <div style="opacity: 1.0 !important;">
                     <?php echo stripslashes($row['block_content']) ?>
                     </div>
-                    
+                                        
                     <?php
                }
                if($row['block_plugin'] > '') {

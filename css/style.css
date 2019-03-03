@@ -116,3 +116,7 @@ select.cke_dialog_ui_input_select {
 .card-deck-custom {
      margin-bottom:15px !important;
 }
+
+.no-padding {
+     padding: 0 !important;
+}

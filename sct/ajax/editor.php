@@ -13,6 +13,9 @@ if(isset($_POST['update_block'])) {
           echo 'Block Deleted';
           die;
      }
+     $width = $db->query("SELECT grid_order FROM tbl_blocks WHERE b_id = $_POST[block_id]");
+     $w = $width->fetch(PDO::FETCH_ASSOC);
+     $_POST['grid_order'] = $w['grid_order'];     
      $db->exec("UPDATE tbl_blocks SET block_status = 0 WHERE b_id = $_POST[block_id]");
      unset($_POST['update_block']);
      unset($_POST['block_id']);
@@ -59,6 +62,9 @@ if(isset($_POST['update_block'])) {
                     $v = $db->quote($v);
                     break;
                case 'date_added':
+                    $v = $db->quote($v);
+                    break;
+               case 'block_color':
                     $v = $db->quote($v);
                     break;
                default:
