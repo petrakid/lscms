@@ -10,7 +10,7 @@ if(is_file('inst/install.php')) {
      include 'ld/db.inc.php';
 }
 
-elseif(!empty($_COOKIE['remlog'])) {
+if(!empty($_COOKIE['remlog'])) {
      $usr = $db->query("SELECT * FROM tbl_users WHERE cookie_hash = '$_COOKIE[remlog]' AND account_status = 1");
      if($usr->rowCount() < 1) {
           //echo 'User not found or disabled, or you cleared your browser\'s cache and cleared cookies.';
