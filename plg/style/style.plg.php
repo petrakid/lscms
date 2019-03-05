@@ -2,7 +2,7 @@
 if(!isset($_SESSION['isLoggedIn'])) {
      die;
 }
-$thm = $db->query("SELECT * FROM tbl_layout WHERE l_id = $gbl[layout]");
+$thm = $db->query("SELECT * FROM tbl_layout WHERE l_id = 1");
 $t = $thm->fetch(PDO::FETCH_ASSOC);
 ?>
 

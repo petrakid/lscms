@@ -8,19 +8,19 @@ include '../../ld/db.inc.php';
 include '../../ld/globals.inc.php';
 
 if(isset($_POST['change_skin'])) {
-     $db->exec("UPDATE tbl_layout SET layout_skin = '$_POST[new_skin]' WHERE l_id = $gbl[layout]");
+     $db->exec("UPDATE tbl_layout SET layout_skin = '$_POST[new_skin]' WHERE l_id = 1");
 }
 if(isset($_POST['set_default'])) {
      $_POST['class'] = $_POST['class'] .'_color';
-     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = '' WHERE l_id = $gbl[layout]");
+     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = '' WHERE l_id = 1");
 }
 if(isset($_POST['set_transparent'])) {
      $_POST['class'] = $_POST['class'] .'_color';
-     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = 'transparent' WHERE l_id = $gbl[layout]");     
+     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = 'transparent' WHERE l_id = 1");     
 }
 if(isset($_POST['change_color'])) {
      $_POST['class'] = $_POST['class'] .'_color';
-     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = '$_POST[color]' WHERE l_id = $gbl[layout]");
+     $db->exec("UPDATE tbl_layout SET `$_POST[class]` = '$_POST[color]' WHERE l_id = 1");
 }
 if(isset($_POST['add_graphic'])) {
      $root = $gbl['doc_root'] .'ast/layout/';
