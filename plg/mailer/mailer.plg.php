@@ -36,22 +36,8 @@ while($lst = $sqll->fetch(PDO::FETCH_ASSOC)) {
 <b>Mailing Content</b><br />
 <textarea name="m_content" id="m_content" required="required"></textarea>
 <script>
-CKEDITOR.plugins.addExternal('balloontoolbar', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/balloontoolbar/', 'plugin.js');               
-CKEDITOR.plugins.addExternal('balloonpanel', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/balloonpanel/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplus_font_awesome', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplus_font_awesome/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplusBootstrapEditor', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapEditor/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplusBootstrapTools', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapTools/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplusBootstrapWidgets', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusBootstrapWidgets/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplusInclude', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusInclude/', 'plugin.js');
-CKEDITOR.plugins.addExternal('jsplusTableTools', '<?php echo $gbl['site_url'] ?>/js/ckeditor/plugins/jsplusTableTools/', 'plugin.js');                                                                                          
 CKEDITOR.replace('m_content', {
-     extraPlugins: 'balloontoolbar,balloonpanel,jsplus_font_awesome,jsplusBootstrapEditor,jsplusBootstrapTools,jsplusBootstrapWidgets,jsplusInclude,jsplusTableTools',
-     height: '350px',
-     entities: false,
-     skin: 'bootstrapck, <?php echo $gbl['site_url'] ?>/js/ckeditor/skins/bootstrapck/',
-     filebrowserBrowseUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-     filebrowserUploadUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-     filebrowserImageBrowseUrl : '<?php echo $gbl['site_url'] ?>/js/filemanager/dialog.php?type=1&editor=ckeditor&fldr='                    
+     customConfig: '<?php echo $gbl['site_url'] ?>/js/ckeditor_config.js'                   
 });
 </script>
 <small class="form-text text-muted mb-4">You may include any HTML (rich text, images, embeds, tables, etc.) in the content.</small>
@@ -132,8 +118,10 @@ function submitMailer()
                     $('#publish').show();                                        
                } else {
                     $('#publish').hide();
-                    //alert(data);
                     $('#m_result').html(data);
+                    setTimeout(function() {
+                         window.location.reload()
+                    }, 2000)
                }
           }
      })

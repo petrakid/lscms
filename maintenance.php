@@ -16,7 +16,7 @@ if(isset($_POST['logmein'])) {
      $password = $_POST['password'];
      $user = $_POST['user_id'];
     
-     $sql = $db->prepare("SELECT password, salt FROM tbl_users WHERE username = ? AND account_status = ?");
+     $sql = $db->prepare("SELECT password, salt, security FROM tbl_users WHERE username = ? AND account_status = ?");
      $sql->execute(array($user, 1));
      $usr = $sql->fetch(PDO::FETCH_ASSOC);
      $cnt = $sql->rowCount();
@@ -27,6 +27,10 @@ if(isset($_POST['logmein'])) {
      $hpw = hash('sha256', $password . $usr['salt']);
      if($hpw != $usr['password']) {
           echo 'Your password is wrong.  Please try again.';
+          die;
+     }
+     if($usr['security'] < 2) {
+          echo 'You have an account, but your security level is too low.  You cannot log in while the site is in maintenance.';
           die;
      }
      // Making it this far means that the user information is correct; we can log the user in

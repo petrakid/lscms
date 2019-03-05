@@ -25,7 +25,10 @@ $.fn.modal.Constructor.prototype.enforceFocus = function() {
                     modal_this.$element.focus()
           }
      })
-};
+}
+$(function() {
+     $("[rel='tooltip']").tooltip();
+})
 </script>
 
 <?php

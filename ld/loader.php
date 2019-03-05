@@ -72,7 +72,6 @@ if(isset($_SESSION['isLoggedIn'])) {
 include 'lo/top_menu.inc.php';
 include 'lo/carousel.inc.php';
 include 'lo/body.inc.php';
-include 'lo/comments.inc.php';
 include 'lo/foot.inc.php';
 include 'lo/end.inc.php';
 ?>

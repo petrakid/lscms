@@ -32,7 +32,7 @@ while($bm1 = $bsql->fetch(PDO::FETCH_ASSOC)) {
                          $url = $bm2['menu_url'];
                     } else {
                          if($bm2['menu_link'] == 'edit-page') {
-                              $url = "Admin/". $bm2['menu_link'] ."/&p_id=$pg[p_id]";
+                              $url = "Admin/". $bm2['menu_link'] ."/&p=$pg[p_id]";
                          } else {
                               $url = "Admin/". $bm2['menu_link'];
                          }

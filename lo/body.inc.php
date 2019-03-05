@@ -6,11 +6,11 @@ $sqlr = $db->query("SELECT * FROM tbl_blocks WHERE page_id = '$pg[p_id]' AND blo
 ?>
 <main>
 <?php
-if($pg['jumbotron_image'] > '' || $pg['jumbotron_url'] > '') {
+if($pg['jumbotron_image'] > '') {
      ?>
      <div class="jumbotron p-0 m-0" id="landingimg">
      <div class="view overlay">
-     <img src="<?php if($pg['jumbotron_url'] > '') { echo $pg['jumbotron_url']; } else { echo $gbl['site_url'] ?>/ast/landings/<?php echo $pg['jumbotron_image']; } ?>" class="img-fluid" alt="" width="100%" />
+     <img src="<?php echo $gbl['site_url'] ?>/ast/landings/<?php echo $pg['jumbotron_image'] ?>" class="img-fluid" alt="" width="100%" />
      <a href="javascript:void(0)">
      <div class="mask rgba-white-slight"></div>
      </a>
@@ -24,7 +24,7 @@ if($pg['jumbotron_image'] > '' || $pg['jumbotron_url'] > '') {
 
 <?php
 if($pg['menu_url'] > '') {
-     if($pg['menu_target'] == '_top' || $pg['menu_target'] == '_blank') {
+     if($pg['menu_target'] == '_blank') {
           ?>
           <section class="mt-1 wow fadeIn">
           <div class="row">
@@ -38,43 +38,10 @@ if($pg['menu_url'] > '') {
           </div>
           </div>
           </section>
-          <?php
-          $string = '';
-          if(isset($_GET)) {
-               foreach($_GET AS $var => $val) {
-                    switch($var) {
-                         case 'p_id':
-                              $string .= "?p_id=$val";
-                              break;
-                         default:
-                              break;
-                    }
-               }
-               $fwdurl = $pg['menu_url'] . $string;
-          } else {
-               $fwdurl = $pg['menu_url'];
-          }
-          ?>
           <script>
-          url = '<?php echo $fwdurl ?>';
+          url = '<?php echo $pg['menu_url'] ?>';
           setTimeout(function(){window.open(url, 'New Window')}, 1500);     
           </script>
-          <?php
-     } else {
-          ?>
-          <section class="mt-1 wow fadeIn">
-          <div class="row">
-          <div class="col-12">
-          <div class="card">
-          <div class="card-body">          
-          <?php
-          include($gbl['doc_root'] . $pg['menu_url']);
-          ?>
-          </div>
-          </div>
-          </div>
-          </div>
-          </div>
           <?php
      }
 } elseif($sqlr->rowCount() == 0) {
@@ -120,21 +87,6 @@ if($pg['menu_url'] > '') {
           </div>
           </div>
           <?php
-     } elseif(isset($_SESSION['isLoggedIn']) && $pg['menu_url'] == '') {
-          ?>
-          <div class="col">
-          <div class="card">
-          <div class="card-header card-header-custom">No Content</div>
-          <div clas="card-body">
-          <a href="<?php echo $gbl['site_url'] .'/sct/editor.php?p_id='. $pg['p_id'] ?>" target="_blank">
-          <button type="button" class="btn btn-default"><i class="fa fa-pencil"></i> Add Content</button></a> 
-          </div>
-          </div>
-          </div>
-          
-          <?php
-     } else {
-          // nothing else to do
      }
      ?>
      </div>
@@ -168,7 +120,7 @@ if($pg['menu_url'] > '') {
                $rgb = hex2rgb($row['block_color']);
                $rgb = implode(",", $rgb);
                ?>
-               <div class="col-md-<?php echo $row['grid_width'] ?> col-md-offset-<?php echo $row['grid_offset'] ?> <?php if($row['edge_padding'] == 0) { echo 'no-padding'; } ?>">
+               <div class="col-md-<?php echo $row['grid_width'] ?> <?php if($row['edge_padding'] == 0) { echo 'no-padding'; } ?>">
                <div class="card" style="background-color: rgba(<?php echo $rgb ?>,<?php echo $row['transparent'] ?>);">
                <?php
                if($row['show_header'] == 1) {

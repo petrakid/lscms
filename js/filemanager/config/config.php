@@ -251,6 +251,9 @@ $config = array(
 
 	//Add ?484899493349 (time value) to returned images to prevent cache
 	'add_time_to_img'                       => true,
+     
+     //Rename the file to a Mdyhis plus random digits
+     'rename_file_on_upload'            => true,
 
 
 	//*******************************************

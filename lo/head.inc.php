@@ -99,7 +99,7 @@ else if(isset($pg['plugin']) && $pg['plugin'] == 'calendars') {
      
      <?php
 }
-$layout = $db->query("SELECT * FROM tbl_layout WHERE l_id = $gbl[layout]");
+$layout = $db->query("SELECT * FROM tbl_layout WHERE l_id = 1");
 $l = $layout->fetch(PDO::FETCH_ASSOC);
 
 echo "\n\n<!-- Stylesheets loaded from CDN-->\n";
@@ -179,8 +179,8 @@ if($tsm->rowCount() > 0) {
           <?php
      }
 }
-
-include 'sct/analytics.inc.php';
+$head = 1;
+include 'plg/analytics/analytics.plg.php';
 ?>
 
 </head>

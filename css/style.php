@@ -4,7 +4,7 @@ session_start();
 include '../ld/db.inc.php';
 include '../ld/globals.inc.php';
 
-$sql = $db->query("SELECT * from tbl_layout WHERE l_id = $gbl[layout]");
+$sql = $db->query("SELECT * from tbl_layout WHERE l_id = 1");
 $c = $sql->fetch(PDO::FETCH_ASSOC);
 ?>
 
