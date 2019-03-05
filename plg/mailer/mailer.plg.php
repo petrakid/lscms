@@ -8,7 +8,7 @@ if(!isset($_SESSION['isLoggedIn'])) {
 <select name="m_list" id="m_list" class="mdb-select md-form" required="required">
 <option value="" disabled selected>Select a List</option>
 <?php
-$sqll = $db->query("SELECT l_id, list_name FROM $_SESSION[prefix]_mailing_lists WHERE list_status = 1 ORDER BY list_name ASC");
+$sqll = $db->query("SELECT l_id, list_name FROM tbl_mailing_lists WHERE list_status = 1 ORDER BY list_name ASC");
 while($lst = $sqll->fetch(PDO::FETCH_ASSOC)) {
      ?>
      <option value="<?php echo $lst['l_id'] ?>"><?php echo stripslashes($lst['list_name']) ?></option>

@@ -100,14 +100,14 @@ function delMailer(mid)
 
 <tbody>
 <?php
-$sqla = $db->query("SELECT * FROM $_SESSION[prefix]_mailings WHERE mailing_status != 9 ORDER BY mailing_date DESC");
+$sqla = $db->query("SELECT * FROM tbl_mailings WHERE mailing_status != 9 ORDER BY mailing_date DESC");
 while($ml = $sqla->fetch(PDO::FETCH_ASSOC)) {
      ?>
      <tr id="mailer<?php echo $ml['m_id'] ?>">
      <td><?php echo stripslashes($ml['mailing_subject']) ?></td>
      <td>
      <?php
-     $sqll = $db->query("SELECT list_name FROM $_SESSION[prefix]_mailing_lists WHERE l_id = $ml[mailing_list_id]");
+     $sqll = $db->query("SELECT list_name FROM tbl_mailing_lists WHERE l_id = $ml[mailing_list_id]");
      $lst = $sqll->fetch(PDO::FETCH_ASSOC);
      echo stripslashes($lst['list_name']);
      ?>
