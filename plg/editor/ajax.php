@@ -24,7 +24,7 @@ if(isset($_POST['save_field'])) {
 }
 
 if(isset($_POST['load_blocks'])) {
-     $blocks = $db->query("SELECT b_id, block_header, date_added FROM tbl_blocks WHERE page_id = $_POST[page] AND block_status != 0 ORDER BY grid_order ASC, date_added DESC");
+     $blocks = $db->query("SELECT b_id, block_header, date_added FROM tbl_blocks WHERE page_id = $_POST[page] ORDER BY block_status ASC, grid_order ASC, date_added DESC");
      ?>
      <div id="selectdiv">
      <b>Select a Block or click New Block</b>
@@ -33,7 +33,7 @@ if(isset($_POST['load_blocks'])) {
      <?php
      while($b = $blocks->fetch(PDO::FETCH_ASSOC)) {
           ?>
-          <option value="<?php echo $b['b_id'] ?>"><?php echo stripslashes($b['block_header']) ?>, ADDED: <?php echo date('m j Y h:i a', strtotime($b['date_added'])) ?></option>
+          <option value="<?php echo $b['b_id'] ?>"><?php if($b['block_status'] == 0) { echo 'DRAFT';} ?> <?php echo stripslashes($b['block_header']) ?>, ADDED: <?php echo date('m j Y h:i a', strtotime($b['date_added'])) ?></option>
           <?php
      }
      ?>
