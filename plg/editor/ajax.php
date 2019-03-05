@@ -24,7 +24,7 @@ if(isset($_POST['save_field'])) {
 }
 
 if(isset($_POST['load_blocks'])) {
-     $blocks = $db->query("SELECT b_id, block_header, date_added FROM tbl_blocks WHERE page_id = $_POST[page] ORDER BY block_status ASC, grid_order ASC, date_added DESC");
+     $blocks = $db->query("SELECT b_id, block_header, date_added, block_status FROM tbl_blocks WHERE page_id = $_POST[page] ORDER BY block_status ASC, grid_order ASC, date_added DESC");
      ?>
      <div id="selectdiv">
      <b>Select a Block or click New Block</b>
