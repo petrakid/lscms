@@ -13,6 +13,12 @@
      color: #fff;
 }
 
+.mt-0-select {
+     position: absolute !important;
+     top: -10px !important;
+     font-size: .8rem !important;
+}
+
 ul.nav a:hover { color: #00BFFF !important; }
 
 .list-group {
@@ -20,10 +26,10 @@ ul.nav a:hover { color: #00BFFF !important; }
      text-align: left;
 }
 
-.list-group-item {
-     background-color: transparent;
-     color: white;
-     border: 0;
+.list-group-item-custom {
+     background-color: transparent !important;
+     color: white !important;
+     border: 0 !important;
 }
 .social-custom {
      float: right;
@@ -170,7 +176,7 @@ select.cke_dialog_ui_input_select {
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    background-color: skyblue;
+     background-color: skyblue;
 }
 
 .inputfile + label {
@@ -184,4 +190,33 @@ select.cke_dialog_ui_input_select {
 
 .inputfile + label * {
 	pointer-events: none;
+}
+
+.livesearchfield {
+     
+}
+
+.livesearchres {
+     display: flex;
+     flex-direction: column;
+     background-color: white;
+     padding: 8px;
+     border: 1px outset black;
+     border-radius: 6px;
+     display: none;
+     text-align: left;
+}
+
+.sortableparents {
+     float: left;
+}
+
+.sortablechildren li {
+     font-size: smaller;
+}
+
+.drop-area {
+     width: inherit;
+     border: 2px solid red;
+     border-radius: 6px;
 }
