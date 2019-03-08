@@ -127,6 +127,12 @@ function changeMenuLink(mname)
      $('#new_menu_link').val(mlink);
      $('#e_menu_link').val(mlink);                          
 }
+function makeLink(purl)
+{
+     var lval = $('#new_menu_link').val();
+     var plink = purl + lval;
+     $('#pageurl').html("<small class=\"form-text text-muted\">Page URL: <a href=\"" + plink + "\">" + plink + "</a></small>");
+}
 function checkMega(pid)
 {
      if(pid == 0) {
@@ -148,7 +154,7 @@ function addMenu(pid)
           success: function(data) {
                $('html, body').animate({
                     scrollTop: $("#editDiv").offset().top
-               }, 1000);               
+               }, 1000);             
                $('#editDiv').html(data);
                $('.mdb-selecta').materialSelect();
                $('#new_mega_menu').on("click", function() {

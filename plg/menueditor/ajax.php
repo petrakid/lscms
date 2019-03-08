@@ -19,14 +19,27 @@ if(isset($_POST['new_menu'])) {
      ?>
      <form>
      <div class="form-row">
+     <div class="col-12" id="pageurl">
+     <?php
+     if($_POST['parent_id'] > 0) {
+          $pt = $db->query("SELECT menu_link FROM tbl_pages WHERE p_id = $_POST[parent_id]");
+          $t = $pt->fetch(PDO::FETCH_ASSOC);
+          $url = $gbl['site_url'] .'/'. $t['menu_link'] .'/';
+     } else {
+          $url = $gbl['site_url'] .'/';
+     }
+     ?>
+     </div>
+     </div>
+     <div class="form-row">
      <div class="col">
      <div class="md-form mt-0">
-     <input type="text" class="form-control" placeholder="Menu Name" name="new_menu_name" id="new_menu_name" required="required" onkeyup="changeMenuLink(this.value)" />
+     <input type="text" class="form-control" placeholder="Menu Name" name="new_menu_name" id="new_menu_name" required="required" onblur="makeLink('<?php echo $url ?>')" onkeyup="changeMenuLink(this.value)" />
      </div>
      </div>
      <div class="col">
      <div class="md-form mt-0">
-     <input type="text" class="form-control" placeholder="Menu Link" name="new_menu_link" id="new_menu_link" required="required" readonly="readonly" />
+     <input type="text" class="form-control" placeholder="Menu Link" name="new_menu_link" id="new_menu_link" required="required" />
      <small class="form-text text-muted">Auto-created</small>
      </div>
      </div>
@@ -103,6 +116,20 @@ if(isset($_POST['edit_menu'])) {
      <form>
      <input type="hidden" name="p_id" id="p_id" value="<?php echo $m['p_id'] ?>" />
      <div class="form-row">
+     <div class="col-12" id="pageurl">
+     <?php
+     if($m['parent_id'] > 0) {
+          $pt = $db->query("SELECT menu_link FROM tbl_pages WHERE p_id = $m[parent_id]");
+          $t = $pt->fetch(PDO::FETCH_ASSOC);
+          $url = $gbl['site_url'] .'/'. $t['menu_link'] .'/'. $m['menu_link'];
+     } else {
+          $url = $gbl['site_url'] .'/'. $m['menu_link'];
+     }
+     ?>
+     <small class="form-text text-muted">Page URL: <a href="<?php echo $url ?>"><?php echo $url ?></a></small>
+     </div> 
+     </div>
+     <div class="form-row">
      <div class="col">
      <div class="md-form mt-0">
      <input type="text" class="form-control" placeholder="Menu Name" name="e_menu_name" id="e_menu_name" value="<?php echo stripslashes($m['menu_name']) ?>" required="required" onkeyup="changeMenuLink(this.value)" />
@@ -175,6 +202,7 @@ if(isset($_POST['edit_menu'])) {
 
 if(isset($_POST['add_menu'])) {
      unset($_POST['add_menu']);
+     $_POST['last_accessed'] = date('Y-m-d h:i:s');
      $sql = "INSERT INTO tbl_pages (";
      foreach($_POST AS $key => $val) {
           $sql .= "`$key`, ";
@@ -183,9 +211,9 @@ if(isset($_POST['add_menu'])) {
      $sql .= ") VALUES (";
      foreach($_POST AS $key => $val) {
           if($key == 'menu_name' || $key == 'page_title' || $key = 'mega_menu_html') {
-               $val = addslashes($val);
+               $val = $db->quote($val);
           }
-          $sql .= "'$val', ";
+          $sql .= "$val, ";
      }
      $sql = rtrim($sql, ", ");
      $sql .= ")";
@@ -199,9 +227,9 @@ if(isset($_POST['update_menu'])) {
      $sql = "UPDATE tbl_pages SET ";
      foreach($_POST AS $key => $val) {
           if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html') {
-               $val = addslashes($val);
+               $val = $db->quote($val);
           }
-          $sql .= "`$key` = '$val', ";
+          $sql .= "`$key` = $val, ";
      }
      $sql = rtrim($sql, ", ");
      $sql .= "WHERE p_id = $pid";
