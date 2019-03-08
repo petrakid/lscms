@@ -220,15 +220,15 @@ if(isset($_POST['load_page_settings'])) {
      <b>Page Status</b>
      <small class="form-text text-muted mb-2">Show, hidden or draft</small>
      <div class="form-check">
-     <input onclick="savePageSetting('page_status', 1, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status1" value="1" <?php if($ps['menu_status'] == 1) { echo 'checked="checked"';} ?> required="required" />
+     <input onclick="savePageSetting('menu_status', 1, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status1" value="1" <?php if($ps['menu_status'] == 1) { echo 'checked="checked"';} ?> required="required" />
      <label for="menu_status1" class="form-check-label">Page Active (in menu)</label>
      </div>
      <div class="form-check">
-     <input onclick="savePageSetting('page_status', 2, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status0" value="0" <?php if($ps['menu_status'] == 0) { echo 'checked="checked"';} ?> />
+     <input onclick="savePageSetting('menu_status', 2, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status0" value="0" <?php if($ps['menu_status'] == 0) { echo 'checked="checked"';} ?> />
      <label for="menu_status0" class="form-check-label">Page Hidden (non-menu, accessible)</label>     
      </div>
      <div class="form-check">
-     <input onclick="savePageSetting('page_status', 0, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status3" value="3" <?php if($ps['menu_status'] == 3) { echo 'checked="checked"';} ?> />
+     <input onclick="savePageSetting('menu_status', 0, <?php echo $ps['p_id'] ?>)" class="form-check-input" type="radio" name="menu_status" id="menu_status3" value="3" <?php if($ps['menu_status'] == 3) { echo 'checked="checked"';} ?> />
      <label for="menu_status3" class="form-check-label">Draft (accessible by &GreaterEqual; Editors only)</label>     
      </div>
      <hr />
