@@ -27,14 +27,14 @@ if(isset($_SESSION['isLoggedIn'])) {
 <ul class="navbar-nav <?php echo $l['menu_alignment'] ?> navbar-nav-custom" id="mainNavmenu">
 <?php
 if(isset($_SESSION['isLoggedIn'])) {
-     $sql = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE menu_type = 1 AND menu_status <= 3 AND menu_status != 0 AND parent_id = 0 ORDER BY menu_order ASC");          
+     $sql = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE menu_type = 1 AND menu_status <= 2 AND parent_id = 0 ORDER BY menu_order ASC");          
 } else {
      $sql = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE menu_type = 1 AND menu_status = 1 AND parent_id = 0 ORDER BY menu_order ASC");
 }
 while($tmn = $sql->fetch(PDO::FETCH_ASSOC)) {
      $tmenuname = stripslashes($tmn['menu_name']);
      if(isset($_SESSION['isLoggedIn'])) {
-          $sql2 = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE menu_status <= 3 AND menu_status != 9 AND parent_id = $tmn[p_id] ORDER BY menu_order ASC");
+          $sql2 = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE menu_status <= 2 AND parent_id = $tmn[p_id] ORDER BY menu_order ASC");
      } else {
           $sql2 = $db->query("SELECT p_id, menu_name, menu_link, menu_url, menu_status, menu_target FROM tbl_pages WHERE parent_id = $tmn[p_id] AND menu_status = 1 ORDER BY menu_order ASC");
      }

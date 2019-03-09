@@ -20,7 +20,26 @@ $parents = $db->query("SELECT p_id, menu_name, menu_order, menu_status, menu_lin
 while($par = $parents->fetch(PDO::FETCH_ASSOC)) {
      ?>
      <div id="item-<?php echo $par['p_id'] ?>" class="card mb-4 mr-1">
-     <div class="card-header h5"><i class="fa fa-pencil-alt blue-text" onclick="editMenu(<?php echo $par['p_id'] ?>)" style="cursor: pointer;"></i> <?php echo stripslashes($par['menu_name']) ?></div>
+     <?php
+     if($par['menu_status'] == 0) {
+          ?>
+          <div class="card-header h5 bg-danger">
+          
+          <?php
+     }
+     elseif($par['menu_status'] == 2) {
+          ?>
+          <div class="card-header h5 bg-warning">
+                    
+          <?php
+     } else {
+          ?>
+          <div class="card-header h5 bg-success">
+          
+          <?php
+     }
+     ?>
+     <i class="fa fa-pencil-alt blue-text" onclick="editMenu(<?php echo $par['p_id'] ?>)" style="cursor: pointer;"></i> <?php echo stripslashes($par['menu_name']) ?></div>
      <div class="card-body">
      
      <?php
@@ -36,6 +55,12 @@ while($par = $parents->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                     <li id="item-<?php echo $child['p_id'] ?>" class="list-group-item list-group-item-danger" style="margin-bottom: 2px;cursor: n-resize;"><i class="fa fa-pencil-alt blue-text" onclick="editMenu(<?php echo $child['p_id'] ?>)" style="cursor: pointer;"></i> <?php echo stripslashes($child['menu_name']) ?></li>
                                         
+                    <?php
+               }
+               elseif($child['menu_status'] == 2) {
+                    ?>
+                    <li id="item-<?php echo $child['p_id'] ?>" class="list-group-item list-group-item-warning" style="margin-bottom: 2px;cursor: n-resize;"><i class="fa fa-pencil-alt gray-text" onclick="editMenu(<?php echo $child['p_id'] ?>)" style="cursor: pointer;"></i> <?php echo stripslashes($child['menu_name']) ?></li>
+                    
                     <?php
                } else {
                     ?>
@@ -72,9 +97,9 @@ while($par = $parents->fetch(PDO::FETCH_ASSOC)) {
 if($c < 12) {
      ?>
 
-     <div id="item-0" class="card no-sort mb-4">
+     <div id="item-0" class="card no-sort mb-4 z-depth-0">
      <div class="card-header h5 bg-primary" style="cursor: pointer" onclick="addMenu(0)">New Menu Item</div>
-     <div class="card-body">
+     <div class="card-body" style="border: 0 !important;">
      </div>
      </div>
      <?php
