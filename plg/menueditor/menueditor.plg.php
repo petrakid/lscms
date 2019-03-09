@@ -257,6 +257,7 @@ function saveMenu()
                'page_title': $('#e_page_title').val(),
                'parent_id': $('select[name="e_parent_id"]').val(),
                'menu_url': $('#e_menu_url').val(),
+               'menu_status': $('input[name=e_menu_status]:checked').val(),               
                'menu_target': $('select[name="e_menu_target"]').val(),
                'mega_menu': mega,
                'mega_menu_html': '0'

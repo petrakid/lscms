@@ -110,7 +110,7 @@ if(isset($_POST['edit_mega'])) {
 }
 
 if(isset($_POST['edit_menu'])) {
-     $menu = $db->query("SELECT p_id, menu_name, menu_link, page_title, parent_id, menu_url, menu_target, mega_menu FROM tbl_pages WHERE p_id = $_POST[pid]");
+     $menu = $db->query("SELECT p_id, menu_name, menu_link, page_title, parent_id, menu_url, menu_target, mega_menu, menu_status FROM tbl_pages WHERE p_id = $_POST[pid]");
      $m = $menu->fetch(PDO::FETCH_ASSOC);
      ?>
      <form>
@@ -186,6 +186,15 @@ if(isset($_POST['edit_menu'])) {
      
      <div class="form-row">
      <div class="col">
+     <div class="form-check">
+     <input class="form-check-input" type="radio" name="e_menu_status" id="e_menu_status0" value="0" <?php if($m['menu_status'] == 0) { echo 'checked="checked"';} ?> />
+     <label class="form-check-label" for="e_menu_status0">Disabled</label>
+     </div>
+     <div class="form-check">
+     <input class="form-check-input" type="radio" name="e_menu_status" id="e_menu_status1" value="1" <?php if($m['menu_status'] == 1) { echo 'checked="checked"';} ?> />
+     <label class="form-check-label" for="e_menu_status1">Enabled</label>
+     <small class="form-text text-muted red-text">Enabling will cause the menu to appear to the public</small>
+     </div>
      <div class="form-check" id="megamenucheck" <?php if($m['parent_id'] != 0) { echo 'style="display: none"'; } ?>>
      <input class="form-check-input" type="checkbox" name="e_mega_menu" value="1" <?php if($m['mega_menu'] == 1) { echo 'checked="checked"';} ?> id="e_mega_menu" />
      <label class="form-check-label" for="e_mega_menu">Mega Menu (will only work with parent menus)</label>
@@ -210,7 +219,7 @@ if(isset($_POST['add_menu'])) {
      $sql = trim($sql, ", ");
      $sql .= ") VALUES (";
      foreach($_POST AS $key => $val) {
-          if($key == 'menu_name' || $key == 'page_title' || $key = 'mega_menu_html') {
+          if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html' || $key == 'menu_link' || $key == 'menu_url' || $key == 'menu_target') {
                $val = $db->quote($val);
           }
           $sql .= "$val, ";
@@ -226,13 +235,13 @@ if(isset($_POST['update_menu'])) {
      unset($_POST['p_id']);
      $sql = "UPDATE tbl_pages SET ";
      foreach($_POST AS $key => $val) {
-          if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html') {
+          if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html' || $key == 'menu_link' || $key == 'menu_url' || $key == 'menu_target') {
                $val = $db->quote($val);
           }
           $sql .= "`$key` = $val, ";
      }
      $sql = rtrim($sql, ", ");
-     $sql .= "WHERE p_id = $pid";
+     $sql .= " WHERE p_id = $pid";
      $db->exec($sql);
 }
 
