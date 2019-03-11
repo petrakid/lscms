@@ -1,10 +1,15 @@
-<script type="text/javascript" src="/js/jquery.jplayer.js"></script>
-<link type="text/css" href="/css/jplayer.blue.monday.css" rel="stylesheet" /> 
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<link rel="stylesheet" href="css/audio-player.css" />
+ 
 <?php
 ini_set("extension","php_openssl.dll");
 ini_set("allow_url_fopen", "On");
 
 if(isset($_GET['selected_id'])) {
+     if(!isset($_SESSION['viewed'])) {
+          $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+     }
      $sm = $db->query("SELECT * FROM tbl_sermons WHERE s_id = $_GET[selected_id]");
      if($sm->rowCount() == 0) {
           echo 'No available sermon selected';
@@ -18,7 +23,7 @@ if(isset($_GET['selected_id'])) {
           <h2 class="h2-responsive"><?php echo $smn['sermon_title'] ?></h2>
           <h5 class="h5-responsive"><?php echo $smn['sermon_desc'] ?></h5>
           <h6 class="h6-responsive"><?php echo $smn['sermon_preacher'] ?></h6>
-          <h6 class="h6-responsive"><?php echo date('F j Y', strtotime($smn['sermon_date'])) ?></h6>
+          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?>)</h6>
           <button onclick="window.history.back();" type="button" class="btn btn-warning">Go Back to List</button>
           <?php
           if(isset($_SESSION['isLoggedIn'])) {
@@ -33,76 +38,58 @@ if(isset($_GET['selected_id'])) {
                <div class="card-body collapse out" id="autopanel"><?php echo $smn['sermon_text'] ?></div>               
                <?php
           }
-          if($smn['sermon_audio_file'] > '') {
-               ?>
-               <br />
-               <div class="card-heading card-heading-custom"><h4 class="card-title card-title-custom">Listen to Audio (click the play button below)</h4></div>
-               <div class="card-body">               
-               <script type="text/javascript">
-               $(document).ready(function(){
-                   $("#jquery_jplayer_<?php echo $smn['s_id'] ?>").jPlayer({
-                         ready: function () {
-                              $(this).jPlayer("setMedia", {
-                                   mp3: '<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_audio_file'] ?>'
-                              });
-                         },
-                         cssSelectorAncestor: "#jp_container_<?php echo $smn['s_id'] ?>",
-                         swfPath: "<?php echo $gbl['site_url'] ?>/plg/sermonmanager",
-                         supplied: "mp3",
-                         useStateClassSkin: true,
-                         autoBlur: false,
-                         smoothPlayBar: true,
-                         keyEnabled: true,
-                         remainingDuration: true,
-                         toggleDuration: true,
-                    });
-               });
-               </script>
-               <div id="jquery_jplayer_<?php echo $smn['s_id'] ?>" class="jp-jplayer"></div>
-               <div id="jp_container_<?php echo $smn['s_id'] ?>" class="jp-audio" role="application" aria-label="media player">
-               <div class="jp-type-single">
-               <div class="jp-gui jp-interface">
-               <div class="jp-volume-controls">
-               <button class="jp-mute" role="button" tabindex="0">mute</button>
-               <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
-               <div class="jp-volume-bar">
-               <div class="jp-volume-bar-value"></div>
-               </div>
-               </div>
-               <div class="jp-controls-holder">
-               <div class="jp-controls">
-               <button class="jp-play" role="button" tabindex="0">play</button>
-               <button class="jp-stop" role="button" tabindex="0">stop</button>
-               </div>
-               <div class="jp-progress">
-               <div class="jp-seek-bar">
-               <div class="jp-play-bar"></div>
-               </div>
-               </div>
-               <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
-               <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
-               <div class="jp-toggles">
-               <button class="jp-repeat" role="button" tabindex="0">repeat</button>
-               </div>
-               </div>
-               </div>
-               <div class="jp-details">
-               <div class="jp-title" aria-label="title"><a href="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_audio_file'] ?>" target="_blank" data-tooltip="Right-click to Download" data-toggle="tooltip"><?php echo $smn['sermon_title'] ?> - Download</a></div>
-               </div>
-               <div class="jp-no-solution">
-               <span>Update Required</span>
-               To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
-               </div>
-               </div>
-               </div>
-               </div>               
-               <?php
-          }
           if($smn['sermon_pdf_file'] > '') {
                ?>
                <br />
                <a href="<?php echo $gbl['site_url'] .'/ast/sermons/'. $smn['sermon_pdf_file'] ?>" target="_blank">
                <div class="card-heading card-heading-custom"><h4 class="card-title card-title-custom">Download the PDF</h4></div></a>               
+               <?php
+          }          
+          if($smn['sermon_audio_file'] > '') {
+               ?>
+               <br />
+               <div class="container-fluid">
+               <div class="row">
+               <div class="col-md-12">
+               <section class="audio-player card">
+               <div class="card">
+               <div class="card-body">
+               <h2 class="card-title col text-center"><?php echo stripslashes($smn['sermon_title']) ?></h2>
+               <div class="row aling-items-center mt-4 mb-3 mx-0">
+               <i id="play-button" class="material-icons play-pause text-primary mr-2" aria-hidden="true" style="cursor: pointer;">play_circle_outline</i>
+               <i id="pause-button" class="material-icons play-pause d-none text-primary mr-2" aria-hidden="true" style="cursor: pointer;">pause_circle_outline</i>
+               <i id="next-button" class="material-icons text-primary ml-2 mr-3" aria-hidden="true" style="cursor: pointer;">skip_next</i>
+               <div class="col ml-auto rounded-circle border border-primary p-1">
+               <img id="thumbnail" class="img-fluid rounded-circle" src="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_image'] ?>" />
+               </div>
+               </div>
+               <div class="p-0 m-0" id="now-playing">
+               <p class="font-italic mb-0">Now Playing: </p>
+               <p class="lead" id="title"><?php echo $smn['sermon_title'] ?></p>
+               </div>
+               <div class="progress-bar progress col-12 mb-3"></div>
+               </div>
+               <h6 class="col h6">Similar Sermons</h6>
+               <ul class="playlist list-group list-group-flush">
+               <?php
+               $list = $db->query("SELECT s_id, sermon_audio_file, sermon_title, sermon_date, sermon_image FROM tbl_sermons WHERE MATCH(sermon_keywords, sermon_title, sermon_desc) AGAINST ('$smn[sermon_title]' IN NATURAL LANGUAGE MODE) ORDER BY sermon_date DESC LIMIT 8");
+               while($ls = $list->fetch(PDO::FETCH_ASSOC)) {
+                    ?>
+                    
+                    <li class="<?php if($ls['s_id'] == $smn['s_id']) { echo 'active';} ?> list-group-item playlist-item" audio_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_audio_file'] ?>" img_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_image'] ?>"><?php echo stripslashes($ls['sermon_title']) ?> (<?php echo date('F jS, Y', strtotime($ls['sermon_date'])) ?>)</li>
+                    
+                    
+                    <?php
+               }
+               ?>
+               </ul>
+               </div>
+               <audio id="audio-player" class="d-none" src="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_audio_file'] ?>" type="audio/mp3" controls="controls"></audio>
+               </section>
+               </div>
+               </div>
+               </div>
+               
                <?php
           }
           if($smn['sermon_embed_url'] > '') {
@@ -151,9 +138,12 @@ if(isset($_GET['selected_id'])) {
           ?>          
           </div>
           </div>
+          <script src="js/jquery-ui-slider.js"></script>          
+          <script src="js/audioPlayer.js"></script>
+          
           <?php
      }
-     
+     $_SESSION['viewed'] = 1;     
 } else {
      $parentx = explode("/", $_SESSION['fullpage']);
      $parent = $parentx[0];
@@ -204,13 +194,18 @@ if(isset($_GET['selected_id'])) {
      }
      ?>
      <div class="row">
-     <div class="card-deck mb-4">
+     <div class="col-md-12">
+     <div class="card-deck">
      
      <?php
      $r = 1;
      $smn = $db->query("SELECT s_id, sermon_title, sermon_date, sermon_preacher, sermon_image, sermon_desc FROM tbl_sermons WHERE sermon_status = 1 ORDER BY sermon_date DESC LIMIT 20");
      if($ss['layout_type'] == 1) {      
           while($sm = $smn->fetch(PDO::FETCH_ASSOC)) {
+               if($r >= 5) {
+                    echo '</div><div class="card-deck">';
+                    $r = 1;
+               }               
                if($sm['sermon_image'] == '') {
                     $sermonimage = $gbl['site_url'] .'/ast/sermons/defaultimage.jpg';
                } else {
@@ -240,13 +235,10 @@ if(isset($_GET['selected_id'])) {
                </div>
                <?php
                $r++;
-               if($r >= 5) {
-                    echo '</div><div class="card-deck mb-4">';
-                    $r = 1;
-               }
           }
      }
      ?>
+     </div>
      </div>
      </div>
      
