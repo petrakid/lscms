@@ -7,13 +7,13 @@ ini_set("extension","php_openssl.dll");
 ini_set("allow_url_fopen", "On");
 
 if(isset($_GET['selected_id'])) {    
-     if(isset($_SESSION['viewed'])) {
-          if($_SESSION['viewed'] != $_GET['selected_id']) {
+     if(isset($_SESSION['sermon_viewed'])) {
+          if($_SESSION['sermon_viewed'] != $_GET['selected_id']) {
                $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
           }
      } else {
           $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
-          $_SESSION['viewed'] = $_GET['selected_id'];         
+          $_SESSION['sermon_viewed'] = $_GET['selected_id'];         
      }
      $sm = $db->query("SELECT * FROM tbl_sermons WHERE s_id = $_GET[selected_id]");
      if($sm->rowCount() == 0) {
