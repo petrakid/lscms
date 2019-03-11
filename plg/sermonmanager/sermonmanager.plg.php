@@ -6,9 +6,14 @@
 ini_set("extension","php_openssl.dll");
 ini_set("allow_url_fopen", "On");
 
-if(isset($_GET['selected_id'])) {
-     if(!isset($_SESSION['viewed'])) {
+if(isset($_GET['selected_id'])) {    
+     if(isset($_SESSION['viewed'])) {
+          if($_SESSION['viewed'] != $_GET['selected_id']) {
+               $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+          }
+     } else {
           $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+          $_SESSION['viewed'] = $_GET['selected_id'];         
      }
      $sm = $db->query("SELECT * FROM tbl_sermons WHERE s_id = $_GET[selected_id]");
      if($sm->rowCount() == 0) {
@@ -23,7 +28,7 @@ if(isset($_GET['selected_id'])) {
           <h2 class="h2-responsive"><?php echo $smn['sermon_title'] ?></h2>
           <h5 class="h5-responsive"><?php echo $smn['sermon_desc'] ?></h5>
           <h6 class="h6-responsive"><?php echo $smn['sermon_preacher'] ?></h6>
-          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?>)</h6>
+          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?> <?php echo $_SESSION['viewed'])</h6>
           <button onclick="window.history.back();" type="button" class="btn btn-warning">Go Back to List</button>
           <?php
           if(isset($_SESSION['isLoggedIn'])) {
@@ -141,9 +146,8 @@ if(isset($_GET['selected_id'])) {
           <script src="js/jquery-ui-slider.js"></script>          
           <script src="js/audioPlayer.js"></script>
           
-          <?php
-     }
-     $_SESSION['viewed'] = 1;     
+          <?php         
+     }    
 } else {
      $parentx = explode("/", $_SESSION['fullpage']);
      $parent = $parentx[0];
