@@ -28,7 +28,7 @@ if(isset($_GET['selected_id'])) {
           <h2 class="h2-responsive"><?php echo $smn['sermon_title'] ?></h2>
           <h5 class="h5-responsive"><?php echo $smn['sermon_desc'] ?></h5>
           <h6 class="h6-responsive"><?php echo $smn['sermon_preacher'] ?></h6>
-          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?> <?php echo $_SESSION['viewed'])</h6>
+          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?>)</h6>
           <button onclick="window.history.back();" type="button" class="btn btn-warning">Go Back to List</button>
           <?php
           if(isset($_SESSION['isLoggedIn'])) {
