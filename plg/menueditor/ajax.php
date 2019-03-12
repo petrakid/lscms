@@ -211,7 +211,6 @@ if(isset($_POST['edit_menu'])) {
 
 if(isset($_POST['add_menu'])) {
      unset($_POST['add_menu']);
-     $_POST['last_accessed'] = date('Y-m-d h:i:s');
      $sql = "INSERT INTO tbl_pages (";
      foreach($_POST AS $key => $val) {
           $sql .= "`$key`, ";
@@ -221,6 +220,11 @@ if(isset($_POST['add_menu'])) {
      foreach($_POST AS $key => $val) {
           if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html' || $key == 'menu_link' || $key == 'menu_url' || $key == 'menu_target') {
                $val = $db->quote($val);
+          }
+          if($key == 'parent_id') {
+               if($val == null) {
+                    $val = 0;
+               }
           }
           $sql .= "$val, ";
      }
