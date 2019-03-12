@@ -242,6 +242,11 @@ if(isset($_POST['update_menu'])) {
           if($key == 'menu_name' || $key == 'page_title' || $key == 'mega_menu_html' || $key == 'menu_link' || $key == 'menu_url' || $key == 'menu_target') {
                $val = $db->quote($val);
           }
+          if($key == 'parent_id') {
+               if($val == 'null') {
+                    $val = 0;
+               }
+          }
           $sql .= "`$key` = $val, ";
      }
      $sql = rtrim($sql, ", ");

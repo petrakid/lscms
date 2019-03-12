@@ -266,6 +266,11 @@ function saveNew()
 }
 function saveMenu()
 {
+     if($('select[name="e_parent_id"]').val() == null) {
+          var parent_id = 0;
+     } else {
+          var parent_id = $('select[name="e_parent_id"]').val();
+     }
      if($('#e_mega_menu').prop('checked')) {
           mega = 1;
      } else {
@@ -280,7 +285,7 @@ function saveMenu()
                'menu_name': $('#e_menu_name').val(),
                'menu_link': $('#e_menu_link').val(),
                'page_title': $('#e_page_title').val(),
-               'parent_id': $('select[name="e_parent_id"]').val(),
+               'parent_id': parent_id,
                'menu_url': $('#e_menu_url').val(),
                'menu_status': $('input[name=e_menu_status]:checked').val(),               
                'menu_target': $('select[name="e_menu_target"]').val(),
