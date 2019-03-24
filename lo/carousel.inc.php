@@ -8,7 +8,7 @@ if($pg['show_slider'] == 1) {
           <?php
      } else {
           ?>
-          <div id="carousel-image" class="carousel slide carousel-fade w-60 ml-auto mr-auto pt-3 <?php if($l['menu_location'] == 'fixed-top') { echo 'mt-5'; } ?>" data-ride="carousel">
+          <div id="carousel-image" class="carousel slide carousel-fade w-60 ml-auto mr-auto pt-5 <?php if($l['menu_location'] == 'fixed-top') { echo 'mt-5'; } ?>" data-ride="carousel">
           <?php
      }
      
