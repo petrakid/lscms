@@ -141,6 +141,11 @@ Off
 </label>
 </div>
 <small class="form-text text-muted mb-2">If enabled, the carousel will start over after the last slide.</small>
+<div class="form-check">
+<input class="form-check-input" type="checkbox" name="carousel_full" id="carousel_full" onclick="changeValue('carousel_full')" value="1" <?php if($cs['carousel_full'] == 1) { echo 'checked="checked"';} ?> />
+<label class="form-check-label" for="carousel_full">Full Width Carousel</label>
+<small class="form-text text-muted">If selected, the slides will use the full width of the viewable area.  Otherwise the carousel will center on the screen at around 3/5ths the width.</small>
+</div>
 </div>
 <div class="col-6">
 <div class="md-form">
@@ -497,7 +502,15 @@ function changeValue(data)
                $('#carousel-editor').data('interval', $('#interval').val() + '000');
                var field = 'interval';
                var value = $('#interval').val();
-               break;                
+               break;
+          case 'carousel_full':
+               var field = 'carousel_full';
+               if($('#carousel_full').prop('checked') == true) {
+                    var value = 1;
+               } else {
+                    var value = 0;
+               }
+               break;
           default:
                break;
      }

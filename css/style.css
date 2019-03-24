@@ -220,3 +220,7 @@ select.cke_dialog_ui_input_select {
      border: 2px solid red;
      border-radius: 6px;
 }
+
+.w-60 {
+     width: 60% !important;
+}

@@ -2,10 +2,16 @@
 if($pg['show_slider'] == 1) {
      $sqlc = $db->query("SELECT * FROM tbl_carousel_settings WHERE cs_id = 1");
      $cars = $sqlc->fetch(PDO::FETCH_ASSOC);
-     ?>
-     <div id="carousel-image" class="d-none d-lg-block carousel slide carousel-fade <?php if($l['menu_location'] == 'fixed-top') { echo 'mt-5'; } ?>" data-ride="carousel">
-
-     <?php
+     if($cars['carousel_full'] == 1) {
+          ?>
+          <div id="carousel-image" class="d-none d-lg-block carousel slide carousel-fade <?php if($l['menu_location'] == 'fixed-top') { echo 'mt-5'; } ?>" data-ride="carousel">
+          <?php
+     } else {
+          ?>
+          <div id="carousel-image" class="carousel slide carousel-fade w-60 ml-auto mr-auto pt-1 <?php if($l['menu_location'] == 'fixed-top') { echo 'mt-5'; } ?>" data-ride="carousel">
+          <?php
+     }
+     
      $c = 0;
      $sql2 = $db->query("SELECT * FROM tbl_carousel WHERE car_status = 1 ORDER by car_order ASC");
      if($sql2->rowCount() == 0) {
