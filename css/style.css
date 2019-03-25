@@ -224,3 +224,7 @@ select.cke_dialog_ui_input_select {
 .w-60 {
      width: 60% !important;
 }
+
+.mt-6 {
+     margin-top: 5rem !important;
+}

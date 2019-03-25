@@ -750,7 +750,7 @@ CKEDITOR.replace('footer_content_2', {
 })
 .on('blur', function(e){
      setTimeout(function(){
-          changeLayout('footer_content_1', e.editor.getData());
+          changeLayout('footer_content_2', e.editor.getData());
      },10);
 });
 </script>
@@ -769,7 +769,7 @@ CKEDITOR.replace('footer_content_3', {
 })
 .on('blur', function(e){
      setTimeout(function(){
-          changeLayout('footer_content_1', e.editor.getData());
+          changeLayout('footer_content_3', e.editor.getData());
      },10);
 });
 </script>
@@ -788,7 +788,7 @@ CKEDITOR.replace('footer_content_4', {
 })
 .on('blur', function(e){
      setTimeout(function(){
-          changeLayout('footer_content_1', e.editor.getData());
+          changeLayout('footer_content_4', e.editor.getData());
      },10);
 });
 </script>
