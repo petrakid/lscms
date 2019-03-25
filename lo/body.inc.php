@@ -26,7 +26,7 @@ if($pg['jumbotron_image'] > '') {
 if($pg['menu_url'] > '') {
      if($pg['menu_target'] == '_blank') {
           ?>
-          <section class="mt-1 wow fadeIn">
+          <section class="mt-2 wow fadeIn">
           <div class="row">
           <div class="col">
           <div class="card">
@@ -46,7 +46,7 @@ if($pg['menu_url'] > '') {
      }
 } elseif($sqlr->rowCount() == 0) {
      ?>
-     <section class="mt-1 wow fadeIn">
+     <section class="mt-2 wow fadeIn">
      <div class="row">
      
      <?php   
@@ -95,7 +95,7 @@ if($pg['menu_url'] > '') {
      <?php          
 } else {
      ?>
-     <section class="mt-1 wow fadeIn">
+     <section class="mt-2 wow fadeIn">
      <div class="row">
      <?php
      $totalblock = 0;
