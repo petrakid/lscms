@@ -11,7 +11,7 @@ if(isset($head) && $head == 1) {
                (function() {
                     var u="//analytics.luthersites.net/";
                     _paq.push(['setTrackerUrl', u+'piwik.php']);
-                    _paq.push(['setSiteId', '<?php echo $gbl['analytics_id'] ?>');
+                    _paq.push(['setSiteId', '<?php echo $gbl['analytics_id'] ?>']);
                     var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
                     g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
                })

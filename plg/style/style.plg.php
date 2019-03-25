@@ -605,6 +605,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas luctus, ante v
 <input class="form-check-input" type="radio" name="menu_location" id="menu_locationst" onclick="changeLayout('menu_location', this.value)" value="sticky-top" <?php if($t['menu_location'] == 'sticky-top') { echo 'checked="checked"';} ?> />
 <label class="form-check-label" for="menu_locationst">Sticky Top</label>
 </div>
+<div class="form-check">
+<input class="form-check-input" type="checkbox" name="menu_shadow" id="menu_shadow" onclick="changemShadow('menu_shadow')" value="1" <?php if($t['menu_shadow'] == 1) { echo 'checked="checked"'; } ?> />
+<label for="menu_shadow" class="form-check-label">Menu Shadow</label>
+</div>
 </div>
 </div>
 
@@ -1130,6 +1134,36 @@ function changeFixed()
                }
           }
      })
+}
+function changemShadow(field)
+{
+     if($('#menu_shadow').prop('checked')) {
+          chk = 1;
+     } else {
+          chk = 0;
+     }
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/style/ajax.php',
+          type: 'POST',
+          data: {
+               'change_mshadow': '1',
+               'checked': chk,
+          },
+          success: function(data) {
+               if(chk == 0) {
+                    $('#mainNavigation').css({
+                         'box-shadow':'none',
+                         '-webkit-box-shadow':'none'
+                    });
+               }
+               if(chk == 1) {
+                    $('#mainNavigation').css({
+                         'box-shadow':'0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)',
+                         '-webkit-box-shadow':'0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)'
+                    });
+               }
+          }
+     })     
 }
 function updateFont(psd, family)
 {

@@ -1,5 +1,5 @@
 
-<nav class="navbar <?php echo $l['menu_location'] ?> navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav navbar-main navbar-custom" id="mainNavigation" style="height: <?php echo $l['menu_height'] ?>px !important">
+<nav class="navbar <?php echo $l['menu_location'] ?> navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav navbar-main navbar-custom" id="mainNavigation" style="height: <?php echo $l['menu_height'] ?>px !important <?php if($l['menu_shadow'] == 0) { echo 'box-shadow: none !important; -webkit-box-shadow: none !important;';} ?>">
 
 <?php
 if(isset($_SESSION['isLoggedIn'])) {

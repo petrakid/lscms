@@ -59,6 +59,9 @@ if(isset($_POST['change_repeat'])) {
           $db->exec($sql2);
      }
 }
+if(isset($_POST['change_mshadow'])) {
+     $db->exec("UPDATE tbl_layout SET menu_shadow = $_POST[checked] WHERE l_id = 1");
+}
 if(isset($_POST['delete_image'])) {
      unlink($gbl['doc_root'] .'ast/layout/'. $_POST['filename']);
 }
