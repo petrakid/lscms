@@ -1,8 +1,6 @@
 <?php
-// Loader file for starting session, loading security, loading globals, and loading the site
 session_start();
 
-// setup DB connection
 if(is_file('inst/install.php')) {
      include 'inst/install.php';
      die;
@@ -22,11 +20,8 @@ if(!empty($_COOKIE['remlog'])) {
      }
 }
 
-// load site globals
 include 'ld/globals.inc.php';
 
-// run the CRON script for any plugins or scripts
-//include 'ld/cron_script.php';
 
 // before we go any further, we want to check and see if maintenance mode is enabled, and if so, load the maintenance page
 if($gbl['maintenance_mode'] == 1 && !isset($_SESSION['isLoggedIn'])) {
