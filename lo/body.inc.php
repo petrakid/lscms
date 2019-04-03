@@ -121,7 +121,7 @@ if($pg['menu_url'] > '') {
                $rgb = implode(",", $rgb);
                ?>
                <div class="col-md-<?php echo $row['grid_width'] ?> <?php if($row['edge_padding'] == 0) { echo 'no-padding'; } ?>">
-               <div class="card" style="background-color: rgba(<?php echo $rgb ?>,<?php echo $row['transparent'] ?>);">
+               <div class="card <?php if($row['edge_padding'] == 0) { echo 'no-shadow';} ?>" style="background-color: rgba(<?php echo $rgb ?>,<?php echo $row['transparent'] ?>);">
                <?php
                if($row['show_header'] == 1) {
                     ?>
@@ -162,7 +162,7 @@ if($pg['menu_url'] > '') {
 ?>
 
 <section class="mt-2 wow fadeIn">
-<hr />
+
 <div class="row">
 <div class="col-md-12">
 <nav aria-label="breadcrumb" class="navbar mb-2 breadcrumbbar breadcrumb-custom">
