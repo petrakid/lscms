@@ -62,7 +62,7 @@ function loadPageSettings(pid)
                               contentType: false,
                               processData: false,
                               success: function(data) {
-                                   if(data != 0) {
+                                   if(data != 1) {
                                         $('#pjumbotron_image').show();
                                    } else {
                                         toastr.error("Something went wrong, please try again", "Upload Error");
@@ -86,7 +86,7 @@ function loadPageSettings(pid)
                               contentType: false,
                               processData: false,
                               success: function(data) {
-                                   if(data != 0) {
+                                   if(data != 1) {
                                         $('#ppage_image').show();
                                    } else {
                                         toastr.error("Something went wrong, please try again", "Upload Error");
@@ -133,7 +133,8 @@ function loadBlocks(pid)
                     $('#block_id').materialSelect();
                });
                $(function() {
-                    $('.mdb-selectb').materialSelect();
+                    $('.mdb-selectr').materialSelect();
+                    $('.mdb-selectg').materialSelect();
                });                              
           }
      })     
@@ -306,7 +307,7 @@ function makeMenuLink(mname)
 <div class="container-fluid">
 <div class="row" style="background-color: transparent !important;">
 <?php
-$blocks = $db->query("SELECT * FROM tbl_blocks WHERE block_status = 1 AND page_id = $_GET[p] ORDER BY grid_order");
+$blocks = $db->query("SELECT * FROM tbl_blocks WHERE block_status = 1 AND page_id = $_GET[p]");
 while($block = $blocks->fetch(PDO::FETCH_ASSOC)) {
      $rgb = hex2rgb($block['block_color']);
      $rgb = implode(",", $rgb);     
@@ -321,7 +322,6 @@ while($block = $blocks->fetch(PDO::FETCH_ASSOC)) {
      CKEDITOR.disableAutoInline = true;
      CKEDITOR.inline('block_content<?php echo $block['b_id'] ?>', {
           customConfig: '<?php echo $gbl['site_url'] ?>/js/ckeditor_config.js',
-          extraPlugins: 'sourcedialog',
           on: {
                blur: function(e) {
                     var field = 'block_content';

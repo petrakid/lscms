@@ -40,6 +40,25 @@ if(!isset($_SESSION['isLoggedIn'])) {
 </div>
 </div>
 </div>
+
+<div class="modal fade" id="esubsModal" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title">Subscriber Details</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body" id="esubsData">
+
+</div>
+<div class="modal-footer">
+<button type="button" id="esubdeletebutton" class="btn btn-danger btn-sm" onclick="deleteESubscriber()">Remove Subscriber</button>
+<button type="button" id="esubsavebutton" class="btn btn-success btn-sm" onclick="saveESubscriber()">Save Subscriber</button>     
+<button type="button" id="esubclosebutton" class="btn btn-default btn-sm" data-dismiss="modal">Cancel</button>  
+</div>
+</div>
+</div>
+</div>
 <script>
 function deleteList()
 {
@@ -128,6 +147,21 @@ function editSubscriber(subscriber, listid)
      });      
 }
 
+function editESubscriber(subscriber)
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/mailer/ajax.php',
+          type: 'POST',
+          data: {
+               'edit_e_subscriber':true,
+               's_id': subscriber,
+          },
+          success: function(data) {
+               document.getElementById('esubsData').innerHTML = data;
+          }
+     });      
+}
+
 function saveSubscriber()
 {
      $.ajax({
@@ -149,6 +183,26 @@ function saveSubscriber()
      });       
 }
 
+function saveESubscriber()
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/mailer/ajax.php',
+          type: 'POST',
+          data: {
+               'save_e_subscriber':true,
+               's_id': document.getElementById('sub_id').value,
+               's_name': document.getElementById('sub_name').value,
+               's_email': document.getElementById('sub_email').value,
+          },
+          success: function(data) {
+               document.getElementById('esubsData').innerHTML = data;
+               document.getElementById('esubsavebutton').style.display = "none";
+               document.getElementById('esubclosebutton').innerHTML = "Close";
+               window.location.reload();               
+          }
+     });       
+}
+
 function deleteSubscriber()
 {
      if(confirm("Are you sure?")) {
@@ -165,6 +219,27 @@ function deleteSubscriber()
                     document.getElementById('subsavebutton').style.display = "none";
                     document.getElementById('subdeletebutton').style.display = "none";
                     document.getElementById('subclosebutton').innerHTML = "Close";
+                    setTimeout(window.location.reload(), 2500);               
+               }
+          });
+     }      
+}
+
+function deleteESubscriber()
+{
+     if(confirm("Are you sure?")) {
+          $.ajax({
+               url: '<?php echo $gbl['site_url'] ?>/plg/mailer/ajax.php',
+               type: 'POST',
+               data: {
+                    'delete_subscriber':true,
+                    's_id': document.getElementById('sub_id').value,
+               },
+               success: function(data) {
+                    document.getElementById('esubsData').innerHTML = data;
+                    document.getElementById('esubsavebutton').style.display = "none";
+                    document.getElementById('esubdeletebutton').style.display = "none";
+                    document.getElementById('esubclosebutton').innerHTML = "Close";
                     setTimeout(window.location.reload(), 2500);               
                }
           });
@@ -211,6 +286,30 @@ while($lst = $sqli->fetch(PDO::FETCH_ASSOC)) {
      }
      ?>
      </ul>
+     </div>
+     <?php
+}
+$plg = $db->query("SELECT pl_id FROM tbl_plugins WHERE plugin_file = 'calendars' AND plugin_status = 1");
+if($plg->rowCount() > 0) {
+     ?>
+     <div class="col-3">
+     <ul class="list-group">
+     <?php
+     $sqlc = $db->query("SELECT * FROM tbl_calendars_subscribers WHERE subscriber_status = 1 ORDER BY subscriber_email");
+     $ccnt = $sqlc->rowCount();
+     ?>
+     <li style="cursor: pointer; color: blue;" class="list-group-item"> <span class="badge badge-danger"><?php echo $ccnt ?></span> Events Reminders</li>
+     <?php if($ccnt > 0) {
+         echo '<ul style="list-style: none">';
+         while($cl = $sqlc->fetch(PDO::FETCH_ASSOC)) {
+             ?>
+             <li style="cursor: pointer; color: fuchsia;" onclick="editESubscriber(<?php echo $cl['s_id'] ?>)" data-toggle="modal" data-target="#esubsModal"><?php echo $cl['subscriber_email'] ?></li>
+             <?php
+         }
+     }
+     ?>
+     </ul>     
+         
      </div>
      <?php
 }

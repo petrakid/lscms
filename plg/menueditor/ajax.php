@@ -114,7 +114,7 @@ if(isset($_POST['edit_menu'])) {
      $m = $menu->fetch(PDO::FETCH_ASSOC);
      ?>
      <form>
-     <input type="hidden" name="p_id" id="p_id" value="<?php echo $m['p_id'] ?>" />
+     <input type="hidden" name="e_p_id" id="e_p_id" value="<?php echo $m['p_id'] ?>" />
      <div class="form-row">
      <div class="col-12" id="pageurl">
      <?php
@@ -252,6 +252,7 @@ if(isset($_POST['update_menu'])) {
      $sql = rtrim($sql, ", ");
      $sql .= " WHERE p_id = $pid";
      $db->exec($sql);
+     //echo $sql;
 }
 
 if(isset($_POST['delete_menu'])) {

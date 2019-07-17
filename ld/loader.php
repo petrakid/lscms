@@ -21,13 +21,16 @@ if(!empty($_COOKIE['remlog'])) {
 }
 
 include 'ld/globals.inc.php';
-
+include 'ld/addins.inc.php';
 
 // before we go any further, we want to check and see if maintenance mode is enabled, and if so, load the maintenance page
 if($gbl['maintenance_mode'] == 1 && !isset($_SESSION['isLoggedIn'])) {
      header('location:maintenance.php');
      die;
 }
+
+// load the cron system
+include 'ld/cron_script.php';
 
 // check to see if resources directory exists, and if not, create it
 $year = date("Y");

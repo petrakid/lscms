@@ -6,6 +6,7 @@ $(document).ready(function() {
   var nextButton = $('#next-button');
   var audioPlayer = $('#audio-player');
   var thumbnail = $('#thumbnail');
+  var audioTitle = $('.audio-title');
   var slider = $('.progress-bar').slider({
     step: 0.01
   });
@@ -57,6 +58,7 @@ $(document).ready(function() {
     trackName();
     audioPlayer.attr('src', thisSong.attr('audio_url'));
     thumbnail.attr('src', thisSong.attr('img_url'));
+    audioTitle.html(thisSong.attr('audio_title'));
     // Reset time and play
     audioPlayer['0'].currentTime = 0;
     audioPlayer['0'].play();

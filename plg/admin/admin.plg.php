@@ -40,6 +40,32 @@ if(!isset($_SESSION['isLoggedIn'])) {
 <label for="doc_root">Site Install Path</label>
 <small class="form-text text-muted">This cannot be changed.</small>
 </div>
+
+<small class="form-text text-muted">Site Homepage</small>
+<select class="mdb-select" name="homepage" id="homepage" onchange="changeVal('homepage', this.value)">
+<option value="" selected disabled>Select</option>
+<?php
+$home = $db->query("SELECT p_id, menu_link, menu_name FROM tbl_pages WHERE menu_status = 1 AND parent_id = 0 ORDER BY menu_order");
+while($hm = $home->fetch(PDO::FETCH_ASSOC)) {
+     ?>
+     <optgroup label="<?php echo $hm['menu_name'] ?> Menus">
+     <option value="<?php echo $hm['menu_link'] ?>" <?php if($gbl['homepage'] == $hm['menu_link']) { echo 'selected="selected"'; } ?>><?php echo stripslashes($hm['menu_name']) ?></option>
+     
+     <?php
+     $child = $db->query("SELECT menu_link, menu_name FROM tbl_pages WHERE menu_status = 1 AND parent_id = $hm[p_id] ORDER BY menu_order");
+     while($ch = $child->fetch(PDO::FETCH_ASSOC)) {
+          ?>
+          <option value="<?php echo $ch['menu_link'] ?>" <?php if($gbl['homepage'] == $ch['menu_link']) { echo 'selected="selected"'; } ?>>-- <?php echo stripslashes($ch['menu_name']) ?></option>
+          
+          <?php
+     }
+     ?>
+     </optgroup>
+     
+     <?php
+}
+?>
+</select>
 </div>
 </div>
 
@@ -141,17 +167,52 @@ if($gbl['maintenance_mode'] == 1) {
 <div class="card">
 <div class="card-body">
 <h4 class="card-title">Location</h4>
+<div class="md-form">
+<input class="form-control" type="text" name="address" id="address" value="<?php echo $gbl['address'] ?>" onblur="changeVal('address', this.value)" />
+<label for="address" class="active">Address</label>
+</div>
+<div class="md-form">
+<input class="form-control" type="text" name="city" id="city" value="<?php echo $gbl['city'] ?>" onblur="changeVal('city', this.value)" />
+<label for="city" class="active">City</label>
+</div>
+<small class="form-text text-muted">State</small>
+<select class="mdb-select" name="state" id="state" onchange="changeVal('state', this.value)">
+<?php echo selectStatesFull($gbl['state']); ?>
+</select>
+<div class="md-form">
+<input class="form-control" type="text" maxlength="5" name="zip_code" id="zip_code" value="<?php echo $gbl['zip_code'] ?>" onblur="changeVal('zip_code', this.value)" />
+<label class="active" for="zip_code">Zip Code</label>
+</div>
 
 </div>
 </div>
 <div class="card">
 <div class="card-body">
 <h4 class="card-title">Phone</h4>
+<div class="md-form">
+<input class="form-control" type="text" maxlength="10" name="phone" id="phone" value="<?php echo formatPhone($gbl['phone']) ?>" onmousedown="stripChars('phone')" onblur="changeVal('phone', this.value)" />
+<label for="phone" class="active">Phone Number</label> 
+</div>
+
 </div>
 </div>
 <div class="card">
 <div class="card-body">
 <h4 class="card-title">Email</h4>
+<div class="md-form">
+<input class="form-control" type="email" name="email_address" id="email_address" value="<?php echo $gbl['email_address'] ?>" onblur="changeVal('email_address', this.value)" />
+<label for="email_address" class="active">Email Address</label>
+</div>
+<div class="md-form">
+<input class="form-control" type="text" name="email_text" id="email_text" value="<?php echo $gbl['email_text'] ?>" onblur="changeVal('email_text', this.value)" />
+<label for="email_text" class="active">Email Mask Text</label>
+<small class="form-text text-muted">Used in place of the actual email address to do basic masking.</small>
+</div>
+<div class="md-form">
+<input class="form-control" type="email" name="admin_email" id="admin_email" value="<?php echo $gbl['admin_email'] ?>" onblur="changeVal('admin_email', this.value)" />
+<label for="admin_email" class="active">Administrative Email Address</label>
+<small class="form-text text-muted">Error Logs, Support Requests, and other site-related emails go here.</small>
+</div>
 
 </div>
 </div>
@@ -161,8 +222,40 @@ if($gbl['maintenance_mode'] == 1) {
 <div class="card-deck">
 <div class="card">
 <div class="card-body">
-<h4 class="card-title">Homepage</h4>
-
+<h4 class="card-title">Plugins</h4>
+<small class="form-text text-muted">Enable or Disable Site Plugins.</small>
+<table class="table-condensed">
+<tr>
+<th>Plugin</th>
+<th></th>
+<th></th>
+</tr>
+<tbody>
+<?php
+$plugin = $db->query("SELECT * FROM tbl_plugins ORDER BY plugin_name");
+while($plg = $plugin->fetch(PDO::FETCH_ASSOC)) {
+     ?>
+     <tr>
+     <td style="width: 50%;"><?php echo $plg['plugin_name'] ?></td>
+     <td>
+     <div class="form-check">
+     <input type="radio" class="form-check-input" id="on<?php echo $plg['pl_id'] ?>" name="<?php echo $plg['pl_id'] ?>" value="1" <?php if($plg['plugin_status'] == 1) { echo 'checked="checked"';} ?> onclick="changepVal('<?php echo $plg['pl_id'] ?>', 1)" />
+     <label class="form-check-label" for="on<?php echo $plg['pl_id'] ?>">On</label>
+     </div>     
+     </td>
+     <td>
+     <div class="form-check">
+     <input type="radio" class="form-check-input" id="off<?php echo $plg['pl_id'] ?>" name="<?php echo $plg['pl_id'] ?>" value="0" <?php if($plg['plugin_status'] == 0) { echo 'checked="checked"';} ?> onclick="changepVal('<?php echo $plg['pl_id'] ?>', 0)" />
+     <label class="form-check-label" for="off<?php echo $plg['pl_id'] ?>">Off</label>
+     </div>     
+     </td>
+     </tr>
+     
+     <?php
+}
+?>
+</tbody>
+</table>
 </div>
 </div>
 <div class="card">
@@ -205,6 +298,12 @@ if($gbl['maintenance_mode'] == 1) {
 </div>
 
 <script>
+function stripChars(field)
+{
+     var sourceString = $('#'+field).val();
+     var outString = sourceString.replace(/[^A-Z0-9]/gi, '');
+     $('#'+field).val(outString);
+}
 function changeVal(field, value)
 {
      if(field == 'maintenance_mode') {
@@ -231,5 +330,20 @@ function changeVal(field, value)
                toastr.success("Item updated successfully!", "Success")
           }
      })
+}
+function changepVal(plugin, value)
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/admin/ajax.php',
+          type: 'POST',
+          data: {
+               'change_plugins': 1,
+               'p': plugin,
+               'v': value
+          },
+          success: function(data) {
+               toastr.success("Plugin changed successfully!", "Success")
+          }
+     })     
 }
 </script>

@@ -199,7 +199,7 @@ $config = array(
 	| in Megabytes
 	|
 	*/
-	'MaxSizeUpload' => 10,
+	'MaxSizeUpload' => 100,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -337,8 +337,8 @@ $config = array(
 	'extract_files'                           => true,
 	'copy_cut_files'                          => false, // for copy/cut files
 	'copy_cut_dirs'                           => false, // for copy/cut directories
-	'chmod_files'                             => true, // change file permissions
-	'chmod_dirs'                              => true, // change folder permissions
+	'chmod_files'                             => false, // change file permissions
+	'chmod_dirs'                              => false, // change folder permissions
 	'preview_text_files'                      => false, // eg.: txt, log etc.
 	'edit_text_files'                         => false, // eg.: txt, log etc.
 	'create_text_files'                       => false, // only create files with exts. defined in $config['editable_text_file_exts']

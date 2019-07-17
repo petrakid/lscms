@@ -271,7 +271,7 @@ function saveMenu()
      } else {
           var parent_id = $('select[name="e_parent_id"]').val();
      }
-     if($('#e_mega_menu').prop('checked')) {
+     if($('#e_mega_menu').is(':checked')) {
           mega = 1;
      } else {
           mega = 0;
@@ -281,7 +281,7 @@ function saveMenu()
           type: 'POST',
           data: {
                'update_menu': 1,
-               'p_id': $('#p_id').val(),
+               'p_id': $('#e_p_id').val(),
                'menu_name': $('#e_menu_name').val(),
                'menu_link': $('#e_menu_link').val(),
                'page_title': $('#e_page_title').val(),
@@ -293,6 +293,7 @@ function saveMenu()
                'mega_menu_html': '0'
           },
           success: function(data) {
+               //alert(data);
                toastr.success('Menu Updated!  Refreshing...', "Success!");
                setTimeout(function() {
                     window.location.reload()

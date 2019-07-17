@@ -519,3 +519,8 @@
   z-index: 997;
   will-change: opacity;
 }
+
+// Fix to input in sidenav, when you click on mobile ( android , chrome 73+ )
+.transform-fix-input {
+  transform: translateX(0) !important;
+}

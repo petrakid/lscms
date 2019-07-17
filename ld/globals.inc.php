@@ -227,24 +227,6 @@ function checkPassword($pwd)
      }
 }
 
-function getAddin($data)
-{
-     $exp1 = explode("-", $data);
-     $addin = $exp1[1];
-     $addin = substr($addin, 0, strpos($addin, "]"));
-     $key = get_string_between($data, "]", "[");
-     return($addin .','.$key);
-}
-
-function get_string_between($string, $start, $end){
-     $string = ' ' . $string;
-     $ini = strpos($string, $start);
-     if ($ini == 0) return '';
-     $ini += strlen($start);
-     $len = strpos($string, $end, $ini) - $ini;
-     return substr($string, $ini, $len);
-}
-
 function hex2rgb($hex) {
    $hex = str_replace("#", "", $hex);
 

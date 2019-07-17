@@ -9,11 +9,15 @@ ini_set("allow_url_fopen", "On");
 if(isset($_GET['selected_id'])) {    
      if(isset($_SESSION['sermon_viewed'])) {
           if($_SESSION['sermon_viewed'] != $_GET['selected_id']) {
-               $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+               if(!preg_match('/(abot|dbot|ebot|hbot|kbot|lbot|mbot|nbot|obot|pbot|rbot|sbot|tbot|vbot|ybot|zbot|bot\.|bot\/|_bot|\.bot|\/bot|\-bot|\:bot|\(bot|crawl|slurp|spider|seek|accoona|acoon|adressendeutschland|ah\-ha\.com|ahoy|altavista|ananzi|anthill|appie|arachnophilia|arale|araneo|aranha|architext|aretha|arks|asterias|atlocal|atn|atomz|augurfind|backrub|bannana_bot|baypup|bdfetch|big brother|biglotron|bjaaland|blackwidow|blaiz|blog|blo\.|bloodhound|boitho|booch|bradley|butterfly|calif|cassandra|ccubee|cfetch|charlotte|churl|cienciaficcion|cmc|collective|comagent|combine|computingsite|csci|curl|cusco|daumoa|deepindex|delorie|depspid|deweb|die blinde kuh|digger|ditto|dmoz|docomo|download express|dtaagent|dwcp|ebiness|ebingbong|e\-collector|ejupiter|emacs\-w3 search engine|esther|evliya celebi|ezresult|falcon|felix ide|ferret|fetchrover|fido|findlinks|fireball|fish search|fouineur|funnelweb|gazz|gcreep|genieknows|getterroboplus|geturl|glx|goforit|golem|grabber|grapnel|gralon|griffon|gromit|grub|gulliver|hamahakki|harvest|havindex|helix|heritrix|hku www octopus|homerweb|htdig|html index|html_analyzer|htmlgobble|hubater|hyper\-decontextualizer|ia_archiver|ibm_planetwide|ichiro|iconsurf|iltrovatore|image\.kapsi\.net|imagelock|incywincy|indexer|infobee|informant|ingrid|inktomisearch\.com|inspector web|intelliagent|internet shinchakubin|ip3000|iron33|israeli\-search|ivia|jack|jakarta|javabee|jetbot|jumpstation|katipo|kdd\-explorer|kilroy|knowledge|kototoi|kretrieve|labelgrabber|lachesis|larbin|legs|libwww|linkalarm|link validator|linkscan|lockon|lwp|lycos|magpie|mantraagent|mapoftheinternet|marvin\/|mattie|mediafox|mediapartners|mercator|merzscope|microsoft url control|minirank|miva|mj12|mnogosearch|moget|monster|moose|motor|multitext|muncher|muscatferret|mwd\.search|myweb|najdi|nameprotect|nationaldirectory|nazilla|ncsa beta|nec\-meshexplorer|nederland\.zoek|netcarta webmap engine|netmechanic|netresearchserver|netscoop|newscan\-online|nhse|nokia6682\/|nomad|noyona|nutch|nzexplorer|objectssearch|occam|omni|open text|openfind|openintelligencedata|orb search|osis\-project|pack rat|pageboy|pagebull|page_verifier|panscient|parasite|partnersite|patric|pear\.|pegasus|peregrinator|pgp key agent|phantom|phpdig|picosearch|piltdownman|pimptrain|pinpoint|pioneer|piranha|plumtreewebaccessor|pogodak|poirot|pompos|poppelsdorf|poppi|popular iconoclast|psycheclone|publisher|python|rambler|raven search|roach|road runner|roadhouse|robbie|robofox|robozilla|rules|salty|sbider|scooter|scoutjet|scrubby|search\.|searchprocess|semanticdiscovery|senrigan|sg\-scout|shai\'hulud|shark|shopwiki|sidewinder|sift|silk|simmany|site searcher|site valet|sitetech\-rover|skymob\.com|sleek|smartwit|sna\-|snappy|snooper|sohu|speedfind|sphere|sphider|spinner|spyder|steeler\/|suke|suntek|supersnooper|surfnomore|sven|sygol|szukacz|tach black widow|tarantula|templeton|\/teoma|t\-h\-u\-n\-d\-e\-r\-s\-t\-o\-n\-e|theophrastus|titan|titin|tkwww|toutatis|t\-rex|tutorgig|twiceler|twisted|ucsd|udmsearch|url check|updated|vagabondo|valkyrie|verticrawl|victoria|vision\-search|volcano|voyager\/|voyager\-hc|w3c_validator|w3m2|w3mir|walker|wallpaper|wanderer|wauuu|wavefire|web core|web hopper|web wombat|webbandit|webcatcher|webcopy|webfoot|weblayers|weblinker|weblog monitor|webmirror|webmonkey|webquest|webreaper|websitepulse|websnarf|webstolperer|webvac|webwalk|webwatch|webwombat|webzinger|wget|whizbang|whowhere|wild ferret|worldlight|wwwc|wwwster|xenu|xget|xift|xirq|yandex|yanga|yeti|yodao|zao\/|zippp|zyborg|\.\.\.\.)/i', $_SERVER['HTTP_USER_AGENT'])) {
+                    $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+               }
           }
      } else {
-          $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
-          $_SESSION['sermon_viewed'] = $_GET['selected_id'];         
+          if(!preg_match('/(abot|dbot|ebot|hbot|kbot|lbot|mbot|nbot|obot|pbot|rbot|sbot|tbot|vbot|ybot|zbot|bot\.|bot\/|_bot|\.bot|\/bot|\-bot|\:bot|\(bot|crawl|slurp|spider|seek|accoona|acoon|adressendeutschland|ah\-ha\.com|ahoy|altavista|ananzi|anthill|appie|arachnophilia|arale|araneo|aranha|architext|aretha|arks|asterias|atlocal|atn|atomz|augurfind|backrub|bannana_bot|baypup|bdfetch|big brother|biglotron|bjaaland|blackwidow|blaiz|blog|blo\.|bloodhound|boitho|booch|bradley|butterfly|calif|cassandra|ccubee|cfetch|charlotte|churl|cienciaficcion|cmc|collective|comagent|combine|computingsite|csci|curl|cusco|daumoa|deepindex|delorie|depspid|deweb|die blinde kuh|digger|ditto|dmoz|docomo|download express|dtaagent|dwcp|ebiness|ebingbong|e\-collector|ejupiter|emacs\-w3 search engine|esther|evliya celebi|ezresult|falcon|felix ide|ferret|fetchrover|fido|findlinks|fireball|fish search|fouineur|funnelweb|gazz|gcreep|genieknows|getterroboplus|geturl|glx|goforit|golem|grabber|grapnel|gralon|griffon|gromit|grub|gulliver|hamahakki|harvest|havindex|helix|heritrix|hku www octopus|homerweb|htdig|html index|html_analyzer|htmlgobble|hubater|hyper\-decontextualizer|ia_archiver|ibm_planetwide|ichiro|iconsurf|iltrovatore|image\.kapsi\.net|imagelock|incywincy|indexer|infobee|informant|ingrid|inktomisearch\.com|inspector web|intelliagent|internet shinchakubin|ip3000|iron33|israeli\-search|ivia|jack|jakarta|javabee|jetbot|jumpstation|katipo|kdd\-explorer|kilroy|knowledge|kototoi|kretrieve|labelgrabber|lachesis|larbin|legs|libwww|linkalarm|link validator|linkscan|lockon|lwp|lycos|magpie|mantraagent|mapoftheinternet|marvin\/|mattie|mediafox|mediapartners|mercator|merzscope|microsoft url control|minirank|miva|mj12|mnogosearch|moget|monster|moose|motor|multitext|muncher|muscatferret|mwd\.search|myweb|najdi|nameprotect|nationaldirectory|nazilla|ncsa beta|nec\-meshexplorer|nederland\.zoek|netcarta webmap engine|netmechanic|netresearchserver|netscoop|newscan\-online|nhse|nokia6682\/|nomad|noyona|nutch|nzexplorer|objectssearch|occam|omni|open text|openfind|openintelligencedata|orb search|osis\-project|pack rat|pageboy|pagebull|page_verifier|panscient|parasite|partnersite|patric|pear\.|pegasus|peregrinator|pgp key agent|phantom|phpdig|picosearch|piltdownman|pimptrain|pinpoint|pioneer|piranha|plumtreewebaccessor|pogodak|poirot|pompos|poppelsdorf|poppi|popular iconoclast|psycheclone|publisher|python|rambler|raven search|roach|road runner|roadhouse|robbie|robofox|robozilla|rules|salty|sbider|scooter|scoutjet|scrubby|search\.|searchprocess|semanticdiscovery|senrigan|sg\-scout|shai\'hulud|shark|shopwiki|sidewinder|sift|silk|simmany|site searcher|site valet|sitetech\-rover|skymob\.com|sleek|smartwit|sna\-|snappy|snooper|sohu|speedfind|sphere|sphider|spinner|spyder|steeler\/|suke|suntek|supersnooper|surfnomore|sven|sygol|szukacz|tach black widow|tarantula|templeton|\/teoma|t\-h\-u\-n\-d\-e\-r\-s\-t\-o\-n\-e|theophrastus|titan|titin|tkwww|toutatis|t\-rex|tutorgig|twiceler|twisted|ucsd|udmsearch|url check|updated|vagabondo|valkyrie|verticrawl|victoria|vision\-search|volcano|voyager\/|voyager\-hc|w3c_validator|w3m2|w3mir|walker|wallpaper|wanderer|wauuu|wavefire|web core|web hopper|web wombat|webbandit|webcatcher|webcopy|webfoot|weblayers|weblinker|weblog monitor|webmirror|webmonkey|webquest|webreaper|websitepulse|websnarf|webstolperer|webvac|webwalk|webwatch|webwombat|webzinger|wget|whizbang|whowhere|wild ferret|worldlight|wwwc|wwwster|xenu|xget|xift|xirq|yandex|yanga|yeti|yodao|zao\/|zippp|zyborg|\.\.\.\.)/i', $_SERVER['HTTP_USER_AGENT'])) {
+               $db->exec("UPDATE tbl_sermons SET sermon_views = sermon_views + 1 WHERE s_id = $_GET[selected_id]");
+               $_SESSION['sermon_viewed'] = $_GET['selected_id'];
+          }       
      }
      $sm = $db->query("SELECT * FROM tbl_sermons WHERE s_id = $_GET[selected_id]");
      if($sm->rowCount() == 0) {
@@ -23,49 +27,75 @@ if(isset($_GET['selected_id'])) {
           ?>
           
           <div class="row">
-          <div class="col-md-7">
-          <img class="img-fluid hoverable" src="<?php echo $gbl['site_url'] .'/ast/sermons/'. $smn['sermon_image'] ?>" style="max-height: 450px" />
-          <h2 class="h2-responsive"><?php echo $smn['sermon_title'] ?></h2>
-          <h5 class="h5-responsive"><?php echo $smn['sermon_desc'] ?></h5>
-          <h6 class="h6-responsive"><?php echo $smn['sermon_preacher'] ?></h6>
-          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?>)</h6>
-          <button onclick="window.history.back();" type="button" class="btn btn-warning">Go Back to List</button>
+          <div class="col-md-4">
+          <div class="row">
+          <div class="col-12">
+          <h1 class="h2-responsive"><?php echo $smn['sermon_title'] ?></h1>
+          <h4 class="h5-responsive"><?php echo $smn['sermon_desc'] ?></h4>
+          <h5 class="h6-responsive"><?php echo $smn['sermon_preacher'] ?></h5>
+          <h6 class="h6-responsive"><?php echo date('F jS Y', strtotime($smn['sermon_date'])) ?> (Views: <?php echo $smn['sermon_views'] ?>)</h6>  
+          </div>
+
+          </div>
+          <div class="row">
+          <div class="col-12">          
           <?php
+          $text = stripslashes($smn['sermon_text']);
+          if($smn['sermon_text'] == '') {
+               $text = 'To read the sermon text, click the Download the PDF button.<br /><hr />';
+          }
+          echo mb_strimwidth($text, 0, 500, "...");
+          if($smn['sermon_text'] > '') {
+               ?>
+               <br />
+               <hr />
+               <a class="btn btn-unique" data-target="#text_modal" data-toggle="modal" onclick="getSermonText(<?php echo $smn['s_id'] ?>)"><i class="fas fa-paragraph"></i> Read Text</a>
+               <?php
+               if($smn['sermon_pdf_file'] > '') {
+                    ?>
+                    <button onclick="window.history.back();" type="button" class="btn btn-warning"><i class="fa fa-angle-double-left mr-1"></i> Go Back to List</button>                    
+                    <a href="<?php echo $gbl['site_url'] .'/ast/sermons/'. $smn['sermon_pdf_file'] ?>" target="_blank" class="btn btn-pink"><i class="far fa-file-pdf"></i> Download the PDF</a>
+                                   
+                    <?php
+               }                 
+          } else {
+               if($smn['sermon_pdf_file'] > '') {
+                    ?>
+                    <br />
+                    <button onclick="window.history.back();" type="button" class="btn btn-warning"><i class="fa fa-angle-double-left mr-1"></i> Go Back to List</button>                    
+                    <a href="<?php echo $gbl['site_url'] .'/ast/sermons/'. $smn['sermon_pdf_file'] ?>" target="_blank" class="btn btn-pink"><i class="far fa-file-pdf"></i> Download the PDF</a>
+                                   
+                    <?php
+               }                
+          }
           if(isset($_SESSION['isLoggedIn'])) {
                ?>
+               <br />
                <button type="button" class="btn btn-unique get_data" data-id="<?php echo $smn['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Edit</button>
                <button type="button" class="btn btn-danger get_datad" data-id="<?php echo $smn['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Delete</button><br /><br />
                <?php
-          }          
-          if($smn['sermon_text'] > '') {
-               ?>
-               <div class="card-heading panel-heading-custom" data-toggle="collapse" data-target="#autopanel"><h4 class="panel-title panel-title-custom">Click to read</h4></div>
-               <div class="card-body collapse out" id="autopanel"><?php echo $smn['sermon_text'] ?></div>               
-               <?php
           }
-          if($smn['sermon_pdf_file'] > '') {
-               ?>
-               <br />
-               <a href="<?php echo $gbl['site_url'] .'/ast/sermons/'. $smn['sermon_pdf_file'] ?>" target="_blank">
-               <div class="card-heading card-heading-custom"><h4 class="card-title card-title-custom">Download the PDF</h4></div></a>               
-               <?php
-          }          
+          ?>
+            
+          </div>
+          </div>
+          </div>
+          <div class="col-md-4">
+          <?php       
           if($smn['sermon_audio_file'] > '') {
                ?>
-               <br />
-               <div class="container-fluid">
                <div class="row">
                <div class="col-md-12">
                <section class="audio-player card">
                <div class="card">
                <div class="card-body">
-               <h2 class="card-title col text-center"><?php echo stripslashes($smn['sermon_title']) ?></h2>
+               <h2 class="card-title col text-center audio-title"><?php echo stripslashes($smn['sermon_title']) ?></h2>
                <div class="row aling-items-center mt-4 mb-3 mx-0">
                <i id="play-button" class="material-icons play-pause text-primary mr-2" aria-hidden="true" style="cursor: pointer;">play_circle_outline</i>
                <i id="pause-button" class="material-icons play-pause d-none text-primary mr-2" aria-hidden="true" style="cursor: pointer;">pause_circle_outline</i>
                <i id="next-button" class="material-icons text-primary ml-2 mr-3" aria-hidden="true" style="cursor: pointer;">skip_next</i>
-               <div class="col ml-auto rounded-circle border border-primary p-1">
-               <img id="thumbnail" class="img-fluid rounded-circle" src="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_image'] ?>" />
+               <div class="col ml-auto border border-primary p-1">
+               <img id="thumbnail" class="img-fluid hoverable" src="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_image'] ?>" />
                </div>
                </div>
                <div class="p-0 m-0" id="now-playing">
@@ -74,14 +104,14 @@ if(isset($_GET['selected_id'])) {
                </div>
                <div class="progress-bar progress col-12 mb-3"></div>
                </div>
-               <h6 class="col h6">Similar Sermons</h6>
+               <h6 class="col h6">Related Sermons</h6>
                <ul class="playlist list-group list-group-flush">
                <?php
-               $list = $db->query("SELECT s_id, sermon_audio_file, sermon_title, sermon_date, sermon_image FROM tbl_sermons WHERE MATCH(sermon_keywords, sermon_title, sermon_desc) AGAINST ('$smn[sermon_title]' IN NATURAL LANGUAGE MODE) ORDER BY sermon_date DESC LIMIT 8");
+               $list = $db->query("SELECT s_id, sermon_audio_file, sermon_title, sermon_date, sermon_image FROM tbl_sermons WHERE MATCH(sermon_keywords, sermon_desc) AGAINST ('$smn[sermon_title]' IN NATURAL LANGUAGE MODE) ORDER BY sermon_date DESC LIMIT 8");
                while($ls = $list->fetch(PDO::FETCH_ASSOC)) {
                     ?>
                     
-                    <li class="<?php if($ls['s_id'] == $smn['s_id']) { echo 'active';} ?> list-group-item playlist-item" audio_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_audio_file'] ?>" img_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_image'] ?>"><?php echo stripslashes($ls['sermon_title']) ?> (<?php echo date('F jS, Y', strtotime($ls['sermon_date'])) ?>)</li>
+                    <li class="<?php if($ls['s_id'] == $smn['s_id']) { echo 'active';} ?> list-group-item playlist-item" audio_title="<?php echo $ls['sermon_title'] ?>" audio_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_audio_file'] ?>" img_url="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $ls['sermon_image'] ?>"><?php echo stripslashes($ls['sermon_title']) ?> (<?php echo date('F jS, Y', strtotime($ls['sermon_date'])) ?>)</li>
                     
                     
                     <?php
@@ -91,7 +121,6 @@ if(isset($_GET['selected_id'])) {
                </div>
                <audio id="audio-player" class="d-none" src="<?php echo $gbl['site_url'] ?>/ast/sermons/<?php echo $smn['sermon_audio_file'] ?>" type="audio/mp3" controls="controls"></audio>
                </section>
-               </div>
                </div>
                </div>
                
@@ -105,10 +134,10 @@ if(isset($_GET['selected_id'])) {
                <iframe width="560" height="315" src="<?php echo $smn['sermon_embed_url'] ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                </div>               
                <?php
-          }                     
+          }                              
           ?>
           </div>
-          <div class="col-md-5">
+          <div class="col-md-4">
           <?php
           $sset = $db->query("SELECT esv_api FROM tbl_sermon_settings WHERE ss_id = 1");
           $api = $sset->fetch(PDO::FETCH_ASSOC);
@@ -197,10 +226,21 @@ if(isset($_GET['selected_id'])) {
           <?php        
      }
      ?>
+     <div class="row justify-content-end">
+     <div class="col-12">
+     <form class="form-inline justify-content-end">
+     <div class="active-cyan-3 active-cyan-4 mb-1 md-form" style="width: 400px;">
+     <input class="form-control" type="text" id="searchBox" placeholder="Search Sermons by date, title, passage or description" aria-label="Search" onkeyup="searchSermons(this.value)" style="width: 100%;" />
+     </div>
+     <button type="button" class="btn btn-unique mb-0" onclick="resetSermons()">Reset</button>    
+     </div>
+     </form> 
+     </div>
+     <div id="sermonSearchRes">
      <div class="row">
      <div class="col-md-12">
      <div class="card-deck">
-     
+    
      <?php
      $r = 1;
      $smn = $db->query("SELECT s_id, sermon_title, sermon_date, sermon_preacher, sermon_image, sermon_desc FROM tbl_sermons WHERE sermon_status = 1 ORDER BY sermon_date DESC LIMIT 20");
@@ -216,17 +256,17 @@ if(isset($_GET['selected_id'])) {
                     $sermonimage = $gbl['site_url'] .'/ast/sermons/'. $sm['sermon_image'];
                }
                ?>
-               <div class="card mb-4">
+               <div class="card mb-4 col-3">
                <div class="view overlay">
-               <img class="card-img-top" src="<?php echo $sermonimage ?>" alt="<?php echo $sm['sermon_title'] ?>" />
-               <a><div class="mask rgba-white-slight"></div></a>
+               <img class="card-img-top hoverable mt-2" src="<?php echo $sermonimage ?>" alt="<?php echo $sm['sermon_title'] ?>" />
+               <a href="#!"><div class="mask flex-center rgba-stylish-strong"></div></a>
                </div>
                               
                <div class="card-body">
                <h4 class="font-weight-bold card-title"><?php echo $sm['sermon_title'] ?></h4>
                <h6 class="card-subtitle mb-2 text-muted"><?php echo date('F j Y', strtotime($sm['sermon_date'])) ?></h6>
                <p class="card-text"><?php echo $sm['sermon_desc'] ?></p>
-               <a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="black-text d-flex justify-content-end btn-md"><h5>See More <i class="fa fa-angle-double-right"></i></h5></a>
+               <a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="btn btn-elegant justify-content-end z-depth-2">See More <i class="fa fa-angle-double-right"></i></a>
                <?php
                if(isset($_SESSION['isLoggedIn'])) {
                     ?>
@@ -308,8 +348,29 @@ if(isset($_GET['selected_id'])) {
           </div>
           <?php
      }
+     ?>
+     </div>
+     
+     <?php
 }
 ?>
+<div class="modal fade" id="text_modal" tabindex="-1" role="dialog">
+<div class="modal-dialog modal-fluid" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h4 class="modal-title">Sermon Text</h4>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<div class="modal-body" id="text_modal_body">
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+
 
 <div class="modal fade" id="add_sermon_model" tabindex="-1" role="dialog">
 <div class="modal-dialog" role="document">
@@ -347,6 +408,34 @@ if(isset($_GET['selected_id'])) {
 </div>
 
 <script>
+function searchSermons(term)
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/sermonmanager/ajax.php',
+          type: 'POST',
+          data: {
+               'search_sermons': 1,
+               'search_data': term
+          },
+          success: function(data) {
+               $('#sermonSearchRes').html(data);
+          }
+     })
+}
+function resetSermons()
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/sermonmanager/ajax.php',
+          type: 'POST',
+          data: {
+               'reset_sermons': 1,
+          },
+          success: function(data) {
+               $('#sermonSearchRes').html(data);
+               $('#searchBox').val('');
+          }
+     })     
+}
 $(function() {
      $('#sortable').DataTable();
 });
@@ -406,6 +495,20 @@ $(function() {
           })
      })
 });
+function getSermonText(sermonid)
+{
+     $.ajax({
+          url: '<?php echo $gbl['site_url'] ?>/plg/sermonmanager/ajax.php',
+          type: "POST",
+          data: {
+               'view_sermon_text': 1,
+               's_id': sermonid,
+          },
+          success: function(data) {
+               $('#text_modal_body').html(data);          
+          }
+     })      
+}
 function changeLayout()
 {
      var lvalue = $("input[name='layout_type']:checked").val();

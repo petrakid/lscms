@@ -319,6 +319,54 @@
             }
           }
         }
+        &.timeline-basic,
+        &.colorful-timeline,
+        &.timeline-animated {
+          li {
+            a {
+              @media (max-width: 450px) {
+                left: 8%;
+              }
+              .circle {
+                @media (max-width: 450px) {
+                  width: 30px;
+                  height: 30px;
+                  line-height: 30px;
+                  font-size: .9em;
+                  top: 26px;
+                  margin-left: -35px;
+                }
+              }
+            }
+            &:not(:last-child):after {
+              @media (max-width: 450px) {
+                left: 9%;
+                height: 100%;
+                top: 55px;
+              }
+            }
+          }
+        }
+        &.timeline-simple,
+        &.timeline-images {
+          li {
+            a {
+              @media (max-width: 450px) {
+                left: 10%;
+              }
+              .circle {
+                @media (max-width: 450px) {
+                  top: 18px;
+                }
+              }
+            }
+            &:not(:last-child):after {
+              @media (max-width: 450px) {
+                left: 10%;
+              }
+            }
+          }
+        }
       }
     }
   }

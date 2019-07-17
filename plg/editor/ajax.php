@@ -8,15 +8,9 @@ include '../../ld/db.inc.php';
 include '../../ld/globals.inc.php';
 
 if(isset($_POST['update_content'])) {
-     $content = $db->quote($_POST['content']);
-     $blockid = $_POST['block_id'];
-     $db->exec("CREATE TEMPORARY TABLE temp_1 SELECT * FROM tbl_blocks WHERE b_id = $blockid");
-     $db->exec("UPDATE temp_1 SET b_id = 0");
-     $db->exec("INSERT INTO tbl_blocks SELECT * FROM temp_1 LIMIT 1");
-     $id = $db->lastInsertId();
-     $db->exec("UPDATE tbl_blocks SET block_content = $content, date_added = now(), block_status = 1 WHERE b_id = $id");
-     $db->exec("UPDATE tbl_blocks SET block_status = 9 WHERE b_id = $blockid");
-     $db->exec("DROP TEMPORARY TABLE IF EXISTS temp_1");
+     $content = addslashes($_POST['content']);
+     $id = $_POST['block_id'];
+     $db->exec("UPDATE tbl_blocks SET block_content = '$content', date_added = now() WHERE b_id = $id");
 }
 
 if(isset($_POST['save_field'])) {
@@ -24,26 +18,123 @@ if(isset($_POST['save_field'])) {
 }
 
 if(isset($_POST['load_blocks'])) {
-     $blocks = $db->query("SELECT b_id, block_header, date_added, block_status FROM tbl_blocks WHERE page_id = $_POST[page] ORDER BY block_status ASC, grid_order ASC, date_added DESC");
-     ?>
-     <div id="selectdiv">
-     <b>Select a Block or click New Block</b>
-     <select name="block_select" id="block_id" class="mdb-select" onchange="selectBlock(this.value)">
-     <option selected disabled>Select</option>
-     <?php
-     while($b = $blocks->fetch(PDO::FETCH_ASSOC)) {
+     $block = $db->query("SELECT * FROM tbl_blocks WHERE page_id = $_POST[page] AND block_status != 9");
+     if($block->rowCount() == 0) {
           ?>
-          <option value="<?php echo $b['b_id'] ?>"><?php if($b['block_status'] == 0) { echo 'DRAFT';} ?> <?php echo stripslashes($b['block_header']) ?>, ADDED: <?php echo date('m j Y h:i a', strtotime($b['date_added'])) ?></option>
+          <b>Click New Block</b>
+          <div id="blockRes">
+          <button class="btn btn-unique btn-rounded" onclick="addBlock(<?php echo $_POST['page'] ?>)"><i class="fa fa-plus"></i> New Block</button>     
+          </div>          
+          <?php                    
+     } else {
+          $b = $block->fetch(PDO::FETCH_ASSOC);
+          ?>
+          <hr />
+          <div id="blockRes">
+     
+          <div class="md-form">
+          <i id="bblock_header" class="fas fa-check green-text prefix" style="display: none"></i>      
+          <input onblur="updateBlock('block_header', this.value, <?php echo $b['b_id'] ?>)" type="text" name="block_header" id="block_header" value="<?php echo $b['block_header'] ?>" required="required" class="form-control" />
+          <label class="active" for="block_header">Block Title</label>
+          </div>
+     
+          <i id="bshow_header" class="fas fa-check green-text prefix" style="display: none"></i>     
+          <b>Display Title?</b>
+          <small class="form-text text-muted mb-2">If you'd like to hide the title of this block, you can do so here.</small>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('show_header', 1, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="show_header" id="show_header1" value="1" <?php if($b['show_header'] == 1) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="show_header1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('show_header', 0, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="show_header" id="show_header0" value="0" <?php if($b['show_header'] == 0) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="show_header0">No</label>
+          </div><br /><br />
+     
+          <i id="bblock_status" class="fas fa-check green-text prefix" style="display: none"></i> 
+          <b>Block Status</b>
+          <small class="form-text text-muted mb-2">Show, hide, or delete this block.</small>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('block_status', 1, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="block_status" id="block_status1" value="1" <?php if($b['block_status'] == 1) { echo 'checked="checked"';} ?> required="required" />
+          <label class="form-check-label" for="block_status1">Visible</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('block_status', 0, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="block_status" id="block_status0" value="0" <?php if($b['block_status'] == 0) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="block_status0">Hidden</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('block_status', 9, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="block_status" id="block_status9" value="9" />
+          <label class="form-check-label" for="block_status9">Delete Block</label>
+          </div>           
+          <hr />
+          
+          <small class="form-text text-muted mb-2">You can select if this block is scheduled to be active and to deactivate at on certain dates/times.</small>
+          <div class="form-check">
+          <input onclick="updateBlock('scheduled', 'check_status', <?php echo $b['b_id'] ?>)" class="form-check-input" type="checkbox" name="scheduled" id="scheduled" value="1" <?php if($b['scheduled'] == 1) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="scheduled">Enable Schedule</label>
+          </div>
+     
+          <div class="md-form">
+          <i id="bstartdate" class="fas fa-check green-text prefix" style="display: none"></i>      
+          <input onblur="updateBlock('startdate', this.value, <?php echo $b['b_id'] ?>)" type="date" name="startdate" id="startdate" value="<?php echo $b['start_datetime'] ?>" class="form-control" />          
+          <label class="active" for="startdate">Scheduled Start Date</label>
+          </div>
+          
+          <div class="md-form">
+          <i id="benddate" class="fas fa-check green-text prefix" style="display: none"></i>                
+          <input onblur="updateBlock('enddate', this.value, <?php echo $b['b_id'] ?>)" type="date" name="enddate" id="enddate" value="<?php echo $b['end_datetime'] ?>" class="form-control" />
+          <label class="active" for="enddate">Schedule End Date</label>      
+          </div>
+          <hr />
+          
+          <b>Panel Background Color</b>
+          <small class="form-text text-muted">The default color is white.  You can select a different color here</small>
+          <div class="md-form">
+          <i id="bblock_color" class="fas fa-check green-text prefix" style="display: none"></i>     
+          <input onblur="updateBlock('block_color', this.value, <?php echo $b['b_id'] ?>)" class="color-picker" type="color" name="block_color" id="block_color" value="<?php echo $b['block_color'] ?>" />
+          </div><br />
+          
+          <i id="btransparent" class="fas fa-check green-text prefix" style="display: none"></i>     
+          <b>Panel Transparency (Opacity)</b>
+          <small class="form-text text-muted mb-2">You can adjust this block's background transparency to further customize its style.</small>
+          <div class="md-form range-field">   
+          <input onblur="updateBlock('transparent', this.value, <?php echo $b['b_id'] ?>)" type="range" min="0" max="100" id="transparent" value="<?php echo $b['transparent'] * 100 ?>" onchange="updateTest()" />
+          <small class="form-text text-muted">Drag to the right to reduce transparancy.</small>
+          </div>
+          <img class="img-fluid hoverable" src="<?php echo $gbl['site_url'] ?>/ast/site/test_image.jpg" style="opacity: <?php echo $b['transparent'] ?>;" width="150" id="testimage" />
+          <hr />     
+     
+          <i id="bedge_padding" class="fas fa-check green-text prefix" style="display: none"></i>
+          <b>Edge Padding?</b>
+          <small class="form-text text-muted mb-2">You can display the block with standard edge padding or make it touch the edge of the screen.</small>
+          <div class="form-check form-check-inline">               
+          <input onclick="updateBlock('edge_padding', 1, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="edge_padding" id="edge_padding1" value="1" <?php if($b['edge_padding'] == 1) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="edge_padding1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+          <input onclick="updateBlock('edge_padding', 0, <?php echo $b['b_id'] ?>)" class="form-check-input" type="radio" name="edge_padding" id="edge_padding0" value="0" <?php if($b['edge_padding'] == 0) { echo 'checked="checked"';} ?> />
+          <label class="form-check-label" for="edge_padding0">No</label>
+          </div>
+          <hr />
+           
+          <i id="bblock_plugin" class="fas fa-check green-text prefix" style="display: none"></i>     
+          <b>Block Plugin</b>
+          <small class="form-text text-muted mb-2">Includes a plugin after the block content.  You can also include plugins by adding their "shortcode" to the content.</small>
+          <select class="mdb-select mdb-selectr md-form mb-2 initialized" name="block_plugin" id="block_plugin" onchange="updateBlock('block_plugin', this.value, <?php echo $b['b_id'] ?>)">
+          <option value="" <?php if($b['block_plugin'] == '') { echo 'selected="selected"';} ?>>None</option>
+          <?php
+          $sqlp = $db->query("SELECT * FROM tbl_plugins WHERE plugin_status = 1");
+          while($plg = $sqlp->fetch(PDO::FETCH_ASSOC)) {
+               echo '<option value="'. $plg['plugin_file'] .'"';
+               if($plg['plugin_file'] == $b['block_plugin']) {
+                    echo ' selected="selected"';
+               }
+               echo '>'. $plg['plugin_name'] .'</option>';
+          }
+          ?>
+          </select>            
+          </div>          
           <?php
      }
-     ?>
-     </select>
-     <hr />
-     </div>
-     <div id="blockRes">
-     <button class="btn btn-unique btn-rounded" onclick="addBlock(<?php echo $_POST['page'] ?>)"><i class="fa fa-plus"></i> New Block</button>     
-     </div>
-     <?php
 }
 
 if(isset($_POST['select_block'])) {
@@ -134,25 +225,9 @@ if(isset($_POST['select_block'])) {
      <label class="form-check-label" for="edge_padding0">No</label>
      </div>
      <hr />
-      
-     <i id="bgrid_width" class="fas fa-check green-text prefix" style="display: none"></i>          
-     <b>Panel Width</b>
-     <select name="grid_width" id="grid_width" class="mdb-select mdb-selectg md-form mb-2 initialized" onchange="updateBlock('grid_width', this.value, <?php echo $b['b_id'] ?>)">
-     <option value="" disabled>Select</option>               
-     <?php
-     for($i=1;$i<=12;$i++) {
-          if($i == $b['grid_width']) {
-               echo '<option value="'. $i .'" selected="selected">'. $i .'</option>';
-          }
-          echo '<option value="'. $i .'">'. $i .'</option>';
-     }
-     ?>
-     </select>
-     <small class="form-text text-muted mb-2">From 1 to 12</small>
-     <hr />
-     
+   
      <i id="bblock_plugin" class="fas fa-check green-text prefix" style="display: none"></i>     
-     <b>Block Plugin</b>
+     <b>Plugin</b>
      <small class="form-text text-muted mb-2">Includes a plugin after the block content.  You can also include plugins by adding their "shortcode" to the content.</small>
      <select class="mdb-select mdb-selectr md-form mb-2 initialized" name="block_plugin" id="block_plugin" onchange="updateBlock('block_plugin', this.value, <?php echo $b['b_id'] ?>)">
      <option value="" <?php if($b['block_plugin'] == '') { echo 'selected="selected"';} ?>>None</option>
@@ -175,13 +250,6 @@ if(isset($_POST['new_block'])) {
 if(isset($_POST['update_block'])) {
      if($_POST['f'] == 'transparent') {
           $_POST['v'] = $_POST['v'] / 100;
-     }
-     if($_POST['f'] == 'block_status') {
-          if($_POST['v'] == 1) {
-               $page = $db->query("SELECT page_id FROM tbl_blocks WHERE b_id = $_POST[b_id]");
-               $p = $page->fetch(PDO::FETCH_ASSOC);
-               $db->exec("UPDATE tbl_blocks SET block_status = 9 WHERE block_status = 1 AND page_id = $p[page_id]");
-          }
      }
      $db->exec("UPDATE tbl_blocks SET `$_POST[f]` = '$_POST[v]' WHERE b_id = $_POST[b_id]");
 }

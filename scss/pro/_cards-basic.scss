@@ -43,6 +43,10 @@
           background: $card-cascade-wider-card-body-bg;
           z-index: 1;
           border-radius: 0 0 $md-card-border-radius $md-card-border-radius;
+          .card-footer {
+            margin-left: -1.25rem;
+            margin-right: -1.25rem;
+          }
         }
       }
       &.reverse {

@@ -188,6 +188,11 @@ a:active {
      background-color: transparent !important;
 }
 
+.no-shadow {
+     box-shadow: none !important;
+     -webkit-box-shadow: none !important;
+}
+
 .pagination-custom {
      background-color: <?php echo $c['pagination_color'] ?> !important;
 }
@@ -213,7 +218,9 @@ a:active {
 
 .breadcrumb-custom {
      background-color: <?php echo $c['breadcrumb_color'] ?> !important;
-     font-family: <?php echo $c['secondary_font'] ?> !important;     
+     font-family: <?php echo $c['secondary_font'] ?> !important;
+     box-shadow: none !important;
+     -webkit-box-shadow: none !important;     
 }
 
 .spinners-custom {

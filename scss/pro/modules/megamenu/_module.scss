@@ -103,4 +103,33 @@
       }
     }
   }
+  .dropdown {
+    &.multi-level-dropdown {
+      .dropdown-menu {
+        .dropdown-submenu {
+          position: relative;
+          .dropdown-menu {
+            top: 0;
+            left: 100%;
+            &.r-100 {
+              right: 100%;
+            }
+            &.l-auto {
+              left: auto;
+            }
+          }
+        }
+        .dropdown-item {
+          width: 100%;
+          transition: .3s;
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.2) !important;
+            transition: .3s;
+            box-shadow: none;
+            border-radius: 0;
+          }
+        }
+      }
+    }
+  }
 }

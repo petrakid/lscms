@@ -1,10 +1,249 @@
 <?php
 session_start();
-if(!isset($_SESSION['isLoggedIn'])) {
-     die;
-}
+
 include '../../ld/db.inc.php';
 include '../../ld/globals.inc.php';
+
+if(isset($_POST['search_sermons'])) {
+     ?>
+     <div class="row">
+     <div class="col-md-12">
+     <div class="card-deck">
+     
+     <?php
+     $sset = $db->query("SELECT * FROM tbl_sermon_settings WHERE ss_id = 1");
+     $ss = $sset->fetch(PDO::FETCH_ASSOC);
+     $r = 0;
+     $smn = $db->query("SELECT s_id, sermon_title, sermon_date, sermon_preacher, sermon_image, sermon_desc FROM tbl_sermons WHERE CAST(sermon_date AS char) LIKE '$_POST[search_data]%' OR sermon_title LIKE '%$_POST[search_data]%' OR sermon_desc LIKE '%$_POST[search_data]%' AND sermon_status = 1 ORDER BY sermon_date DESC");     
+     if($ss['layout_type'] == 1) {      
+          while($sm = $smn->fetch(PDO::FETCH_ASSOC)) {
+               if($r >= 4) {
+                    echo '</div><div class="card-deck">';
+                    $r = 0;
+               }               
+               if($sm['sermon_image'] == '') {
+                    $sermonimage = $gbl['site_url'] .'/ast/sermons/defaultimage.jpg';
+               } else {
+                    $sermonimage = $gbl['site_url'] .'/ast/sermons/'. $sm['sermon_image'];
+               }
+               ?>
+               <div class="card mb-4 col-3">
+               <div class="view overlay">
+               <img class="card-img-top hoverable mt-2" src="<?php echo $sermonimage ?>" alt="<?php echo $sm['sermon_title'] ?>" />
+               <a><div class="mask flex-center rgba-stylish-strong"></div></a>
+               </div>
+                              
+               <div class="card-body">
+               <h4 class="font-weight-bold card-title"><?php echo $sm['sermon_title'] ?></h4>
+               <h6 class="card-subtitle mb-2 text-muted"><?php echo date('F j Y', strtotime($sm['sermon_date'])) ?></h6>
+               <p class="card-text"><?php echo $sm['sermon_desc'] ?></p>
+               <a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="btn btn-elegant justify-content-end z-depth-2">See More <i class="fa fa-angle-double-right"></i></a>
+               <?php
+               if(isset($_SESSION['isLoggedIn'])) {
+                    ?>
+                    <button type="button" class="btn btn-info btn-sm get_data" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm get_datad" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Delete</button>
+                    <?php
+               }
+               ?>
+               </div>
+               </div>
+               <?php
+               $r++;
+          }
+     }
+     ?>
+     </div>
+     </div>
+     </div>
+     
+     <?php
+     if($ss['layout_type'] == 2) {
+          ?>
+          <div class="row">
+          <div class="col-md-12">
+          <div class="table-responsive pt-3" style="background-color: white;">
+          <table class="table table-hover table-striped" id="sortable">
+          <thead>
+          <tr>
+          <?php if(isset($_SESSION['isLoggedIn'])) { echo '<th></th>'; } ?>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Preacher</th>
+          <th>Description</th>
+          <th></th>
+          </tr>
+          </thead>
+         
+          <tfoot>
+          <tr>
+          <?php if(isset($_SESSION['isLoggedIn'])) { echo '<th></th>'; } ?>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Preacher</th>
+          <th>Description</th>
+          <th></th>
+          </tr>
+          </tfoot>
+     
+          <tbody>          
+          <?php
+          while($sm = $smn->fetch(PDO::FETCH_ASSOC)) {
+               ?>
+               <tr>
+               <?php
+               if(isset($_SESSION['isLoggedIn'])) {
+                    ?>
+                    <td>
+                    <div class="btn-group" role="group" aria-label="Controls">
+                    <button title="Edit Sermon" data-toggle="tooltip" type="button" class="btn btn-sm btn-default get_data" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal"><i class="fa fa-pencil"></i></button>
+                    <button title="Delete Sermon" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger get_datad" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal"><i class="fa fa-trash"></i></button>
+                    </div>
+                    </td>
+                    <?php
+               }
+               ?>
+               <td data-order="<?php echo date('Ymd', strtotime($sm['sermon_date'])) ?>"><?php echo date('M j Y', strtotime($sm['sermon_date'])) ?></td>
+               <td><?php echo stripslashes($sm['sermon_title']) ?></td>
+               <td><?php echo stripslashes($sm['sermon_preacher']) ?></td>
+               <td><?php echo stripslashes($sm['sermon_desc']) ?></td>
+               <td><a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="btn btn-sm btn-primary">Read More</a></td>
+               </tr>
+               <?php               
+          }
+          ?>
+          </tbody>
+          </table>
+          </div>
+          </div>
+          </div>
+          <?php
+     }               
+}
+
+if(isset($_POST['reset_sermons'])) {
+     ?>
+     <div class="row">
+     <div class="col-md-12">
+     <div class="card-deck">
+     
+     <?php     
+     $sset = $db->query("SELECT * FROM tbl_sermon_settings WHERE ss_id = 1");
+     $ss = $sset->fetch(PDO::FETCH_ASSOC);     
+     $r = 1;
+     $smn = $db->query("SELECT s_id, sermon_title, sermon_date, sermon_preacher, sermon_image, sermon_desc FROM tbl_sermons WHERE sermon_status = 1 ORDER BY sermon_date DESC LIMIT 20");
+     if($ss['layout_type'] == 1) {      
+          while($sm = $smn->fetch(PDO::FETCH_ASSOC)) {
+               if($r >= 5) {
+                    echo '</div><div class="card-deck">';
+                    $r = 1;
+               }               
+               if($sm['sermon_image'] == '') {
+                    $sermonimage = $gbl['site_url'] .'/ast/sermons/defaultimage.jpg';
+               } else {
+                    $sermonimage = $gbl['site_url'] .'/ast/sermons/'. $sm['sermon_image'];
+               }
+               ?>
+               <div class="card mb-4">
+               <div class="view overlay">
+               <img class="card-img-top hoverable mt-2" src="<?php echo $sermonimage ?>" alt="<?php echo $sm['sermon_title'] ?>" />
+               <a><div class="mask flex-center rgba-stylish-strong"></div></a>
+               </div>
+                              
+               <div class="card-body">
+               <h4 class="font-weight-bold card-title"><?php echo $sm['sermon_title'] ?></h4>
+               <h6 class="card-subtitle mb-2 text-muted"><?php echo date('F j Y', strtotime($sm['sermon_date'])) ?></h6>
+               <p class="card-text"><?php echo $sm['sermon_desc'] ?></p>
+               <a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="btn btn-elegant justify-content-end z-depth-2">See More <i class="fa fa-angle-double-right"></i></a>
+               <?php
+               if(isset($_SESSION['isLoggedIn'])) {
+                    ?>
+                    <button type="button" class="btn btn-info btn-sm get_data" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Edit</button>
+                    <button type="button" class="btn btn-danger btn-sm get_datad" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal">Delete</button>
+                    <?php
+               }
+               ?>
+               </div>
+               </div>
+               <?php
+               $r++;
+          }
+     }
+     ?>
+     </div>
+     </div>
+     </div>
+     
+     <?php
+     if($ss['layout_type'] == 2) {
+          ?>
+          <div class="row">
+          <div class="col-md-12">
+          <div class="table-responsive pt-3" style="background-color: white;">
+          <table class="table table-hover table-striped" id="sortable">
+          <thead>
+          <tr>
+          <?php if(isset($_SESSION['isLoggedIn'])) { echo '<th></th>'; } ?>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Preacher</th>
+          <th>Description</th>
+          <th></th>
+          </tr>
+          </thead>
+         
+          <tfoot>
+          <tr>
+          <?php if(isset($_SESSION['isLoggedIn'])) { echo '<th></th>'; } ?>
+          <th>Date</th>
+          <th>Title</th>
+          <th>Preacher</th>
+          <th>Description</th>
+          <th></th>
+          </tr>
+          </tfoot>
+     
+          <tbody>          
+          <?php
+          while($sm = $smn->fetch(PDO::FETCH_ASSOC)) {
+               ?>
+               <tr>
+               <?php
+               if(isset($_SESSION['isLoggedIn'])) {
+                    ?>
+                    <td>
+                    <div class="btn-group" role="group" aria-label="Controls">
+                    <button title="Edit Sermon" data-toggle="tooltip" type="button" class="btn btn-sm btn-default get_data" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal"><i class="fa fa-pencil"></i></button>
+                    <button title="Delete Sermon" data-toggle="tooltip" type="button" class="btn btn-sm btn-danger get_datad" data-id="<?php echo $sm['s_id'] ?>" data-toggle="modal" data-target="#sermon_editor_modal"><i class="fa fa-trash"></i></button>
+                    </div>
+                    </td>
+                    <?php
+               }
+               ?>
+               <td data-order="<?php echo date('Ymd', strtotime($sm['sermon_date'])) ?>"><?php echo date('M j Y', strtotime($sm['sermon_date'])) ?></td>
+               <td><?php echo stripslashes($sm['sermon_title']) ?></td>
+               <td><?php echo stripslashes($sm['sermon_preacher']) ?></td>
+               <td><?php echo stripslashes($sm['sermon_desc']) ?></td>
+               <td><a href="<?php echo $gbl['site_url'] .'/'. $parent .'/Sermon/&selected_id='. $sm['s_id'] ?>" class="btn btn-sm btn-primary">Read More</a></td>
+               </tr>
+               <?php               
+          }
+          ?>
+          </tbody>
+          </table>
+          </div>
+          </div>
+          </div>
+          <?php
+     }     
+}
+
+if(isset($_POST['view_sermon_text'])) {
+     $text = $db->query("SELECT sermon_text FROM tbl_sermons WHERE s_id = $_POST[s_id]");
+     $t = $text->fetch(PDO::FETCH_ASSOC);
+     echo stripslashes($t['sermon_text']);
+     die;     
+}
 
 if(isset($_POST['change_api'])) {
      $db->query("UPDATE tbl_sermon_settings SET esv_api = '$_POST[esv_api]' WHERE ss_id = 1");
@@ -31,7 +270,7 @@ if(isset($_POST['edit'])) {
      
      <div class="md-form">
      <input type="text" placeholder="Sermon Title" value="<?php echo $smn['sermon_title'] ?>" name="sermontitle" id="sermontitle" required="required" class="form-control" />
-     <label for="sermontitle">Sermon Title</label>
+     <label for="sermontitle" class="active">Sermon Title</label>
      </div>
 
      <div class="md-form">
@@ -41,23 +280,29 @@ if(isset($_POST['edit'])) {
     
      <div class="md-form">
      <input type="text" placeholder="Title First Last" value="<?php echo $smn['sermon_preacher'] ?>" name="sermonpreacher" id="sermonpreacher" required="required" class="form-control" />
-     <label for="sermonpreacher">Preacher</label>
+     <label for="sermonpreacher" class="active">Preacher</label>
      </div>
 
      <div class="md-form ui-front">
      <input type="text" placeholder="Book Chapter:Verses" value="<?php echo $smn['sermon_scripture'] ?>" name="sermonscripture" id="sermonscripture" required="required" class="form-control" autocomplete="off" />
-     <label for="sermonscripture">Scripture Passage</label>
+     <label for="sermonscripture" class="active">Scripture Passage</label>
      </div>
 
      <div class="md-form">
      <input type="text" placeholder="Description" value="<?php echo $smn['sermon_desc'] ?>" name="sermondesc" id="sermondesc" class="form-control" />
-     <label for="sermondesc">Description</label>
+     <label for="sermondesc" class="active">Description</label>
      <small class="form-text text-muted">This could be the Scripture reference, theme, or other information.</small>
      </div>
 
      <div class="md-form">
+     <input type="text" placeholder="Keywords" value="<?php echo $smn['sermon_keywords'] ?>" name="sermonkeywords" id="sermonkeywords" class="form-control" />
+     <label for="sermonkeywords" class="active">Keywords</label>
+     <small class="form-text text-muted">Separate each keyword with a comma.</small>
+     </div>
+
+     <div class="md-form">
      <textarea name="sermontext" id="sermontext" rows="5" class="md-textarea form-control" placeholder="Manuscript, Outline, etc."><?php echo stripslashes($smn['sermon_text']) ?></textarea>
-     <label for="sermontext">Sermon Text</label>
+     <label for="sermontext" class="active">Sermon Text</label>
      <small class="form-text text-muted">If you don't include a PDF file of your sermon, this could be another way of letting visitors read it.</small>
      </div>
      <hr />
@@ -172,11 +417,12 @@ if(isset($_POST['update_sermon'])) {
      $sermondate = date('Y-m-d', strtotime($_POST['sermondate']));
      $preacher = $db->quote($_POST['sermonpreacher']);
      $scripture = $db->quote($_POST['sermonscripture']);
+     $keywords = $db->quote($_POST['sermonkeywords']);
      $desc = $db->quote($_POST['sermondesc']);
      $text = $db->quote($_POST['sermontext']);
      $url = $_POST['embedurl'];
      
-     $db->exec("UPDATE tbl_sermons SET sermon_scripture = $scripture, sermon_title = $title, sermon_date = '$sermondate', sermon_preacher = $preacher, sermon_desc = $desc, sermon_text = $text, sermon_embed_url = '$url' WHERE s_id = $_POST[sid]");
+     $db->exec("UPDATE tbl_sermons SET sermon_keywords = $keywords, sermon_scripture = $scripture, sermon_title = $title, sermon_date = '$sermondate', sermon_preacher = $preacher, sermon_desc = $desc, sermon_text = $text, sermon_embed_url = '$url' WHERE s_id = $_POST[sid]");
      echo '<div class="alert alert-default">Sermon Updated.</div>';
 }
 
@@ -210,6 +456,12 @@ if(isset($_POST['new_sermon'])) {
      <label for="sermondesc">Description</label>
      <small class="form-text text-muted">This could be the Scripture reference, theme, or other information.</small>
      </div>
+     
+     <div class="md-form">
+     <input type="text" value="" name="sermonkeywords" id="sermonkeywords" class="form-control" />
+     <label for="sermonkeywords">Keywords</label>
+     <small class="form-text text-muted">Separate each keyword with a comma.</small>
+     </div>     
 
      <div class="md-form">
      <textarea name="sermontext" id="sermontext" rows="5" class="md-textarea form-control"></textarea>
@@ -315,12 +567,13 @@ if(isset($_POST['addnewsermon'])) {
      $title = $db->quote($_POST['sermontitle']);
      $sermondate = date('Y-m-d', strtotime($_POST['sermondate']));
      $preacher = $db->quote($_POST['sermonpreacher']);
+     $keywords = $db->quote($_POST['sermonkeywords']);
      $scripture = $db->quote($_POST['sermonscripture']);
      $desc = $db->quote($_POST['sermondesc']);
      $text = $db->quote($_POST['sermontext']);
      $url = $_POST['embedurl'];
      
-     $db->exec("INSERT INTO tbl_sermons (sermon_scripture, sermon_image, sermon_title, sermon_date, sermon_preacher, sermon_desc, sermon_text, sermon_audio_file, sermon_pdf_file, sermon_embed_url) VALUES ($scripture, '$imagefilename', $title, '$sermondate', $preacher, $desc, $text, '$audiofilename', '$pdffilename', '$url')");
+     $db->exec("INSERT INTO tbl_sermons (sermon_keywords, sermon_scripture, sermon_image, sermon_title, sermon_date, sermon_preacher, sermon_desc, sermon_text, sermon_audio_file, sermon_pdf_file, sermon_embed_url) VALUES ($keywords, $scripture, '$imagefilename', $title, '$sermondate', $preacher, $desc, $text, '$audiofilename', '$pdffilename', '$url')");
      echo '<div class="alert alert-primary">Sermon added successfully!</div>';
 }
 if(isset($_POST['search_form'])) {

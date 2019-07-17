@@ -111,6 +111,18 @@ select.cke_dialog_ui_input_select {
      display: block !important;
 }
 
+.cke_dialog_ui_radio_input {
+     position: relative !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;
+}
+
+.cke_dialog_ui_checkbox_input {
+     position: relative !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;
+}
+
 .form-select {
      display: block !important;
 }
@@ -125,6 +137,11 @@ select.cke_dialog_ui_input_select {
 
 .no-padding {
      padding: 0 !important;
+}
+
+.no-shadow {
+     box-shadow: none !important;
+     -webkit-box-shadow: none !important;     
 }
 
 .modal-puller {
@@ -148,6 +165,18 @@ select.cke_dialog_ui_input_select {
      background: #fff;
      border-radius: 5px 0 0 5px;
      z-index: 1000;
+}
+
+.modal-puller-3 {
+     position: fixed;
+     top: 200px;
+     right: 0;
+     margin-top: 16px;
+     width: 50px;
+     height: 50px;
+     background: #fff;
+     border-radius: 5px 0 0 5px;
+     z-index: 1000;     
 }
 
 .suffix {
