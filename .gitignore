@@ -1,6 +1,0 @@
-
-*.ph_
-ld/db.inc.php
-.htaccess
-*.bak
-**/ast
