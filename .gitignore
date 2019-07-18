@@ -1,8 +1,6 @@
 
 *.ph_
 ld/db.inc.php
-ld/db.inc.bak
-ld/db.inc.bak
 .htaccess
-.htaccess.bak
 *.bak
+**/ast

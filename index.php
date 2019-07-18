@@ -1,3 +1,1 @@
-<?php
-include 'ld/loader.php';
-?>
+<?php include 'ld/loader.php'; ?>
