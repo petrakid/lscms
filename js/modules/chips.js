@@ -1,311 +1,524 @@
 "use strict";
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 (function ($) {
-  $(document).ready(function () {
-    $(document).on('click', '.chip .close', function () {
-      var $this = $(this);
+  $(document).on('click', '.chip .close', function () {
+    var $this = $(this);
 
-      if ($this.closest('.chips').data('initialized')) {
-        return;
-      }
+    if ($this.closest('.chips').data('initialized')) {
+      return;
+    }
 
-      $this.closest('.chip').remove();
-    });
+    $this.closest('.chip').remove();
   });
 
-  $.fn.materialChip = function (options) {
-    var _this = this;
+  var MaterialChip =
+  /*#__PURE__*/
+  function () {
+    function MaterialChip(chips, options) {
+      _classCallCheck(this, MaterialChip);
 
-    this.$el = $(this);
-    this.$document = $(document);
-    this.eventsHandled = false;
-    this.defaultOptions = {
-      data: [],
-      placeholder: '',
-      secondaryPlaceholder: ''
-    };
-    this.selectors = {
-      chips: '.chips',
-      chip: '.chip',
-      input: 'input',
-      delete: '.fas',
-      selectedChip: '.selected'
-    };
-    this.keyCodes = {
-      enter: 13,
-      backspace: 8,
-      delete: 46,
-      arrowLeft: 37,
-      arrowRight: 39
-    };
-
-    if (options === 'data') {
-      return this.$el.data('chips');
+      this.chips = chips;
+      this.$document = $(document);
+      this.options = options;
+      this.eventsHandled = false;
+      this.ulWrapper = $('<ul class="chip-ul z-depth-1" tabindex="0"></ul>');
+      this.defaultOptions = {
+        data: [],
+        dataChip: [],
+        placeholder: '',
+        secondaryPlaceholder: ''
+      };
+      this.selectors = {
+        chips: '.chips',
+        chip: '.chip',
+        input: 'input',
+        delete: '.fas',
+        selectedChip: '.selected'
+      };
+      this.keyCodes = {
+        enter: 13,
+        backspace: 8,
+        delete: 46,
+        arrowLeft: 37,
+        arrowRight: 39,
+        comma: 188
+      };
+      this.init();
     }
 
-    if (options === 'options') {
-      return this.$el.data('options');
-    }
+    _createClass(MaterialChip, [{
+      key: "init",
+      value: function init() {
+        var _this = this;
 
-    this.$el.data('options', $.extend({}, this.defaultOptions, options));
+        this.optionsDataStatement();
+        this.assignOptions();
+        this.chips.each(function (index, element) {
+          var $this = $(element);
 
-    this.init = function () {
-      _this.$el.each(function (index, element) {
-        var $this = $(element);
+          if ($this.data('initialized')) {
+            return;
+          }
 
-        if ($this.data('initialized')) {
-          return;
+          var options = $this.data('options');
+
+          if (!options.data || !Array.isArray(options.data)) {
+            options.data = [];
+          }
+
+          $this.data('chips', options.data);
+          $this.data('index', index);
+          $this.data('initialized', true);
+          $this.attr('tabindex', 0);
+
+          if (!$this.hasClass(_this.selectors.chips)) {
+            $this.addClass('chips');
+          }
+
+          _this.renderChips($this);
+        });
+
+        if (!this.eventsHandled) {
+          this.handleEvents();
+          this.eventsHandled = true;
         }
 
-        var options = $this.data('options');
-
-        if (!options.data || !Array.isArray(options.data)) {
-          options.data = [];
+        return this;
+      }
+    }, {
+      key: "optionsDataStatement",
+      value: function optionsDataStatement() {
+        if (this.options === 'data') {
+          return this.chips.data('chips');
         }
 
-        $this.data('chips', options.data);
-        $this.data('index', index);
-        $this.data('initialized', true);
-
-        if (!$this.hasClass(_this.selectors.chips)) {
-          $this.addClass('chips');
+        if (this.options === 'options') {
+          return this.chips.data('options');
         }
 
-        _this.renderChips($this);
-      });
-    };
+        return true;
+      }
+    }, {
+      key: "assignOptions",
+      value: function assignOptions() {
+        this.chips.data('options', $.extend({}, this.defaultOptions, this.options));
+      }
+    }, {
+      key: "handleEvents",
+      value: function handleEvents() {
+        this.handleSelecorChips();
+        this.handleBlurInput();
+        this.handleSelectorChip();
+        this.handleDocumentKeyDown();
+        this.handleDocumentFocusIn();
+        this.handleDocumentFocusOut();
+        this.handleDocumentKeyDownChipsInput();
+        this.handleDocumentClickChipsDelete();
+        this.inputKeyDown();
+        this.renderedLiClick();
+        this.dynamicInputChanges();
+      }
+    }, {
+      key: "handleSelecorChips",
+      value: function handleSelecorChips() {
+        var _this2 = this;
 
-    this.handleEvents = function () {
-      var _this2 = this;
+        this.$document.on('click', this.selectors.chips, function (e) {
+          return $(e.target).find(_this2.selectors.input).focus().addClass('active');
+        });
+      }
+    }, {
+      key: "handleBlurInput",
+      value: function handleBlurInput() {
+        var _this3 = this;
 
-      this.$document.on('click', this.selectors.chips, function (e) {
-        $(e.target).find(_this2.selectors.input).focus();
-      });
-      this.$document.on('click', this.selectors.chip, function (e) {
-        $(_this2.selectors.chip).removeClass('selected');
-        $(e.target).addClass('selected');
-      });
-      this.$document.on('keydown', function (e) {
-        if ($(e.target).is('input, textarea')) {
-          return;
+        this.$document.on('blur', this.selectors.chips, function (e) {
+          setTimeout(function () {
+            return _this3.ulWrapper.removeClass('active').hide();
+          }, 100);
+          $(e.target).removeClass('active');
+          $('.chip.selected').removeClass('selected');
+        });
+      }
+    }, {
+      key: "handleSelectorChip",
+      value: function handleSelectorChip() {
+        this.chips.on('click', '.chip', function () {
+          $('.chip.selected').not(this).removeClass('selected');
+          $(this).toggleClass('selected');
+        });
+      }
+    }, {
+      key: "handleDocumentKeyDown",
+      value: function handleDocumentKeyDown() {
+        var _this4 = this;
+
+        this.chips.on('keydown', function (e) {
+          var $selectedChip = _this4.$document.find(_this4.selectors.chip + _this4.selectors.selectedChip);
+
+          var $chipsWrapper = $selectedChip.closest(_this4.selectors.chips);
+          var siblingsLength = $selectedChip.siblings(_this4.selectors.chip).length;
+
+          if (!$selectedChip.length) {
+            return;
+          }
+
+          var backspacePressed = e.which === _this4.keyCodes.backspace;
+          var deletePressed = e.which === _this4.keyCodes.delete;
+          var leftArrowPressed = e.which === _this4.keyCodes.arrowLeft;
+          var rightArrowPressed = e.which === _this4.keyCodes.arrowRight;
+
+          if (backspacePressed || deletePressed) {
+            e.preventDefault();
+
+            _this4.deleteSelectedChip($chipsWrapper, $selectedChip, siblingsLength);
+          } else if (leftArrowPressed) {
+            _this4.selectLeftChip($chipsWrapper, $selectedChip);
+          } else if (rightArrowPressed) {
+            _this4.selectRightChip($chipsWrapper, $selectedChip, siblingsLength);
+          }
+        });
+      }
+    }, {
+      key: "handleDocumentFocusIn",
+      value: function handleDocumentFocusIn() {
+        var _this5 = this;
+
+        var $chipsInput;
+        var $chips = this.chips;
+
+        if ($chips.hasClass('chips-autocomplete')) {
+          $chipsInput = $chips.children().children('input');
+        } else {
+          $chipsInput = $chips.children('input');
         }
 
-        var $selectedChip = _this2.$document.find(_this2.selectors.chip + _this2.selectors.selectedChip);
+        $chipsInput.on('click', function (e) {
+          var $target = $(e.target);
+          $target.closest(_this5.selectors.chips).addClass('focus');
+          $(_this5.selectors.chip).removeClass('selected');
+          $target.addClass('active');
+        });
+      }
+    }, {
+      key: "handleDocumentFocusOut",
+      value: function handleDocumentFocusOut() {
+        var _this6 = this;
 
-        var $chipsWrapper = $selectedChip.closest(_this2.selectors.chips);
-        var siblingsLength = $selectedChip.siblings(_this2.selectors.chip).length;
+        this.chips.on('focusout', 'input', function (e) {
+          return $(e.target).closest(_this6.selectors.chips).removeClass('focus');
+        });
+      }
+    }, {
+      key: "handleDocumentKeyDownChipsInput",
+      value: function handleDocumentKeyDownChipsInput() {
+        var _this7 = this;
 
-        if (!$selectedChip.length) {
-          return;
+        this.chips.on('keydown', 'input', function (e) {
+          var $target = $(e.target);
+          var $chips = _this7.chips;
+          var $chipsWrapper = $target.closest(_this7.selectors.chips);
+          var chipsIndex = $chipsWrapper.data('index');
+          var chipsLength = $chipsWrapper.children(_this7.selectors.chip).length;
+          var enterPressed = e.which === _this7.keyCodes.enter;
+          var commaPressed = e.which === _this7.keyCodes.comma;
+          var leftArrowPressed = e.which === _this7.keyCodes.arrowLeft;
+          var backspacePressed = e.which === _this7.keyCodes.backspace;
+
+          if ((enterPressed || commaPressed) && !_this7.ulWrapper.find('li').hasClass('selected')) {
+            e.preventDefault();
+
+            _this7.addChip(chipsIndex, {
+              tag: $target.val()
+            }, $chipsWrapper);
+
+            $target.val('');
+            return;
+          }
+
+          var leftArrowOrDeletePressed = e.keyCode === _this7.keyCodes.arrowLeft || e.keyCode === _this7.keyCodes.delete;
+          var isValueEmpty = $target.val() === '';
+
+          if (leftArrowOrDeletePressed && isValueEmpty && chipsLength) {
+            _this7.selectChip(chipsIndex, chipsLength - 1, $chipsWrapper);
+          }
+
+          if (isValueEmpty && $(_this7.selectors.input).hasClass('active')) {
+            if (leftArrowPressed) {
+              _this7.selectChip(chipsIndex, chipsLength - 1, $chipsWrapper);
+            }
+          } else {
+            $chips.find('.chip').removeClass('selected');
+          }
+
+          var $thisChips = $chips.find('.chip-position-wrapper').children('.chip');
+          var $thisChipsLast = $chips.find('.chip-position-wrapper .chip').last().index();
+
+          if (isValueEmpty && backspacePressed && (!$thisChips.hasClass('selected') || !$chips.find('.chip').hasClass('selected')) && $chips.hasClass('chips') && !$chips.hasClass('chips-initial') && !$chips.hasClass('chips-placeholder')) {
+            _this7.deleteChip($chipsWrapper.data('index'), $thisChipsLast, $chipsWrapper);
+          }
+
+          if (isValueEmpty && backspacePressed && !$chips.find('.chip').hasClass('selected') && $chips.hasClass('chips') && ($chips.hasClass('chips-initial') || $chips.hasClass('chips-placeholder'))) {
+            _this7.deleteChip($chipsWrapper.data('index'), $thisChipsLast, $chipsWrapper);
+          }
+        });
+      }
+    }, {
+      key: "handleDocumentClickChipsDelete",
+      value: function handleDocumentClickChipsDelete() {
+        var _this8 = this;
+
+        this.chips.on('click', '.chip .fas', function (e) {
+          var $target = $(e.target);
+          var $chip = $target.parent($(_this8.chips));
+          var $chipsWrapper;
+
+          if ($chip.parents().eq(1).hasClass('chips-autocomplete')) {
+            $chipsWrapper = $chip.parents().eq(1);
+          } else if (!$chip.parent().hasClass('chips-autocomplete') && !$chip.parents().eq(1).hasClass('chips-autocomplete')) {
+            $chipsWrapper = $chip.parents().eq(0);
+          } else if ($chip.parent().hasClass('chips-initial') && $chip.parent().hasClass('chips-autocomplete')) {
+            $chipsWrapper = $chip.parents().eq(0);
+          }
+
+          _this8.deleteChip($chipsWrapper.data('index'), $chip.index(), $chipsWrapper);
+
+          $chipsWrapper.find('input').focus();
+        });
+      }
+    }, {
+      key: "inputKeyDown",
+      value: function inputKeyDown() {
+        var _this9 = this;
+
+        var $ulWrapper = this.ulWrapper;
+        var dataChip = this.options.dataChip;
+        var $thisChips = this.chips;
+        var $input = $thisChips.children('.chip-position-wrapper').children('input');
+        $input.on('keyup', function (e) {
+          var $inputValue = $input.val();
+          $ulWrapper.empty();
+
+          if ($inputValue.length) {
+            for (var item in dataChip) {
+              if (dataChip[item].toLowerCase().includes($inputValue.toLowerCase())) {
+                $thisChips.children('.chip-position-wrapper').append($ulWrapper.append($("<li>".concat(dataChip[item], "</li>"))));
+              }
+            }
+          }
+
+          if (e.which === _this9.keyCodes.enter) {
+            $ulWrapper.empty();
+            $ulWrapper.remove();
+          }
+
+          $inputValue.length === 0 ? $ulWrapper.removeClass('active').hide() : $ulWrapper.addClass('active').show();
+        });
+      }
+    }, {
+      key: "dynamicInputChanges",
+      value: function dynamicInputChanges() {
+        var dataChip = this.options.dataChip;
+
+        if (dataChip !== undefined) {
+          this.chips.children('.chip-position-wrapper').children('input').on('change', function (e) {
+            var $targetVal = $(e.target).val();
+
+            if (!dataChip.includes($targetVal)) {
+              dataChip.push($targetVal);
+              dataChip.sort();
+            }
+          });
         }
+      }
+    }, {
+      key: "renderedLiClick",
+      value: function renderedLiClick() {
+        var _this10 = this;
 
-        var backspacePressed = e.which === _this2.keyCodes.backspace;
-        var deletePressed = e.which === _this2.keyCodes.delete;
-        var leftArrowPressed = e.which === _this2.keyCodes.arrowLeft;
-        var rightArrowPressed = e.which === _this2.keyCodes.arrowRight;
-
-        if (backspacePressed || deletePressed) {
+        this.chips.on('click', 'li', function (e) {
           e.preventDefault();
+          var $target = $(e.target);
+          var $chipsWrapper = $target.closest($(_this10.selectors.chips));
+          var chipsIndex = $chipsWrapper.data('index');
 
-          _this2.deleteSelectedChip($chipsWrapper, $selectedChip, siblingsLength);
-        } else if (leftArrowPressed) {
-          _this2.selectLeftChip($chipsWrapper, $selectedChip);
-        } else if (rightArrowPressed) {
-          _this2.selectRightChip($chipsWrapper, $selectedChip, siblingsLength);
-        }
-      });
-      this.$document.on('focusin', "".concat(this.selectors.chips, " ").concat(this.selectors.input), function (e) {
-        $(e.target).closest(_this2.selectors.chips).addClass('focus');
-        $(_this2.selectors.chip).removeClass('selected');
-      });
-      this.$document.on('focusout', "".concat(this.selectors.chips, " ").concat(this.selectors.input), function (e) {
-        $(e.target).closest(_this2.selectors.chips).removeClass('focus');
-      });
-      this.$document.on('keydown', "".concat(this.selectors.chips, " ").concat(this.selectors.input), function (e) {
-        var $target = $(e.target);
-        var $chipsWrapper = $target.closest(_this2.selectors.chips);
-        var chipsIndex = $chipsWrapper.data('index');
-        var chipsLength = $chipsWrapper.children(_this2.selectors.chip).length;
-        var enterPressed = e.which === _this2.keyCodes.enter;
-
-        if (enterPressed) {
-          e.preventDefault();
-
-          _this2.addChip(chipsIndex, {
-            tag: $target.val()
+          _this10.addChip(chipsIndex, {
+            tag: $target.text()
           }, $chipsWrapper);
 
-          $target.val('');
+          _this10.chips.children('.chip-position-wrapper').children('input').val('');
+
+          _this10.ulWrapper.remove();
+        });
+      }
+    }, {
+      key: "deleteSelectedChip",
+      value: function deleteSelectedChip($chipsWrapper, $selectedChip, siblingsLength) {
+        var chipsIndex = $chipsWrapper.data('index');
+        var chipIndex = $selectedChip.index();
+        this.deleteChip(chipsIndex, chipIndex, $chipsWrapper);
+        var selectIndex = null;
+
+        if (chipIndex < siblingsLength - 1) {
+          selectIndex = chipIndex;
+        } else if (chipIndex === siblingsLength || chipIndex === siblingsLength - 1) {
+          selectIndex = siblingsLength - 1;
+        }
+
+        if (selectIndex < 0) {
+          selectIndex = null;
+        }
+
+        if (selectIndex !== null) {
+          this.selectChip(chipsIndex, selectIndex, $chipsWrapper);
+        }
+
+        if (!siblingsLength) {
+          $chipsWrapper.find('input').focus();
+        }
+      }
+    }, {
+      key: "selectLeftChip",
+      value: function selectLeftChip($chipsWrapper, $selectedChip) {
+        var chipIndex = $selectedChip.index() - 1;
+
+        if (chipIndex < 0) {
           return;
         }
 
-        var leftArrowOrDeletePressed = e.keyCode === _this2.keyCodes.arrowLeft || e.keyCode === _this2.keyCodes.delete;
-        var isValueEmpty = $target.val() === '';
+        $(this.selectors.chip).removeClass('selected');
+        this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
+      }
+    }, {
+      key: "selectRightChip",
+      value: function selectRightChip($chipsWrapper, $selectedChip, siblingsLength) {
+        var chipIndex = $selectedChip.index() + 1;
+        $(this.selectors.chip).removeClass('selected');
 
-        if (leftArrowOrDeletePressed && isValueEmpty && chipsLength) {
-          _this2.selectChip(chipsIndex, chipsLength - 1, $chipsWrapper);
-
-          $target.blur();
+        if (chipIndex > siblingsLength) {
+          $chipsWrapper.find('input').focus();
+          return;
         }
-      });
-      this.$document.on('click', "".concat(this.selectors.chips, " ").concat(this.selectors.delete), function (e) {
-        var $target = $(e.target);
-        var $chipsWrapper = $target.closest(_this2.selectors.chips);
-        var $chip = $target.closest(_this2.selectors.chip);
-        e.stopPropagation();
 
-        _this2.deleteChip($chipsWrapper.data('index'), $chip.index(), $chipsWrapper);
-
-        $chipsWrapper.find('input').focus();
-      });
-    };
-
-    this.deleteSelectedChip = function ($chipsWrapper, $selectedChip, siblingsLength) {
-      var chipsIndex = $chipsWrapper.data('index');
-      var chipIndex = $selectedChip.index();
-
-      _this.deleteChip(chipsIndex, chipIndex, $chipsWrapper);
-
-      var selectIndex = null;
-
-      if (chipIndex < siblingsLength - 1) {
-        selectIndex = chipIndex;
-      } else if (chipIndex === siblingsLength || chipIndex === siblingsLength - 1) {
-        selectIndex = siblingsLength - 1;
+        this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
       }
+    }, {
+      key: "renderChips",
+      value: function renderChips($chipsWrapper) {
+        var _this11 = this;
 
-      if (selectIndex < 0) {
-        selectIndex = null;
+        var html = '';
+        $chipsWrapper.data('chips').forEach(function (elem) {
+          html += _this11.getSingleChipHtml(elem);
+        });
+
+        if ($chipsWrapper.hasClass('chips-autocomplete')) {
+          html += '<span class="chip-position-wrapper position-relative"><input class="input" placeholder=""></span>';
+        } else {
+          html += '<input class="input" placeholder="">';
+        }
+
+        $chipsWrapper.html(html);
+        this.setPlaceholder($chipsWrapper);
       }
+    }, {
+      key: "getSingleChipHtml",
+      value: function getSingleChipHtml(elem) {
+        if (!elem.tag) {
+          return '';
+        }
 
-      if (selectIndex !== null) {
-        _this.selectChip(chipsIndex, selectIndex, $chipsWrapper);
+        var html = "<div class=\"chip\">".concat(elem.tag);
+
+        if (elem.image) {
+          html += " <img src=\"".concat(elem.image, "\"> ");
+        }
+
+        html += '<i class="close fas fa-times"></i>';
+        html += '</div>';
+        return html;
       }
+    }, {
+      key: "setPlaceholder",
+      value: function setPlaceholder($chips) {
+        var options = $chips.data('options');
 
-      if (!siblingsLength) {
-        $chipsWrapper.find('input').focus();
-      }
-    };
-
-    this.selectLeftChip = function ($chipsWrapper, $selectedChip) {
-      var chipIndex = $selectedChip.index() - 1;
-
-      if (chipIndex < 0) {
-        return;
-      }
-
-      $(_this.selectors.chip).removeClass('selected');
-
-      _this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
-    };
-
-    this.selectRightChip = function ($chipsWrapper, $selectedChip, siblingsLength) {
-      var chipIndex = $selectedChip.index() + 1;
-      $(_this.selectors.chip).removeClass('selected');
-
-      if (chipIndex > siblingsLength) {
-        $chipsWrapper.find('input').focus();
-        return;
-      }
-
-      _this.selectChip($chipsWrapper.data('index'), chipIndex, $chipsWrapper);
-    };
-
-    this.renderChips = function ($chipsWrapper) {
-      var html = '';
-      $chipsWrapper.data('chips').forEach(function (elem) {
-        html += _this.getSingleChipHtml(elem);
-      });
-      html += '<input class="input" placeholder="">';
-      $chipsWrapper.html(html);
-
-      _this.setPlaceholder($chipsWrapper);
-    };
-
-    this.getSingleChipHtml = function (elem) {
-      if (!elem.tag) {
-        return '';
-      }
-
-      var html = "<div class=\"chip\">".concat(elem.tag);
-
-      if (elem.image) {
-        html += " <img src=\"".concat(elem.image, "\"> ");
-      }
-
-      html += '<i class="close fas fa-times"></i>';
-      html += '</div>';
-      return html;
-    };
-
-    this.setPlaceholder = function ($chips) {
-      var options = $chips.data('options');
-
-      if ($chips.data('chips').length && options.placeholder) {
-        $chips.find('input').prop('placeholder', options.placeholder);
-      } else if (!$chips.data('chips').length && options.secondaryPlaceholder) {
-        $chips.find('input').prop('placeholder', options.secondaryPlaceholder);
-      }
-    };
-
-    this.isValid = function ($chipsWrapper, elem) {
-      var chips = $chipsWrapper.data('chips');
-
-      for (var i = 0; i < chips.length; i++) {
-        if (chips[i].tag === elem.tag) {
-          return false;
+        if ($chips.data('chips').length && options.placeholder) {
+          $chips.find('input').prop('placeholder', options.placeholder);
+        } else if (!$chips.data('chips').length && options.secondaryPlaceholder) {
+          $chips.find('input').prop('placeholder', options.secondaryPlaceholder);
         }
       }
+    }, {
+      key: "isValid",
+      value: function isValid($chipsWrapper, elem) {
+        var chips = $chipsWrapper.data('chips');
 
-      return elem.tag !== '';
-    };
+        for (var i = 0; i < chips.length; i++) {
+          if (chips[i].tag === elem.tag) {
+            return false;
+          }
+        }
 
-    this.addChip = function (chipsIndex, elem, $chipsWrapper) {
-      if (!_this.isValid($chipsWrapper, elem)) {
-        return;
+        return elem.tag !== '';
       }
+    }, {
+      key: "addChip",
+      value: function addChip(chipsIndex, elem, $chipsWrapper) {
+        if (!this.isValid($chipsWrapper, elem)) {
+          return;
+        }
 
-      var chipHtml = _this.getSingleChipHtml(elem);
+        var $chipHtml = $(this.getSingleChipHtml(elem));
+        $chipsWrapper.data('chips').push(elem);
 
-      $chipsWrapper.data('chips').push(elem);
-      $(chipHtml).insertBefore($chipsWrapper.find('input'));
-      $chipsWrapper.trigger('chip.add', elem);
+        if ($chipsWrapper.hasClass('chips-autocomplete') && $chipsWrapper.hasClass('chips-initial') && $chipsWrapper.find('.chip').length > 0) {
+          $chipHtml.insertAfter($chipsWrapper.find('.chip').last());
+        } else {
+          $chipHtml.insertBefore($chipsWrapper.find('input'));
+        }
 
-      _this.setPlaceholder($chipsWrapper);
-    };
-
-    this.deleteChip = function (chipsIndex, chipIndex, $chipsWrapper) {
-      var chip = $chipsWrapper.data('chips')[chipIndex];
-      $chipsWrapper.find('.chip').eq(chipIndex).remove();
-      $chipsWrapper.data('chips').splice(chipIndex, 1);
-      $chipsWrapper.trigger('chip.delete', chip);
-
-      _this.setPlaceholder($chipsWrapper);
-    };
-
-    this.selectChip = function (chipsIndex, chipIndex, $chipsWrapper) {
-      var $chip = $chipsWrapper.find('.chip').eq(chipIndex);
-
-      if ($chip && $chip.hasClass('selected') === false) {
-        $chip.addClass('selected');
-        $chipsWrapper.trigger('chip.select', $chipsWrapper.data('chips')[chipIndex]);
+        $chipsWrapper.trigger('chip.add', elem);
+        this.setPlaceholder($chipsWrapper);
       }
-    };
+    }, {
+      key: "deleteChip",
+      value: function deleteChip(chipsIndex, chipIndex, $chipsWrapper) {
+        var chip = $chipsWrapper.data('chips')[chipIndex];
+        $chipsWrapper.find('.chip').eq(chipIndex).remove();
+        $chipsWrapper.data('chips').splice(chipIndex, 1);
+        $chipsWrapper.trigger('chip.delete', chip);
+        this.setPlaceholder($chipsWrapper);
+      }
+    }, {
+      key: "selectChip",
+      value: function selectChip(chipsIndex, chipIndex, $chipsWrapper) {
+        var $chip = $chipsWrapper.find('.chip').eq(chipIndex);
 
-    this.getChipsElement = function (index, $chipsWrapper) {
-      return $chipsWrapper.eq(index);
-    };
+        if ($chip && $chip.hasClass('selected') === false) {
+          $chip.addClass('selected');
+          $chipsWrapper.trigger('chip.select', $chipsWrapper.data('chips')[chipIndex]);
+        }
+      }
+    }, {
+      key: "getChipsElement",
+      value: function getChipsElement(index, $chipsWrapper) {
+        return $chipsWrapper.eq(index);
+      }
+    }]);
 
-    this.init();
+    return MaterialChip;
+  }();
 
-    if (!this.eventsHandled) {
-      this.handleEvents();
-      this.eventsHandled = true;
-    }
-
-    return this;
-  }; // Deprecated. To be deleted in future releases
-
-
-  $.fn.material_chip = $.fn.materialChip;
+  $.fn.materialChip = function (options) {
+    return this.each(function () {
+      new MaterialChip($(this), options);
+    });
+  };
 })(jQuery);

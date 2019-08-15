@@ -27,6 +27,7 @@ if(isset($_POST['edit_e_subscriber'])) {
      $sb = $sub->fetch(PDO::FETCH_ASSOC);
      ?>
      <form>
+     <input type="hidden" name="slist_id" id="slist_id" value="<?php echo $sb['subscriber_list_id'] ?>" />
      <input type="hidden" name="sub_id" id="sub_id" value="<?php echo $sb['s_id'] ?>" />
      <b>Subscriber Name</b><br />
      <input type="text" name="sub_name" id="sub_name" value="<?php echo $sb['subscriber_name'] ?>" class="form-control" /><br /><br />
@@ -49,18 +50,18 @@ if(isset($_POST['save_e_subscriber'])) {
 
 
 if(isset($_POST['delete_subscriber'])) {
-     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0 WHERE s_id = $_POST[s_id] AND subscriber_list_id = $_POST[l_id]");
+     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE s_id = '$_POST[s_id]' AND subscriber_list_id = '$_POST[l_id]'");
      echo 'Subscriber Removed from this list.';
 }
 
 if(isset($_POST['delete_e_subscriber'])) {
-     $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0 WHERE s_id = $_POST[s_id]");
+     $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE s_id = $_POST[s_id]");
      echo 'Subscriber Removed from this list.';
 }
 
 if(isset($_POST['delete_list'])) {
      $db->exec("UPDATE tbl_mailing_lists SET list_status = 0 WHERE l_id = $_POST[mail_list_id]");
-     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0 WHERE subscriber_list_id = $_POST[mail_list_id]");
+     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE subscriber_list_id = $_POST[mail_list_id]");
      $db->exec("UPDATE tbl_mailings SET mailing_status = 9 WHERE mailing_list_id = $_POST[mail_list_id]");
      echo 'List deleted successfully and subscribers removed.  All mailings for the list have been disabled.';
 }
@@ -68,11 +69,11 @@ if(isset($_POST['delete_list'])) {
 if(isset($_POST['publish'])) {
      $sql = 'INSERT INTO tbl_mailings (mailing_subject, mailing_date, mailing_list_id, mailing_creator, mailing_status, mailing_content) VALUES (:subject, :date, :list, :creator, 1, :content)';
      $sqld = $db->prepare($sql);
-     $sqld->bindValue(':subject', $db->quote($_POST['m_subject']));
+     $sqld->bindValue(':subject', addslashes($_POST['m_subject']));
      $sqld->bindValue(':date', date('Y-m-d', strtotime($_POST['m_date'])));
      $sqld->bindValue(':list', $_POST['m_list']);
      $sqld->bindValue(':creator', $db->quote($_SESSION['user']['username']));
-     $sqld->bindValue(':content', $db->quote($_POST['m_content']));
+     $sqld->bindValue(':content', addslashes($_POST['m_content']));
      if($sqld->execute()) {
           // we need to send the email, so we grab all the subscribers from this list, along with the content of the email, and send it to a function
           $sub = $db->query("SELECT * FROM tbl_mailing_subscribers WHERE subscriber_list_id = '$_POST[m_list]'");
@@ -94,8 +95,8 @@ if(isset($_POST['schedule'])) {
      $date = date('Y-m-d', strtotime($_POST['m_date']));
      $content = $db->quote($_POST['m_content']);
      $status = 2;
-     //$db->exec("INSERT INTO tbl_mailings (mailing_subject, mailing_date, mailing_list_id, mailing_creator, mailing_status, mailing_content) VALUES (". $subject .", '$date', '$list', '". $_SESSION['user']['username'] ."', '$status', ". $content .")");     
-     echo 'The Mailing has been scheduled and will be sent at midnight on the date you selected.';
+     $db->exec("INSERT INTO tbl_mailings (mailing_subject, mailing_date, mailing_list_id, mailing_creator, mailing_status, mailing_content) VALUES (". $subject .", '$date', '$list', '". $_SESSION['user']['username'] ."', '$status', ". $content .")");     
+     echo 'The Mailing has been scheduled and will be sent on the date you selected.';
 }
 
 if(isset($_POST['save'])) {
@@ -104,7 +105,7 @@ if(isset($_POST['save'])) {
      $date = date('Y-m-d', strtotime($_POST['m_date']));
      $content = $db->quote($_POST['m_content']);
      $status = 0;
-     //$db->exec("INSERT INTO tbl_mailings (mailing_subject, mailing_date, mailing_list_id, mailing_creator, mailing_status, mailing_content) VALUES (". $subject .", '$date', '$list', '". $_SESSION['user']['username'] ."', '$status', ". $content .")");     
+     $db->exec("INSERT INTO tbl_mailings (mailing_subject, mailing_date, mailing_list_id, mailing_creator, mailing_status, mailing_content) VALUES (". $subject .", '$date', '$list', '". $_SESSION['user']['username'] ."', '$status', ". $content .")");     
      echo 'Your Mailing has been saved as a draft and can be found in the Archive.';
 }
 
@@ -143,7 +144,7 @@ if(isset($_POST['edit_mailer'])) {
           <b>Mailing Date</b><br />
           <div class="col-sm-4">
           <div class='input-group date' id='edatetimepicker<?php echo $eml['m_id'] ?>'>
-          <input type="text" name="em_date" id="em_date" value="<?php echo date('M/j/Y', strtotime($eml['mailing_date'])) ?>" onblur="theDate()" onemptied="theDate()" class="form-control datepicker" required="required" />
+          <input type="date" name="em_date" id="em_date" value="<?php echo $eml['mailing_date'] ?>" onblur="theDate()" onemptied="theDate()" class="form-control datepicker" required="required" />
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
           </div>
           </div><br /><br />
@@ -171,7 +172,7 @@ if(isset($_POST['save_mailer'])) {
           $status = 3;
      }
      
-     //$db->exec("UPDATE tbl_mailings SET mailing_subject = ". $subject .", mailing_date = '$date', mailing_list_id = '$list', mailing_status = '$status', mailing_content = ". $content ." WHERE m_id = $_POST[mailer_id]");     
+     $db->exec("UPDATE tbl_mailings SET mailing_subject = ". $subject .", mailing_date = '$date', mailing_list_id = '$list', mailing_status = '$status', mailing_content = ". $content ." WHERE m_id = $_POST[mailer_id]");     
      switch($status) {
           case 0:
                echo 'Mailer changed to Draft';
@@ -248,37 +249,25 @@ if(isset($_POST['save_list_settings'])) {
      echo 'Settings for this List have been updated';
 }
 
-//public unsubscribes
-if(isset($_POST['unsubscribelist'])) {
-     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0 WHERE subscriber_list_id = $_POST[listid] AND s_id = $_POST[subid]");
-     ?>
-     <div class="card-header"><h4 class="card-title">Success!</h4></div>
-     <div class="card-body">You have been unsubscribed from the selected mailing list.  You may now close this window.</div>
-     <?php
-}
-
 if(isset($_POST['unsubscribeeverything'])) {
-     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0 WHERE subscriber_email = '$_POST[emailaddress]'");
-     $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0 WHERE subscriber_email = '$_POST[emailaddress]'");
+     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE subscriber_email = '$_POST[emailaddress]'");
+     $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE subscriber_email = '$_POST[emailaddress]'");
      echo '<div class="card-header"><h4 class="card-title">Success!</h4></div>
      <div class="card-body">You have been unsubscribed from ALL lists!</div>';     
 }
 
 if(isset($_POST['unsubscribeselect'])) {
      if(in_array('9999', $_POST['mylist'])) {
-          $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0 WHERE subscriber_email = '$_POST[emailaddress]'");
-          if(($key = array_search('9999', $_POST['mylist'])) !== false) {
-               unset($_POST['mylist'][$key]);
-          }
+          $db->exec("UPDATE tbl_calendars_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE subscriber_email = '$_POST[emailaddress]'");
      }
      $sql = $db->query("SELECT s_id FROM tbl_mailing_subscribers WHERE subscriber_email = '$_POST[emailaddress]'");
      if($sql->rowCount() < 1) {
-          echo '<div class="card-header"><h4 class="card-title">Success!</h4></div>
+          echo '<div class="card-header"><h4 class="card-title">Notice...</h4></div>
           <div class="card-body">Your email address is not subscribed to any lists.</div>';
           die;
      }
      foreach($_POST['mylist'] AS $val) {
-          $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0 WHERE subscriber_email = '$_POST[emailaddress]' AND subscriber_list_id = $val");
+          $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 0, unsubscribe_date = now() WHERE subscriber_email = '$_POST[emailaddress]' AND subscriber_list_id = $val");
      }
      echo '<div class="card-header"><h4 class="card-title">Success!</h4></div>
      <div class="card-body">You have been unsubscribed from the selected list(s).</div>';
@@ -308,19 +297,19 @@ if(isset($_POST['subscribeme'])) {
           if($_POST['mylist'][$i] == 9999) {
                $sql = $db->query("SELECT s_id FROM tbl_calendars_subscribers WHERE subscriber_email = '$_POST[myemail]' AND subscriber_status = 1");
                if($sql->rowCount() == 0) {
-                    $db->exec("INSERT INTO tbl_calendars_subscribers (subscriber_email, subscriber_date, subscriber_ip, subscriber_fwd_addr, subscriber_meta) VALUES ('$_POST[myemail]', now(), '$ipaddress', '$fwdip', '$metadata')");
+                    $db->exec("INSERT INTO tbl_calendars_subscribers (subscriber_email, subscriber_date, subscriber_ip, subscriber_fwd_addr, subscriber_meta, subscriber_name) VALUES ('$_POST[myemail]', now(), '$ipaddress', '$fwdip', '$metadata', ". $db->quote($_POST['myname']) .")");
                }
           } else {
-               $sql = $db->query("SELECT s_id FROM tbl_mailing_subscribers WHERE subscriber_list_id = ". $_POST['mylist'][$i] ." AND subscriber_email = '$_POST[myemail]'");
+               $sql = $db->query("SELECT s_id FROM tbl_mailing_subscribers WHERE subscriber_list_id = '". $_POST['mylist'][$i] ."' AND subscriber_email = '$_POST[myemail]'");
                $cnt = $sql->rowCount();
                if($cnt > 0) {
                     $db->exec("UPDATE tbl_mailing_subscribers SET subscriber_status = 1 WHERE subscriber_list_id = ". $_POST['mylist'][$i] ." AND subscriber_email = '$_POST[myemail]'");
                } else {
-                    $db->exec("INSERT INTO tbl_mailing_subscribers (subscriber_name, subscriber_email, subscriber_list_id, subscriber_status, subscriber_ip, subscriber_metadata, subscriber_fwd_ip) VALUES (". $db->quote($_POST['myname']) .", '$_POST[myemail]', ". $_POST['mylist'][$i] .", 1, '$ipaddress', '$metadata', '$fwdip')");
+                    $db->exec("INSERT INTO tbl_mailing_subscribers (subscriber_name, subscriber_email, subscriber_list_id, subscriber_status, subscriber_ip, subscriber_metadata, subscriber_fwd_ip, subscriber_date) VALUES (". $db->quote($_POST['myname']) .", '$_POST[myemail]', '". $_POST['mylist'][$i] ."', '1', '$ipaddress', '$metadata', '$fwdip', now())");
                }
           }
      }
-     echo '<div class="alert alert-success">You have been subscribed to your selected lists.</div>'."\n";     
+     echo '<br /><br /><div class="alert alert-success">You have been subscribed to your selected lists.</div>'."\n";     
 }
 
 function sendMailer($subs, $sets, $post)

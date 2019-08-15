@@ -196,38 +196,7 @@ function updateBlock(f, v, b)
           }
      })
 }
-function viewHistoric(histid)
-{
-     $.ajax({
-          url: '<?php echo $gbl['site_url'] ?>/plg/editor/ajax.php',
-          type: 'POST',
-          data: {
-               'view_historic': 1,
-               'b_id': histid
-          },
-          success: function(data) {
-               $('#histcontent').html(data);
-               $('#historyModal').modal('show');
-          }
-     })
-}
-function enableHistoric(histid)
-{
-     $.ajax({
-          url: '<?php echo $gbl['site_url'] ?>/plg/editor/ajax.php',
-          type: 'POST',
-          data: {
-               'restore_historic': 1,
-               'hist_id': histid,
-          },
-          success: function(data) {
-               toastr.success('Historic Version restored successfully!', 'Completed!');
-               setTimeout(function() {
-                    window.location.reload()
-               }, 2000)
-          }
-     })
-}
+
 function updateTest()
 {
      trans = $('#transparent').val();
@@ -250,25 +219,6 @@ function makeMenuLink(mname)
      $('#menu_link').val(mlink);     
 }
 </script>
-
-<div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="HistoryModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-fluid" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<h4 class="modal-title w-100" id="HistoryModelLabel">Historic Block</h4>
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">&times;</span>
-</button>
-</div>
-<div class="modal-body" id="histcontent">
-
-</div>
-<div class="modal-footer">
-<button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Close</button>
-</div>
-</div>
-</div>
-</div>
 
 <div class="modal-puller">
 <a onclick="loadPageSettings(<?php echo $_GET['p'] ?>)" href="#pagesettingsModal" data-toggle="modal" rel="tooltip" data-original-title="Page Settings" data-placement="left" title="Page Settings" class="material-tooltip-main"><i class="fa fa-file-alt fa-2x red-text m-2"></i></a>

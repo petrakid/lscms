@@ -2,15 +2,15 @@
 
 (function ($) {
   var rangeWrapper = '.range-field';
-  var rangeType = 'input[type=range]:not(.custom-range)';
+  var rangeType = 'input[type=range]:not(.custom-range):not(.multi-range)';
   var thumbHtml = '<span class="thumb"><span class="value"></span></span>';
   var rangeMousedown = false;
   var left;
 
-  var addThumb = function addThumb() {
+  function addThumb() {
     var $thumb = $(thumbHtml);
     $(rangeType).after($thumb);
-  };
+  }
 
   $(document).on('change', rangeType, function () {
     var $thumb = $(this);

@@ -74,8 +74,8 @@ function delMailer(mid)
 <div class="modal-dialog modal-lg" role="document">
 <div class="modal-content">
 <div class="modal-header">
+<h5 class="modal-title">Edit Mailing</h5>
 <button type="button" class="close" data-dismiss="modal" aria-label="Cancel"><span aria-hidden="true">&times;</span></button>
-<h4 class="modal-title">Edit Mailing</h4>
 </div>     
 <div class="modal-body" id="mailResults">
      
@@ -133,7 +133,7 @@ while($ml = $sqla->fetch(PDO::FETCH_ASSOC)) {
      ?>
      </td>
      <td>
-     <a href="#" data-toggle="modal" data-target="#edit_Modal" onclick="editMailer('<?php echo $ml['m_id'] ?>')"><button type="button" class="btn btn-sm btn-pink" title="Edit"><i class="fa fa-pencil"></i></button></a>
+     <a href="#" data-toggle="modal" data-target="#edit_Modal" onclick="editMailer('<?php echo $ml['m_id'] ?>')"><button type="button" class="btn btn-sm btn-pink" title="Edit"><i class="fas fa-pencil-alt"></i></button></a>
      <button type="button" class="btn btn-sm btn-danger" title="Delete" onclick="delMailer('<?php echo $ml['m_id'] ?>')"><i class="fa fa-times"></i></button>
      </td>
      </tr>

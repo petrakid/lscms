@@ -1,259 +1,305 @@
-.top_header {
-     margin-bottom: 5px;
-}
-
-.logo-custom img {
-     border-radius: 6px;
-     width: 100%;
-}
-.nav {
-     
-}
-.navbar-custom a {
-     color: #fff;
-}
-
-.mt-0-select {
-     position: absolute !important;
-     top: -10px !important;
-     font-size: .8rem !important;
-}
-
-ul.nav a:hover { color: #00BFFF !important; }
-
-.list-group {
-     background-color: transparent;
-     text-align: left;
-}
-
-.list-group-item-custom {
-     background-color: transparent !important;
-     color: white !important;
-     border: 0 !important;
-}
-.social-custom {
-     float: right;
-     padding: 0;
-     margin: 0;
-}
-
-.ajax-file-upload-statusbar {
-     border: 1px solid #0ba1b5;
-     margin-top: 10px;
-     width: 95%;
-     margin-right: 5px;
-     margin: 5px;
-     border-radius: 4px;
-     padding: 5px 5px 5px 15px
-}
-
-.ajax-file-upload-filename {
-     width: 75%;
-     height: auto;
-     margin: 0 5px 5px 0px;
-}
-
-.ajax-file-upload-progress {
-     margin: 5px 10px 5px 0px;
-     position: relative;
-     width: 50%;
-     border: 1px solid #ddd;
-     padding: 1px;
-     border-radius: 3px;
-     display: inline-block;
-     color:#FFFFFF;
-}
-
-.ajax-file-upload-bar {
-     background-color: #0ba1b5;
-     width: 0;
-     height: 20px;
-     border-radius: 3px;
-     color:#FFFFFF;
-}
-
-.ajax-upload-dragdrop {
-     border:2px dotted #A5A5C7;
-     width:95%;
-     color: #DADCE3;
-     text-align:left;
-     vertical-align:middle;
-     padding:10px 10px 0px 10px;
-}
-
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-
-.fileUpload input.upload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
-}
-
-.ckfix {
-     display: block !important;
-}
-
-.ck.ck-button {
-    -webkit-appearance: none;
-}
-
-select.cke_dialog_ui_input_select {
-     display: block !important;
-}
-
-.cke_dialog_ui_radio_input {
-     position: relative !important;
-     opacity: 1 !important;
-     pointer-events: auto !important;
-}
-
-.cke_dialog_ui_checkbox_input {
-     position: relative !important;
-     opacity: 1 !important;
-     pointer-events: auto !important;
-}
-
-.form-select {
-     display: block !important;
-}
-
-.tox-selectfield select {
-     display: inline !important;
-}
-
-.card-deck-custom {
-     margin-bottom:15px !important;
-}
-
-.no-padding {
-     padding: 0 !important;
-}
-
-.no-shadow {
-     box-shadow: none !important;
-     -webkit-box-shadow: none !important;     
-}
-
-.modal-puller {
-     position: fixed;
-     top: 100px;
-     right: 0;
-     width: 50px;
-     height: 50px;
-     background: #fff;
-     border-radius: 5px 0 0 5px;
-     z-index: 1000;
-}
-
-.modal-puller-2 {
-     position: fixed;
-     top: 150px;
-     right: 0;
-     margin-top: 8px;
-     width: 50px;
-     height: 50px;
-     background: #fff;
-     border-radius: 5px 0 0 5px;
-     z-index: 1000;
-}
-
-.modal-puller-3 {
-     position: fixed;
-     top: 200px;
-     right: 0;
-     margin-top: 16px;
-     width: 50px;
-     height: 50px;
-     background: #fff;
-     border-radius: 5px 0 0 5px;
-     z-index: 1000;     
-}
-
-.suffix {
-     position: absolute;
-     top: 0.25rem;
-     font-size: 1.75rem;
-     transition: color 0.2s;     
-}
-
-.inputFile {
-     width: 0.1px;
-     height: 0.1px;
-     opacity: 0;
-     overflow: hidden;
-     position: absolute;
-     z-index: 1;
-}
-
-.inputfile + label {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-}
-
-.inputfile:focus + label,
-.inputfile + label:hover {
-     background-color: skyblue;
-}
-
-.inputfile + label {
-	cursor: pointer; /* "hand" cursor */
-}
-
-.inputfile:focus + label {
-	outline: 1px dotted #000;
-	outline: -webkit-focus-ring-color auto 5px;
-}
-
-.inputfile + label * {
-	pointer-events: none;
-}
-
-.livesearchfield {
-     
-}
-
-.livesearchres {
-     display: flex;
-     flex-direction: column;
-     background-color: white;
-     padding: 8px;
-     border: 1px outset black;
-     border-radius: 6px;
-     display: none;
-     text-align: left;
-}
-
-.sortableparents {
-     float: left;
-}
-
-.sortablechildren li {
-     font-size: smaller;
-}
-
-.drop-area {
-     width: inherit;
-     border: 2px solid red;
-     border-radius: 6px;
-}
-
-.w-60 {
-     width: 60% !important;
-}
-
-.mt-6 {
-     margin-top: 5rem !important;
-}
+.top_header {
+     margin-bottom: 5px;
+}
+
+.logo-custom img {
+     border-radius: 6px;
+     width: 100%;
+}
+.nav {
+     
+}
+.navbar-custom a {
+     color: #fff;
+}
+
+.mt-0-select {
+     position: absolute !important;
+     top: -10px !important;
+     font-size: .8rem !important;
+}
+
+ul.nav a:hover { color: #00BFFF !important; }
+
+.list-group {
+     background-color: transparent;
+     text-align: left;
+}
+
+.list-group-item-custom {
+     background-color: transparent !important;
+     color: white !important;
+     border: 0 !important;
+}
+.social-custom {
+     float: right;
+     padding: 0;
+     margin: 0;
+}
+
+.ajax-file-upload-statusbar {
+     border: 1px solid #0ba1b5;
+     margin-top: 10px;
+     width: 95%;
+     margin-right: 5px;
+     margin: 5px;
+     border-radius: 4px;
+     padding: 5px 5px 5px 15px
+}
+
+.ajax-file-upload-filename {
+     width: 75%;
+     height: auto;
+     margin: 0 5px 5px 0px;
+}
+
+.ajax-file-upload-progress {
+     margin: 5px 10px 5px 0px;
+     position: relative;
+     width: 50%;
+     border: 1px solid #ddd;
+     padding: 1px;
+     border-radius: 3px;
+     display: inline-block;
+     color:#FFFFFF;
+}
+
+.ajax-file-upload-bar {
+     background-color: #0ba1b5;
+     width: 0;
+     height: 20px;
+     border-radius: 3px;
+     color:#FFFFFF;
+}
+
+.ajax-upload-dragdrop {
+     border:2px dotted #A5A5C7;
+     width:95%;
+     color: #DADCE3;
+     text-align:left;
+     vertical-align:middle;
+     padding:10px 10px 0px 10px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.ckfix {
+     display: block !important;
+}
+
+.ck.ck-button {
+    -webkit-appearance: none;
+}
+
+select.cke_dialog_ui_input_select {
+     display: block !important;
+}
+
+.cke_dialog_ui_radio_input {
+     position: relative !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;
+}
+
+.cke_dialog_ui_checkbox_input {
+     position: relative !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;
+}
+
+.form-select {
+     display: block !important;
+}
+
+.tox-selectfield select {
+     display: inline !important;
+}
+
+.card-deck-custom {
+     margin-bottom:15px !important;
+}
+
+.no-padding {
+     padding: 0 !important;
+}
+
+.no-shadow {
+     box-shadow: none !important;
+     -webkit-box-shadow: none !important;     
+}
+
+.modal-puller {
+     position: fixed;
+     top: 100px;
+     right: 0;
+     width: 50px;
+     height: 50px;
+     background: #fff;
+     border-radius: 5px 0 0 5px;
+     z-index: 1000;
+}
+
+.modal-puller-2 {
+     position: fixed;
+     top: 150px;
+     right: 0;
+     margin-top: 8px;
+     width: 50px;
+     height: 50px;
+     background: #fff;
+     border-radius: 5px 0 0 5px;
+     z-index: 1000;
+}
+
+.modal-puller-3 {
+     position: fixed;
+     top: 200px;
+     right: 0;
+     margin-top: 16px;
+     width: 50px;
+     height: 50px;
+     background: #fff;
+     border-radius: 5px 0 0 5px;
+     z-index: 1000;     
+}
+
+.suffix {
+     position: absolute;
+     top: 0.25rem;
+     font-size: 1.75rem;
+     transition: color 0.2s;     
+}
+
+.inputFile {
+     width: 0.1px;
+     height: 0.1px;
+     opacity: 0;
+     overflow: hidden;
+     position: absolute;
+     z-index: 1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: black;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+     background-color: skyblue;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.inputfile + label * {
+	pointer-events: none;
+}
+
+.livesearchfield {
+     
+}
+
+.livesearchres {
+     display: flex;
+     flex-direction: column;
+     background-color: white;
+     padding: 8px;
+     border: 1px outset black;
+     border-radius: 6px;
+     display: none;
+     text-align: left;
+}
+
+.sortableparents {
+     float: left;
+}
+
+.sortablechildren li {
+     font-size: smaller;
+}
+
+.drop-area {
+     width: inherit;
+     border: 2px solid red;
+     border-radius: 6px;
+}
+
+.w-60 {
+     width: 60% !important;
+}
+
+.mt-6 {
+     margin-top: 5rem !important;
+}
+
+.fb-radio input[type="radio"] {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;
+}
+
+.roles-field {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;     
+}
+
+.fld-required {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;     
+}
+
+.fld-access {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;     
+}
+
+.fld-subtype {
+     display: block !important;
+}
+
+.fld-inline {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;      
+}
+
+.fld-other {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;      
+}
+
+.fld-multiple {
+     position: inherit !important;
+     opacity: 1 !important;
+     pointer-events: auto !important;      
+}

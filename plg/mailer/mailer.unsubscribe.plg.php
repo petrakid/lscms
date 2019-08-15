@@ -9,7 +9,7 @@
 <div class="card">
 <div class="card-header"><h4 class="card-title">Unsubscribe</h4></div>
 <div class="card-body">
-<form>
+<form id="unsubscribes_form">
 <input type="hidden" name="unsubscribeselect" value="1" />
 <small class="form-text">I wish to UNSUBSCRIBE from the following list(s) so that I no longer receive related emails.</small>
 <?php
@@ -81,7 +81,7 @@ function unSubscribeE()
           type: 'POST',
           data: {
                'unsubscribeeverything':true,
-               'email': document.getElementById('emailaddress2').value
+               'emailaddress': document.getElementById('emailaddress2').value
           },
           success: function(data) {
                document.getElementById('hidelast').style.display = "none";
@@ -93,7 +93,7 @@ function unSubscribeE()
 }
 function unSubscribeS()
 {
-     var data = $("form").serialize();
+     var data = $("#unsubscribes_form").serialize();
      $.ajax({
           url: '<?php echo $gbl['site_url'] ?>/plg/mailer/ajax.php',
           type: 'POST',

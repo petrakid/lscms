@@ -38,11 +38,23 @@ while($bm1 = $bsql->fetch(PDO::FETCH_ASSOC)) {
                          }
                     }
                     $atarget = $bm2['menu_target'];
-                    ?>
-                    <li>
-                    <a class="waves-effect" href="<?php echo $url ?>" target="<?php echo $atarget ?>"><span class="fas fa-<?php echo $bm2['glyphicon'] ?>"></span> <?php echo $aamenuname ?></a>
-                    </li>
-                    <?php
+                    if($editable == 1) {
+                         ?>
+                         <li>
+                         <a class="waves-effect" href="<?php echo $url ?>" target="<?php echo $atarget ?>"><span class="fas fa-<?php echo $bm2['glyphicon'] ?>"></span> <?php echo $aamenuname ?></a>
+                         </li>
+                         
+                         <?php
+                    } else if($editable == 0) {
+                         if($bm2['menu_link'] != 'edit-page') {
+                              ?>
+                              <li>
+                              <a class="waves-effect" href="<?php echo $url ?>" target="<?php echo $atarget ?>"><span class="fas fa-<?php echo $bm2['glyphicon'] ?>"></span> <?php echo $aamenuname ?></a>
+                              </li>
+                              
+                              <?php
+                         }
+                    }
                }
           }
           ?>
