@@ -397,7 +397,7 @@ if(!isset($_SESSION['isLoggedIn'])) {
                     'policy': pol,
                },
                success: function(data) {
-                    alert('#' + pol + 'res')
+                    alert('#' + pol + 'res');
                     $('#' + pol + 'res').html(data);
                },
           })
