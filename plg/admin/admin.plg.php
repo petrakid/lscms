@@ -274,10 +274,12 @@ if(!isset($_SESSION['isLoggedIn'])) {
                      $prv = $db->query("SELECT policy FROM tbl_policies WHERE policy_type = 1 AND policy_custom = 1");
                      if($prv->rowCount() == 0) {
                           ?>
-                         <p>It appears that you have not setup your website's Private Policy. A Privacy Policy is essential for your organization. Please click "Create Policy" to import a standard policy. Once imported, you will need to change the highlighted information.</p>
+                         <div id="1res">
+                             <p>It appears that you have not setup your website's Privacy Policy. A Privacy Policy is essential for your organization. Please click "Create Policy" to import a standard policy. Once imported, you will need to change the highlighted information.</p>
                          <button type="button" class="btn btn-indigo" onclick="importPolicy(1)">
                              <i class="fas fa-file-import"></i> Create Policy
                          </button>
+                         </div>
                           <?php
                      } else {
                           $pp = $prv->fetch(PDO::FETCH_ASSOC);
@@ -295,10 +297,12 @@ if(!isset($_SESSION['isLoggedIn'])) {
                      $tos = $db->query("SELECT policy FROM tbl_policies WHERE policy_type = 2 AND policy_custom = 1");
                      if($tos->rowCount() == 0) {
                           ?>
-                         <p>It appears that you have not setup your website's Terms of Service. A TOS is essential for your organization. Please click "Create TOS" to import a standard policy. Once imported, you will need to change the highlighted information.</p>
-                         <button type="button" class="btn btn-indigo" onclick="importPolicy(2)">
-                             <i class="fas fa-file-import"></i> Create TOS
-                         </button>
+                         <div id="2res">
+                             <p>It appears that you have not setup your website's Terms of Service. A TOS is essential for your organization. Please click "Create TOS" to import a standard policy. Once imported, you will need to change the highlighted information.</p>
+                             <button type="button" class="btn btn-indigo" onclick="importPolicy(2)">
+                                 <i class="fas fa-file-import"></i> Create TOS
+                             </button>
+                         </div>
                           <?php
                      } else {
                           $ts = $tos->fetch(PDO::FETCH_ASSOC);
@@ -380,6 +384,20 @@ if(!isset($_SESSION['isLoggedIn'])) {
                },
                success: function(data) {
                     toastr.success('Plugin changed successfully!', 'Success')
+               },
+          })
+     }
+
+     function importPolicy(pol) {
+          $.ajax({
+               url: '<php echo $gbl['site_url'] ?>/plg/admin/ajax.php',
+               type: 'POST',
+               data: {
+                    'import_policy': 1,
+                    'policy': pol,
+               },
+               success: function(data) {
+                    $(pol + 'res').html(data);
                },
           })
      }
