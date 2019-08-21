@@ -291,7 +291,22 @@ if(!isset($_SESSION['isLoggedIn'])) {
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">Terms of Service</h4>
-
+                     <?php
+                     $tos = $db->query("SELECT policy FROM tbl_policies WHERE policy_type = 2 AND policy_custom = 1");
+                     if($tos->rowCount() == 0) {
+                          ?>
+                         <p>It appears that you have not setup your website's Terms of Service. A TOS is essential for your organization. Please click "Create TOS" to import a standard policy. Once imported, you will need to change the highlighted information.</p>
+                         <button type="button" class="btn btn-indigo" onclick="importPolicy(2)">
+                             <i class="fas fa-file-import"></i> Create TOS
+                         </button>
+                          <?php
+                     } else {
+                          $ts = $tos->fetch(PDO::FETCH_ASSOC);
+                          ?>
+                         <p><?php echo $tos['policy'] ?></p>
+                          <?php
+                     }
+                     ?>
                 </div>
             </div>
         </div>
