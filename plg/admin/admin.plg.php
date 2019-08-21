@@ -303,7 +303,7 @@ if(!isset($_SESSION['isLoggedIn'])) {
                      } else {
                           $ts = $tos->fetch(PDO::FETCH_ASSOC);
                           ?>
-                         <p><?php echo $tos['policy'] ?></p>
+                         <p><?php echo $ts['policy'] ?></p>
                           <?php
                      }
                      ?>
