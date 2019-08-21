@@ -332,7 +332,6 @@ if(!isset($_SESSION['isLoggedIn'])) {
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
