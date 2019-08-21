@@ -390,14 +390,14 @@ if(!isset($_SESSION['isLoggedIn'])) {
 
      function importPolicy(pol) {
           $.ajax({
-               url: '<php echo $gbl['site_url'] ?>/plg/admin/ajax.php',
+               url: '<?php echo $gbl['site_url'] ?>/plg/admin/ajax.php',
                type: 'POST',
                data: {
                     'import_policy': 1,
                     'policy': pol,
                },
                success: function(data) {
-                    $(pol + 'res').html(data);
+                    $('#' + pol + 'res').html(data);
                },
           })
      }
